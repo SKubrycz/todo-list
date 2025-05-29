@@ -6,7 +6,8 @@ export enum Label {
 }
 export interface Note {
   id: number;
-  text: string;
+  title: string;
+  subtitle: string;
   dateCreated: Date;
   dateDone: Date;
   label: Label;
