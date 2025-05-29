@@ -1,0 +1,10 @@
+<template>
+  <main class="notes-main">
+    <section class="notes-input"></section>
+    <section class="notes-list">
+      @for(note of notesList; track note.id) {
+      <app-note [noteData]="note"></app-note>
+      }
+    </section>
+  </main>
+</template>
