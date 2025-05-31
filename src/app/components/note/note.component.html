@@ -1,7 +1,7 @@
 <p-card [header]="noteData.title" [subheader]="noteData.subtitle">
   <ng-template #content>
-    <p>Label: {{ noteData.label }}</p>
-    <p>Created: {{ noteData.dateCreated }}</p>
-    <p>@if (noteData.done) {"Finished"} @else {"Not done"}</p>
+    <p-tag [ngStyle]="tagStyles">{{ noteData.label.text }}</p-tag>
+    <p>Created: {{ noteData.dateCreated | date : "medium" }}</p>
+    <p>{{ noteData.done ? "Finished" : "Not done" }}</p>
   </ng-template>
 </p-card>

@@ -3,8 +3,9 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { ValidatorService } from '../../validator.service';
 import { NoteComponent } from '../note/note.component';
-import { Label, Note } from '../../types/types';
+import { Label, LabelText, Note } from '../../types/types';
 import { FormsModule } from '@angular/forms';
+import { URGENT } from '../constants/labels';
 
 @Component({
   selector: 'app-notes',
@@ -29,7 +30,7 @@ export class NotesComponent {
       dateCreated: new Date(Date.now()),
       dateDone: new Date(Date.now()),
       done: true,
-      label: Label.STANDARD,
+      label: URGENT,
     },
   ];
 }
