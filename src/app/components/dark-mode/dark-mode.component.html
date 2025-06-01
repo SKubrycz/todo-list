@@ -2,12 +2,12 @@
 <i
   class="pi pi-moon dark-mode-toggle"
   [style]="{ fontSize: '2em' }"
-  (click)="toggleDarkMode()"
+  (click)="this.updateDarkMode(false)"
 ></i>
 } @else {
 <i
   class="pi pi-sun dark-mode-toggle"
   [style]="{ fontSize: '2em' }"
-  (click)="toggleDarkMode()"
+  (click)="this.updateDarkMode(true)"
 ></i>
 }

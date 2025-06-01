@@ -4,6 +4,7 @@ import Aura from '@primeng/themes/aura';
 export const preset = definePreset(Aura, {
   semantic: {
     primary: {
+      0: '#f0f9ff',
       50: '{sky.50}',
       100: '{sky.100}',
       200: '{sky.200}',
@@ -18,35 +19,31 @@ export const preset = definePreset(Aura, {
     },
     colorScheme: {
       light: {
-        surface: {
-          0: '#ffffff',
-          50: '{sky.50}',
-          100: '{sky.100}',
-          200: '{sky.200}',
-          300: '{sky.300}',
-          400: '{sky.400}',
-          500: '{sky.500}',
-          600: '{sky.600}',
-          700: '{sky.700}',
-          800: '{sky.800}',
-          900: '{sky.900}',
-          950: '{sky.950}',
+        primary: {
+          color: '{sky.950}',
+          inverseColor: '#ffffff',
+          hoverColor: '{sky.900}',
+          activeColor: '{sky.800}',
+        },
+        highlight: {
+          background: '{sky.950}',
+          focusBackground: '{sky.700}',
+          color: '#ffffff',
+          focusColor: '#ffffff',
         },
       },
       dark: {
-        surface: {
-          0: '#ffffff',
-          50: '{slate.50}',
-          100: '{slate.100}',
-          200: '{slate.200}',
-          300: '{slate.300}',
-          400: '{slate.400}',
-          500: '{slate.500}',
-          600: '{slate.600}',
-          700: '{slate.700}',
-          800: '{slate.800}',
-          900: '{slate.900}',
-          950: '{slate.950}',
+        primary: {
+          color: '{sky.50}',
+          inverseColor: '{sky.950}',
+          hoverColor: '{sky.100}',
+          activeColor: '{sky.200}',
+        },
+        highlight: {
+          background: 'rgba(250, 250, 250, .16)',
+          focusBackground: 'rgba(250, 250, 250, .24)',
+          color: 'rgba(255,255,255,.87)',
+          focusColor: 'rgba(255,255,255,.87)',
         },
       },
     },
