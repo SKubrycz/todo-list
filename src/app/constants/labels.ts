@@ -1,4 +1,4 @@
-import { Label, LabelText } from '../../types/types';
+import { Label, LabelText } from '../types/types';
 
 //   HIGHEST_PRIORITY = 'Highest priority',
 //   URGENT = 'Urgent',

@@ -2,7 +2,7 @@ import { Component, Input, SimpleChanges } from '@angular/core';
 import { CardModule } from 'primeng/card';
 import { TagModule } from 'primeng/tag';
 import { type Note } from '../../types/types';
-import { STANDARD } from '../constants/labels';
+import { STANDARD } from '../../constants/labels';
 import { DatePipe, NgStyle } from '@angular/common';
 
 @Component({

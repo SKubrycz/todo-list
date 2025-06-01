@@ -5,7 +5,7 @@ import { ValidatorService } from '../../validator.service';
 import { NoteComponent } from '../note/note.component';
 import { Label, LabelText, Note } from '../../types/types';
 import { FormsModule } from '@angular/forms';
-import { URGENT } from '../constants/labels';
+import { URGENT } from '../../constants/labels';
 
 @Component({
   selector: 'app-notes',
