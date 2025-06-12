@@ -1,1 +1,17 @@
-<p>navbar works!</p>
+<p-toolbar>
+  <ng-template #start> </ng-template>
+
+  <ng-template #center class="flex-between">
+    <input type="text" pInputText placeholder="Search note by title" />
+    <p-select
+      [(ngModel)]="selectedOption"
+      [options]="options"
+      [optionLabel]="optionLabel"
+      [placeholder]="placeholder"
+    ></p-select>
+  </ng-template>
+
+  <ng-template #end>
+    <p-button label="Search" icon="pi pi-search" />
+  </ng-template>
+</p-toolbar>

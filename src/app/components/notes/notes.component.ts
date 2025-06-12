@@ -18,6 +18,8 @@ import {
   STANDARD,
   URGENT,
 } from '../../constants/labels';
+import { NavbarComponent } from '../navbar/navbar.component';
+import { CardModule } from 'primeng/card';
 
 @Component({
   selector: 'app-notes',
@@ -27,7 +29,8 @@ import {
     FormsModule,
     ReactiveFormsModule,
     NoteComponent,
-    FormsModule,
+    NavbarComponent,
+    CardModule,
     ButtonModule,
     InputTextModule,
     TextareaModule,
