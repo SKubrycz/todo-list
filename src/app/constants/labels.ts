@@ -6,22 +6,26 @@ import { Label, LabelText } from '../types/types';
 //   SECONDARY = 'Secondary',
 
 export const STANDARD: Label = {
+  id: 0,
   text: LabelText.STANDARD,
   color: 'skyblue',
   backgroundColor: '#bde1f0',
 };
 
 export const SECONDARY: Label = {
+  id: 1,
   text: LabelText.SECONDARY,
   color: 'darkgray',
   backgroundColor: 'lightgray',
 };
 export const URGENT: Label = {
+  id: 2,
   text: LabelText.URGENT,
   color: 'darkred',
   backgroundColor: '#eb7f7f',
 };
 export const HIGHEST_PRIORITY: Label = {
+  id: 3,
   text: LabelText.HIGHEST_PRIORITY,
   color: '#bf0000',
   backgroundColor: '#e85a5a',

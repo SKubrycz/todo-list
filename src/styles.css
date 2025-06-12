@@ -9,6 +9,9 @@ body {
   font-family: "Fira Sans", sans-serif;
   font-style: normal;
 }
+html.my-app-light {
+  background-color: var(--p-primary-0);
+}
 
 .container {
   width: fit-content;
@@ -26,4 +29,22 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
 }

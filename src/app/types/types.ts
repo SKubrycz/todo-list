@@ -5,6 +5,7 @@ export enum LabelText {
   SECONDARY = 'Secondary',
 }
 export interface Label {
+  id: number;
   text: LabelText;
   color: string;
   backgroundColor: string;
@@ -15,7 +16,7 @@ export interface Note {
   title: string;
   subtitle: string;
   dateCreated: Date;
-  dateDone: Date;
-  label: Label;
+  dateDone: Date | null;
+  labels: Label[];
   done: boolean;
 }

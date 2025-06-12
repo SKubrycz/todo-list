@@ -18,29 +18,7 @@ export class NoteComponent {
     subtitle: '',
     dateCreated: new Date(Date.now()),
     dateDone: new Date(Date.now()),
-    label: STANDARD,
+    labels: [STANDARD],
     done: false,
   };
-
-  ngOnInit() {
-    this.setTagStyles();
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['noteData']) {
-      this.setTagStyles();
-    }
-  }
-
-  tagStyles: Record<string, string> = {
-    color: this.noteData.label.color,
-    backgroundColor: this.noteData.label.backgroundColor,
-  };
-
-  setTagStyles() {
-    this.tagStyles = {
-      color: this.noteData.label.color,
-      backgroundColor: this.noteData.label.backgroundColor,
-    };
-  }
 }

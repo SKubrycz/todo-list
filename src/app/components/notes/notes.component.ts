@@ -1,36 +1,72 @@
-import { Component, inject, SimpleChanges } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
+import { TextareaModule } from 'primeng/textarea';
+import { ListboxModule } from 'primeng/listbox';
 import { ValidatorService } from '../../validator.service';
 import { NoteComponent } from '../note/note.component';
-import { Label, LabelText, Note } from '../../types/types';
-import { FormsModule } from '@angular/forms';
-import { URGENT } from '../../constants/labels';
+import { Note } from '../../types/types';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import {
+  HIGHEST_PRIORITY,
+  SECONDARY,
+  STANDARD,
+  URGENT,
+} from '../../constants/labels';
 
 @Component({
   selector: 'app-notes',
   templateUrl: './notes.component.html',
   styleUrl: './notes.component.css',
-  imports: [NoteComponent, FormsModule, ButtonModule, InputTextModule],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    NoteComponent,
+    FormsModule,
+    ButtonModule,
+    InputTextModule,
+    TextareaModule,
+    ListboxModule,
+  ],
 })
 export class NotesComponent {
+  noteForm!: FormGroup;
+
   private validator = inject(ValidatorService);
+  private fb = inject(FormBuilder);
 
-  inputValue = '';
+  titleValue = '';
+  subtitleValue = '';
+  selectedLabels = [];
+  labels = [STANDARD, SECONDARY, URGENT, HIGHEST_PRIORITY];
+  notesList: Note[] = [];
 
-  ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
+  ngOnInit() {
+    this.noteForm = this.fb.group({
+      title: ['', []],
+      subtitle: ['', []],
+      labels: [[], []],
+    });
   }
 
-  notesList: Note[] = [
-    {
-      id: 1,
-      title: 'Title',
-      subtitle: 'sdadsad',
+  createNote() {
+    const controls = this.noteForm.controls;
+
+    const note = {
+      id: this.notesList.length,
+      title: controls['title'].value,
+      subtitle: controls['subtitle'].value,
+      labels: controls['labels'].value,
+      done: false,
       dateCreated: new Date(Date.now()),
-      dateDone: new Date(Date.now()),
-      done: true,
-      label: URGENT,
-    },
-  ];
+      dateDone: null,
+    };
+
+    this.notesList.push(note);
+  }
 }

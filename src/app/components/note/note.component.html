@@ -1,6 +1,11 @@
 <p-card [header]="noteData.title" [subheader]="noteData.subtitle">
   <ng-template #content>
-    <p-tag [ngStyle]="tagStyles">{{ noteData.label.text }}</p-tag>
+    @for (label of noteData.labels; track label.text) {
+    <p-tag
+      [ngStyle]="{ color: label.color, backgroundColor: label.backgroundColor }"
+      >{{ label.text }}</p-tag
+    >
+    }
     <p>Created: {{ noteData.dateCreated | date : "medium" }}</p>
     <p>{{ noteData.done ? "Finished" : "Not done" }}</p>
   </ng-template>

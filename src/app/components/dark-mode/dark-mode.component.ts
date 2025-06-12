@@ -10,7 +10,7 @@ import { WINDOW } from '../../window';
 })
 export class DarkModeComponent {
   private isBrowser: boolean;
-  darkMode = false;
+  darkMode = true;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
@@ -43,12 +43,14 @@ export class DarkModeComponent {
 
   ngOnInit() {
     if (this.isBrowser) {
-      const result = JSON.stringify(localStorage.getItem('darkmode'));
+      const result = localStorage.getItem('darkmode');
       if (result && typeof Boolean(result) === 'boolean') {
-        this.updateDarkMode(Boolean(result));
+        const parsed = JSON.parse(result);
+        this.updateDarkMode(parsed);
       }
     }
   }
+
   toggleDarkMode() {
     const html = this.document.querySelector('html');
     if (!html) return;
