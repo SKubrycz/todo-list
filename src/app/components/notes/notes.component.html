@@ -1,54 +1,55 @@
 <main class="container-full">
-  <p-card>
+  <div class="container-full-nocenter">
     <app-navbar
       [options]="labels"
       optionLabel="text"
       placeholder="Select priority"
+      [style]="{ width: '80%', margin: '0.5em' }"
     ></app-navbar>
-    <section class="notes-input">
-      <form [formGroup]="noteForm" (ngSubmit)="createNote()">
-        <div class="flex">
-          <div class="flex-col">
-            <label for="notes-title" [style]="{ margin: '0.2em 0' }"
-              >Title</label
-            >
-            <input
-              id="notes-title"
-              type="text"
-              pInputText
-              formControlName="title"
-            />
-            <label for="notes-subtitle" [style]="{ margin: '0.2em 0' }"
-              >Subtitle</label
-            >
-            <textarea
-              id="notes-subtitle"
-              type="text"
-              rows="5"
-              cols="30"
-              pTextarea
-              formControlName="subtitle"
-            ></textarea>
+    <!-- <section class="notes-input">
+        <form [formGroup]="noteForm" (ngSubmit)="createNote()">
+          <div class="flex">
+            <div class="flex-col">
+              <label for="notes-title" [style]="{ margin: '0.2em 0' }"
+                >Title</label
+              >
+              <input
+                id="notes-title"
+                type="text"
+                pInputText
+                formControlName="title"
+              />
+              <label for="notes-subtitle" [style]="{ margin: '0.2em 0' }"
+                >Subtitle</label
+              >
+              <textarea
+                id="notes-subtitle"
+                type="text"
+                rows="5"
+                cols="30"
+                pTextarea
+                formControlName="subtitle"
+              ></textarea>
+            </div>
+            <div class="flex-col" [style]="{ marginLeft: '0.5em' }">
+              <label for="labels">Labels</label>
+              <p-listbox
+                [options]="labels"
+                [multiple]="true"
+                [checkbox]="true"
+                optionLabel="text"
+                formControlName="labels"
+              />
+            </div>
           </div>
-          <div class="flex-col" [style]="{ marginLeft: '0.5em' }">
-            <label for="labels">Labels</label>
-            <p-listbox
-              [options]="labels"
-              [multiple]="true"
-              [checkbox]="true"
-              optionLabel="text"
-              formControlName="labels"
-            />
-          </div>
-        </div>
-        <p-button type="submit" label="Add" [disabled]="noteForm.invalid" />
-      </form>
-    </section>
+          <p-button type="submit" label="Add" [disabled]="noteForm.invalid" />
+        </form>
+      </section> -->
     <section class="notes-list">
       @for(note of notesList; track note.id) {<app-note
         [noteData]="note"
       ></app-note
       >}
     </section>
-  </p-card>
+  </div>
 </main>

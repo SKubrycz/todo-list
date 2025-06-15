@@ -47,7 +47,17 @@ export class NotesComponent {
   subtitleValue = '';
   selectedLabels = [];
   labels = [STANDARD, SECONDARY, URGENT, HIGHEST_PRIORITY];
-  notesList: Note[] = [];
+  notesList: Note[] = [
+    {
+      id: 1,
+      title: 'Do three pushups',
+      subtitle: '...or even more',
+      dateCreated: new Date(Date.now()),
+      dateDone: null,
+      labels: [this.labels[0]],
+      done: false,
+    },
+  ];
 
   ngOnInit() {
     this.noteForm = this.fb.group({
