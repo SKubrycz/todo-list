@@ -1,10 +1,7 @@
 <p-toolbar>
-  <ng-template #start> </ng-template>
-
-  <ng-template #center>
-    <input type="text" pInputText placeholder="Search note by title" />
-  </ng-template>
-
+  <div style="flex-grow: 1">
+    <input type="text" pInputText placeholder="Search note by title" fluid />
+  </div>
   <ng-template #end>
     <div class="flex gap-4">
       <p-select
