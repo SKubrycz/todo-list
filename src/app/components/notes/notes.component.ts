@@ -82,4 +82,8 @@ export class NotesComponent {
 
     this.notesList.push(note);
   }
+
+  displayNoteCreator() {
+    console.log('Displaying Note Creator...');
+  }
 }

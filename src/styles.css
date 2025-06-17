@@ -69,3 +69,13 @@ html.my-app-light {
 .gap-4 {
   gap: 4px;
 }
+
+/* Adjustments for PrimeNG component styles */
+.p-card {
+  width: 300px;
+  height: 200px;
+  margin: 0.3em;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}

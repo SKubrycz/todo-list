@@ -1,12 +1,17 @@
 <main class="container-full">
   <div class="container-full-nocenter">
-    <app-navbar
-      [options]="labels"
-      optionLabel="text"
-      placeholder="Select priority"
-      [style]="{ width: '80%', margin: '0.5em' }"
-    ></app-navbar>
-    <!-- <section class="notes-input">
+    <div style="width: 80%">
+      <app-navbar
+        [options]="labels"
+        optionLabel="text"
+        placeholder="Select priority"
+        [style]="{ width: '80%', margin: '0 0.5em' }"
+      ></app-navbar>
+      <section class="notes-display-options">
+        <p class="pi pi-list"></p>
+        <p class="pi pi-th-large"></p>
+      </section>
+      <!-- <section class="notes-input">
         <form [formGroup]="noteForm" (ngSubmit)="createNote()">
           <div class="flex">
             <div class="flex-col">
@@ -45,14 +50,17 @@
           <p-button type="submit" label="Add" [disabled]="noteForm.invalid" />
         </form>
       </section> -->
-    <section class="notes-list">
-      @for(note of notesList; track note.id) {<app-note
-        [noteData]="note"
-      ></app-note
-      >}
-      <p-card class="add-note">
-        <p-button icon="pi pi-plus" variant="text"></p-button>
-      </p-card>
-    </section>
+      <section class="notes-list">
+        @for(note of notesList; track note.id) {<app-note
+          [noteData]="note"
+        ></app-note
+        >}
+        <p-card class="add-note" (click)="displayNoteCreator()">
+          <ng-template #content>
+            <div class="container-full"><p class="pi pi-plus"></p></div>
+          </ng-template>
+        </p-card>
+      </section>
+    </div>
   </div>
 </main>
