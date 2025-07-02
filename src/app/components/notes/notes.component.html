@@ -11,45 +11,6 @@
         <p-button icon="pi pi-list" variant="text"></p-button>
         <p-button icon="pi pi-th-large" variant="text"></p-button>
       </section>
-      <!-- <section class="notes-input">
-        <form [formGroup]="noteForm" (ngSubmit)="createNote()">
-          <div class="flex">
-            <div class="flex-col">
-              <label for="notes-title" [style]="{ margin: '0.2em 0' }"
-                >Title</label
-              >
-              <input
-                id="notes-title"
-                type="text"
-                pInputText
-                formControlName="title"
-              />
-              <label for="notes-subtitle" [style]="{ margin: '0.2em 0' }"
-                >Subtitle</label
-              >
-              <textarea
-                id="notes-subtitle"
-                type="text"
-                rows="5"
-                cols="30"
-                pTextarea
-                formControlName="subtitle"
-              ></textarea>
-            </div>
-            <div class="flex-col" [style]="{ marginLeft: '0.5em' }">
-              <label for="labels">Labels</label>
-              <p-listbox
-                [options]="labels"
-                [multiple]="true"
-                [checkbox]="true"
-                optionLabel="text"
-                formControlName="labels"
-              />
-            </div>
-          </div>
-          <p-button type="submit" label="Add" [disabled]="noteForm.invalid" />
-        </form>
-      </section> -->
       <section class="notes-list">
         @for(note of notesList; track note.id) {<app-note
           [noteData]="note"

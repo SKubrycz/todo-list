@@ -8,7 +8,7 @@ import { Label, LabelText } from '../types/types';
 export const STANDARD: Label = {
   id: 0,
   text: LabelText.STANDARD,
-  color: 'skyblue',
+  color: 'deepskyblue',
   backgroundColor: '#bde1f0',
 };
 
@@ -27,6 +27,6 @@ export const URGENT: Label = {
 export const HIGHEST_PRIORITY: Label = {
   id: 3,
   text: LabelText.HIGHEST_PRIORITY,
-  color: '#bf0000',
+  color: '#a30000',
   backgroundColor: '#e85a5a',
 };

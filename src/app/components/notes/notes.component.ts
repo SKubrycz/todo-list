@@ -54,7 +54,7 @@ export class NotesComponent {
       subtitle: '...or even more',
       dateCreated: new Date(Date.now()),
       dateDone: null,
-      labels: [this.labels[0]],
+      labels: [this.labels[3]],
       done: false,
     },
   ];
