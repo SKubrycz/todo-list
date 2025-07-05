@@ -1,5 +1,6 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CardModule } from 'primeng/card';
+import { PanelModule } from 'primeng/panel';
 import { TagModule } from 'primeng/tag';
 import { type Note } from '../../types/types';
 import { STANDARD } from '../../constants/labels';
@@ -7,7 +8,7 @@ import { DatePipe, NgStyle } from '@angular/common';
 
 @Component({
   selector: 'app-note',
-  imports: [CardModule, TagModule, DatePipe, NgStyle],
+  imports: [CardModule, PanelModule, TagModule, DatePipe, NgStyle],
   templateUrl: './note.component.html',
   styleUrl: './note.component.css',
 })

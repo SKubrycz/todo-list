@@ -13,5 +13,21 @@
 </p-card>
 }
 @else if (noteData.viewKind == 1) {
-  <p>hello</p>
+  <p-panel [toggleable]="true" [collapsed]="true">
+    <ng-template #header>
+      <b>{{noteData.title}}</b>
+    </ng-template>
+    <ng-template #footer>
+      <span>{{ noteData.dateCreated | date : "dd.MM.yyyy, HH:mm" }}</span>
+    </ng-template>
+    <div>{{noteData.subtitle}}</div>
+    <div>
+      @for (label of noteData.labels; track label.text) {
+    <p-tag
+      [ngStyle]="{ color: label.color, backgroundColor: label.backgroundColor }"
+      >{{ label.text }}</p-tag
+    >
+    }
+  </div>
+  </p-panel>
 }

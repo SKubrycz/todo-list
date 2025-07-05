@@ -14,6 +14,7 @@
       <section class="notes-list">
         @for(note of notesList; track note.id) {<app-note
           [noteData]="note"
+          [style]="{'width': (note.viewKind == 1) ? '100%' : 'initial'}"
         ></app-note
         >}
         <p-card class="add-note" (click)="displayNoteCreator()">
