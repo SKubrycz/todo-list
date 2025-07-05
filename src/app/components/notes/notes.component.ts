@@ -5,7 +5,7 @@ import { TextareaModule } from 'primeng/textarea';
 import { ListboxModule } from 'primeng/listbox';
 import { ValidatorService } from '../../validator.service';
 import { NoteComponent } from '../note/note.component';
-import { Note } from '../../types/types';
+import { Note, ViewKind } from '../../types/types';
 import {
   FormBuilder,
   FormGroup,
@@ -43,6 +43,7 @@ export class NotesComponent {
   private validator = inject(ValidatorService);
   private fb = inject(FormBuilder);
 
+  currentViewKind: ViewKind = 0;
   titleValue = '';
   subtitleValue = '';
   selectedLabels = [];
@@ -56,6 +57,7 @@ export class NotesComponent {
       dateDone: null,
       labels: [this.labels[3]],
       done: false,
+      viewKind: this.currentViewKind,
     },
   ];
 
@@ -65,12 +67,13 @@ export class NotesComponent {
       subtitle: ['', []],
       labels: [[], []],
     });
+    this.setNotesView(0);
   }
 
   createNote() {
     const controls = this.noteForm.controls;
 
-    const note = {
+    const note: Note = {
       id: this.notesList.length,
       title: controls['title'].value,
       subtitle: controls['subtitle'].value,
@@ -78,9 +81,18 @@ export class NotesComponent {
       done: false,
       dateCreated: new Date(Date.now()),
       dateDone: null,
+      viewKind: this.currentViewKind,
     };
 
     this.notesList.push(note);
+  }
+
+  // Set view to be either box or list
+  setNotesView(viewKind: ViewKind) {
+    this.currentViewKind = viewKind;
+    this.notesList.forEach((_, i) => {
+      this.notesList[i].viewKind = this.currentViewKind;
+    });
   }
 
   displayNoteCreator() {

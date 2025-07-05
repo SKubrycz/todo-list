@@ -20,5 +20,6 @@ export class NoteComponent {
     dateDone: new Date(Date.now()),
     labels: [STANDARD],
     done: false,
+    viewKind: 0,
   };
 }

@@ -11,6 +11,8 @@ export interface Label {
   backgroundColor: string;
 }
 
+export type ViewKind = 0 | 1;
+
 export interface Note {
   id: number;
   title: string;
@@ -19,4 +21,5 @@ export interface Note {
   dateDone: Date | null;
   labels: Label[];
   done: boolean;
+  viewKind: ViewKind;
 }

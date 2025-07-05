@@ -8,8 +8,8 @@
         [style]="{ width: '80%', margin: '0 0.5em' }"
       ></app-navbar>
       <section class="notes-display-options">
-        <p-button icon="pi pi-list" variant="text"></p-button>
-        <p-button icon="pi pi-th-large" variant="text"></p-button>
+        <p-button icon="pi pi-list" variant="text" (click)="setNotesView(1)"></p-button>
+        <p-button icon="pi pi-th-large" variant="text" (click)="setNotesView(0)"></p-button>
       </section>
       <section class="notes-list">
         @for(note of notesList; track note.id) {<app-note

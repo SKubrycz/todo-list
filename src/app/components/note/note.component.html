@@ -1,4 +1,5 @@
-<p-card [header]="noteData.title" [subheader]="noteData.subtitle">
+@if (noteData.viewKind == 0) {
+  <p-card [header]="noteData.title" [subheader]="noteData.subtitle">
   <ng-template #content>
     @for (label of noteData.labels; track label.text) {
     <p-tag
@@ -10,3 +11,7 @@
     <p>{{ noteData.done ? "Finished" : "Not done" }}</p>
   </ng-template>
 </p-card>
+}
+@else if (noteData.viewKind == 1) {
+  <p>hello</p>
+}
