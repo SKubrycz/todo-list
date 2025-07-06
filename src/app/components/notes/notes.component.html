@@ -17,11 +17,21 @@
           [style]="{'width': (note.viewKind == 1) ? '100%' : 'initial'}"
         ></app-note
         >}
-        <p-card class="add-note" (click)="displayNoteCreator()">
-          <ng-template #content>
-            <div class="container-full"><p class="pi pi-plus"></p></div>
-          </ng-template>
-        </p-card>
+        @if (currentViewKind == 0) {
+          <p-card class="add-note" (click)="displayNoteCreator()">
+            <ng-template #content>
+              <div class="container-full"><p class="pi pi-plus"></p></div>
+            </ng-template>
+          </p-card>
+        }
+        @else if (currentViewKind == 1) {
+          <p-panel class="note-add-panel">
+            <ng-template #icons>
+              <p-button variant="text" icon="pi pi-plus" (click)="displayNoteCreator()"></p-button>
+            </ng-template>
+            <ng-template #content></ng-template>
+          </p-panel>
+        }
       </section>
     </div>
   </div>

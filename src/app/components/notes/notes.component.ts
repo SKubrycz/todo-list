@@ -20,6 +20,7 @@ import {
 } from '../../constants/labels';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { CardModule } from 'primeng/card';
+import { PanelModule } from 'primeng/panel';
 
 @Component({
   selector: 'app-notes',
@@ -30,6 +31,7 @@ import { CardModule } from 'primeng/card';
     ReactiveFormsModule,
     NoteComponent,
     NavbarComponent,
+    PanelModule,
     CardModule,
     ButtonModule,
     InputTextModule,

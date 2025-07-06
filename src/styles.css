@@ -79,3 +79,17 @@ html.my-app-light {
   justify-content: center;
   overflow: hidden;
 }
+
+.p-panel-header {
+  cursor: pointer;
+}
+
+.note-add-panel .p-panel-header {
+  justify-content: flex-end;
+}
+.note-add-panel .p-panel-content {
+  padding: 0;
+}
+.note-add-panel {
+  width: 100%;
+}

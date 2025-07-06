@@ -13,14 +13,15 @@
 </p-card>
 }
 @else if (noteData.viewKind == 1) {
-  <p-panel [toggleable]="true" [collapsed]="true">
+  <p-panel [toggleable]="true" [collapsed]="true" collapseIcon="pi pi-angle-down" expandIcon="pi pi-angle-up" toggler="header">
     <ng-template #header>
       <b>{{noteData.title}}</b>
     </ng-template>
     <ng-template #footer>
       <span>{{ noteData.dateCreated | date : "dd.MM.yyyy, HH:mm" }}</span>
     </ng-template>
-    <div>{{noteData.subtitle}}</div>
+    <div class="container-full-no-center gap-2">
+      <div>{{noteData.subtitle}}</div>
     <div>
       @for (label of noteData.labels; track label.text) {
     <p-tag
@@ -29,5 +30,7 @@
     >
     }
   </div>
+  {{ (noteData.done) ? `Done ${noteData.dateDone | date : "short"}` : "Not done"  }}
+    </div>
   </p-panel>
 }
