@@ -1,5 +1,13 @@
 <main class="container-full">
-  <h3>Welcome to Todo list!</h3>
-  <h4>Create your own list here</h4>
+  <h1>Welcome to Todo list!</h1>
+    <div class="words-carousel">
+    <div class="words">
+      @for (word of wordsList; track $index) {
+        {{word}}
+      }
+    </div>
+    <div class="words-carousel-overlay"></div>
+  </div>
+  <h3>Create your own list here</h3>
   <p-button routerLink="/notes" class="font-bold">Start planning</p-button>
 </main>

@@ -1,0 +1,34 @@
+:root {
+    --carousel-index: 1;
+}
+
+.words-carousel {
+    max-width: 300px;
+    position: relative;
+    overflow: hidden;
+    z-index: var(--carousel-index);
+}
+.words-carousel-overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: linear-gradient(90deg, var(--p-primary-0) 0%, transparent 10%, transparent 90%, var(--p-primary-0) 100%);
+    transform: translate(0%, -100%);
+    z-index: calc(var(--carousel-index) + 1);
+}
+
+.words {
+    font-size: 26px;
+    font-weight: 600;
+    word-spacing: 2em;
+    white-space: nowrap;
+}
+
+/* @keyframes slideWords {
+    from {
+        transform: translate(0%, 0%);
+    }
+    to {
+        transform: translate(-100%, 0%);
+    }
+} */

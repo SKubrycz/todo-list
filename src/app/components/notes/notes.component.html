@@ -25,9 +25,9 @@
           </p-card>
         }
         @else if (currentViewKind == 1) {
-          <p-panel class="note-add-panel">
+          <p-panel class="note-add-panel" (click)="displayNoteCreator()">
             <ng-template #icons>
-              <p-button variant="text" icon="pi pi-plus" (click)="displayNoteCreator()"></p-button>
+              <p-button variant="text" icon="pi pi-plus"></p-button>
             </ng-template>
             <ng-template #content></ng-template>
           </p-panel>
