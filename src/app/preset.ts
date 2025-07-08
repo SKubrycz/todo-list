@@ -22,6 +22,7 @@ export const preset = definePreset(Aura, {
         primary: {
           color: '{sky.950}',
           inverseColor: '{sky.50}',
+          contrastColor: '{sky.50}',
           hoverColor: '{sky.900}',
           activeColor: '{sky.800}',
         },
@@ -35,7 +36,7 @@ export const preset = definePreset(Aura, {
       dark: {
         primary: {
           color: '{sky.100}',
-          inverseColor: '{sky.950}',
+          inverseColor: 'rgba(0, 0, 0, 1.0)', // '{sky.950}',
           hoverColor: '{sky.200}',
           activeColor: '{sky.300}',
         },
