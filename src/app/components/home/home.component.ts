@@ -37,7 +37,7 @@ export class HomeComponent {
           { transform: `translate(-${fullWidth / 2}px)` },
         ],
         {
-          duration: 9000,
+          duration: 10000,
           iterations: Infinity,
         }
       );

@@ -9,7 +9,26 @@
         [options]="options"
         [optionLabel]="optionLabel"
         [placeholder]="placeholder"
-      ></p-select>
+      >
+        <ng-template let-selectedOption #selectedItem>
+          <p-tag
+            [ngStyle]="{
+              color: selectedOption.color,
+              backgroundColor: selectedOption.backgroundColor
+            }"
+            >{{ selectedOption.text }}</p-tag
+          >
+        </ng-template>
+        <ng-template let-label #item>
+          <p-tag
+            [ngStyle]="{
+              color: label.color,
+              backgroundColor: label.backgroundColor
+            }"
+            >{{ label.text }}</p-tag
+          >
+        </ng-template>
+      </p-select>
       <p-button label="Search" icon="pi pi-search" />
     </div>
   </ng-template>
