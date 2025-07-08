@@ -1,4 +1,5 @@
-import { Component, ElementRef, inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Component, ElementRef, inject, PLATFORM_ID } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 
@@ -10,6 +11,23 @@ import { ButtonModule } from 'primeng/button';
 })
 export class HomeComponent {
   elementRef = inject(ElementRef);
-  wordsList = ["Create", "Plan", "Complete", "Schedule", "Reorder", "Apply"];
+  private platformId = inject(PLATFORM_ID);
 
+  wordsList = ['Create', 'Plan', 'Complete', 'Schedule', 'Reorder', 'Apply'];
+  joinedWords = this.wordsList.join(' ');
+
+  interval: NodeJS.Timeout | null = null;
+
+  ngOnInit() {
+    if (isPlatformBrowser(this.platformId)) {
+      const words = this.elementRef.nativeElement.querySelector('.words');
+      words.animate(
+        [{ transform: 'translateX(0)' }, { transform: 'translate(-100%)' }],
+        {
+          duration: 3000,
+          iterations: Infinity,
+        }
+      );
+    }
+  }
 }
