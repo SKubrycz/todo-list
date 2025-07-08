@@ -16,15 +16,28 @@ export class HomeComponent {
   wordsList = ['Create', 'Plan', 'Complete', 'Schedule', 'Reorder', 'Apply'];
   joinedWords = this.wordsList.join(' ');
 
-  interval: NodeJS.Timeout | null = null;
-
   ngOnInit() {
+    this.joinedWords = this.joinedWords + ' ' + this.joinedWords;
+  }
+
+  ngAfterViewInit() {
     if (isPlatformBrowser(this.platformId)) {
       const words = this.elementRef.nativeElement.querySelector('.words');
+      const space = this.elementRef.nativeElement.querySelector('#space');
+      const wordsChildren = words.children;
+      let fullWidth = 0;
+      for (const child of wordsChildren) {
+        fullWidth +=
+          child.offsetWidth + space.offsetWidth + space.offsetWidth / 2 - 1;
+      }
+
       words.animate(
-        [{ transform: 'translateX(0)' }, { transform: 'translate(-100%)' }],
+        [
+          { transform: 'translateX(0)' },
+          { transform: `translate(-${fullWidth / 2}px)` },
+        ],
         {
-          duration: 3000,
+          duration: 9000,
           iterations: Infinity,
         }
       );

@@ -1,11 +1,14 @@
 <main class="container-full">
   <h1>Welcome to Todo list!</h1>
-    <div class="words-carousel">
+  <div class="words-carousel">
     <div class="words">
       @for (word of wordsList; track $index) {
-        {{word}}
+      <span>{{ word + " " }}</span>
+      } @for (word of wordsList; track $index) {
+      <span>{{ word + " " }}</span>
       }
     </div>
+    <span id="space">&nbsp;</span>
     <div class="words-carousel-overlay"></div>
   </div>
   <h3>Create your own list here</h3>
