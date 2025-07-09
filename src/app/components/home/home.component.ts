@@ -23,12 +23,11 @@ export class HomeComponent {
   ngAfterViewInit() {
     if (isPlatformBrowser(this.platformId)) {
       const words = this.elementRef.nativeElement.querySelector('.words');
-      const space = this.elementRef.nativeElement.querySelector('#space');
       const wordsChildren = words.children;
       let fullWidth = 0;
       for (const child of wordsChildren) {
-        fullWidth +=
-          child.offsetWidth + space.offsetWidth + space.offsetWidth / 2 - 1;
+        const childWidth = child.getBoundingClientRect().width;
+        fullWidth += childWidth;
       }
 
       words.animate(
