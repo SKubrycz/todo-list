@@ -16,7 +16,7 @@ export class NoteComponent {
   @Input() noteData: Note = {
     id: 0,
     title: '',
-    subtitle: '',
+    description: '',
     dateCreated: new Date(Date.now()),
     dateDone: new Date(Date.now()),
     labels: [STANDARD],

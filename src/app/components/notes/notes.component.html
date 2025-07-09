@@ -8,31 +8,74 @@
         [style]="{ width: '80%', margin: '0 0.5em' }"
       ></app-navbar>
       <section class="notes-display-options">
-        <p-button icon="pi pi-list" variant="text" (click)="setNotesView(1)"></p-button>
-        <p-button icon="pi pi-th-large" variant="text" (click)="setNotesView(0)"></p-button>
+        <p-button
+          icon="pi pi-list"
+          variant="text"
+          (click)="setNotesView(1)"
+        ></p-button>
+        <p-button
+          icon="pi pi-th-large"
+          variant="text"
+          (click)="setNotesView(0)"
+        ></p-button>
       </section>
       <section class="notes-list">
-        @for(note of notesList; track note.id) {<app-note
+        @for(note of notesList; track $index) {<app-note
           [noteData]="note"
-          [style]="{'width': (note.viewKind == 1) ? '100%' : 'initial'}"
+          [style]="{ width: note.viewKind == 1 ? '100%' : 'initial' }"
         ></app-note
-        >}
-        @if (currentViewKind == 0) {
-          <p-card class="add-note" (click)="displayNoteCreator()">
-            <ng-template #content>
-              <div class="container-full"><p class="pi pi-plus"></p></div>
-            </ng-template>
-          </p-card>
-        }
-        @else if (currentViewKind == 1) {
-          <p-panel class="note-add-panel" (click)="displayNoteCreator()">
-            <ng-template #icons>
-              <p-button variant="text" icon="pi pi-plus"></p-button>
-            </ng-template>
-            <ng-template #content></ng-template>
-          </p-panel>
+        >} @if (currentViewKind == 0) {
+        <p-card class="add-note" (click)="displayNoteCreator()">
+          <ng-template #content>
+            <div class="container-full"><p class="pi pi-plus"></p></div>
+          </ng-template>
+        </p-card>
+        } @else if (currentViewKind == 1) {
+        <p-panel class="note-add-panel" (click)="displayNoteCreator()">
+          <ng-template #icons>
+            <p-button variant="text" icon="pi pi-plus"></p-button>
+          </ng-template>
+          <ng-template #content></ng-template>
+        </p-panel>
+        } @else {
+        <p>Something went wrong with displaying notes</p>
         }
       </section>
+      @if (isNoteCreatorDisplayed) {
+      <p-dialog
+        header="Create a note"
+        closable="true"
+        [modal]="true"
+        [(visible)]="isNoteCreatorDisplayed"
+      >
+        <form [formGroup]="noteForm" (submit)="createNote()">
+          <p-floatlabel variant="in" style="margin: 0.5em 0">
+            <input
+              pInputText
+              id="title"
+              formControlName="title"
+              autocomplete="off"
+            />
+            <label for="title">Title</label>
+          </p-floatlabel>
+          <p-floatlabel variant="in" style="margin: 0.5em 0">
+            <input
+              pInputText
+              id="description"
+              formControlName="description"
+              autocomplete="off"
+            />
+            <label for="description">Description</label>
+          </p-floatlabel>
+
+          <!-- Also, p-select, preferrably as a reusable component -->
+
+          <div style="width: 100%; display: flex; justify-content: flex-end">
+            <p-button type="submit">Create</p-button>
+          </div>
+        </form>
+      </p-dialog>
+      }
     </div>
   </div>
 </main>

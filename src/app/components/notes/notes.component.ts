@@ -3,6 +3,7 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { TextareaModule } from 'primeng/textarea';
 import { ListboxModule } from 'primeng/listbox';
+import { DialogModule } from 'primeng/dialog';
 import { ValidatorService } from '../../validator.service';
 import { NoteComponent } from '../note/note.component';
 import { Note, ViewKind } from '../../types/types';
@@ -21,6 +22,7 @@ import {
 import { NavbarComponent } from '../navbar/navbar.component';
 import { CardModule } from 'primeng/card';
 import { PanelModule } from 'primeng/panel';
+import { FloatLabelModule } from 'primeng/floatlabel';
 
 @Component({
   selector: 'app-notes',
@@ -35,8 +37,10 @@ import { PanelModule } from 'primeng/panel';
     CardModule,
     ButtonModule,
     InputTextModule,
+    FloatLabelModule,
     TextareaModule,
     ListboxModule,
+    DialogModule,
   ],
 })
 export class NotesComponent {
@@ -47,14 +51,14 @@ export class NotesComponent {
 
   currentViewKind: ViewKind = 0;
   titleValue = '';
-  subtitleValue = '';
+  descriptionValue = '';
   selectedLabels = [];
   labels = [STANDARD, SECONDARY, URGENT, HIGHEST_PRIORITY];
   notesList: Note[] = [
     {
       id: 1,
       title: 'Do three pushups',
-      subtitle: '...or even more',
+      description: '...or even more',
       dateCreated: new Date(Date.now()),
       dateDone: null,
       labels: [this.labels[3]],
@@ -63,10 +67,12 @@ export class NotesComponent {
     },
   ];
 
+  isNoteCreatorDisplayed = false;
+
   ngOnInit() {
     this.noteForm = this.fb.group({
       title: ['', []],
-      subtitle: ['', []],
+      description: ['', []],
       labels: [[], []],
     });
     this.setNotesView(0);
@@ -78,7 +84,7 @@ export class NotesComponent {
     const note: Note = {
       id: this.notesList.length,
       title: controls['title'].value,
-      subtitle: controls['subtitle'].value,
+      description: controls['description'].value,
       labels: controls['labels'].value,
       done: false,
       dateCreated: new Date(Date.now()),
@@ -99,5 +105,6 @@ export class NotesComponent {
 
   displayNoteCreator() {
     console.log('Displaying Note Creator...');
+    this.isNoteCreatorDisplayed = true;
   }
 }

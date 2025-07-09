@@ -1,5 +1,5 @@
 @if (noteData.viewKind == 0) {
-  <p-card [header]="noteData.title" [subheader]="noteData.subtitle">
+<p-card [header]="noteData.title" [subheader]="noteData.description">
   <ng-template #content>
     @for (label of noteData.labels; track label.text) {
     <p-tag
@@ -11,26 +11,34 @@
     <p>{{ noteData.done ? "Finished" : "Not done" }}</p>
   </ng-template>
 </p-card>
-}
-@else if (noteData.viewKind == 1) {
-  <p-panel [toggleable]="true" [collapsed]="true" collapseIcon="pi pi-angle-down" expandIcon="pi pi-angle-up" toggler="header">
-    <ng-template #header>
-      <b>{{noteData.title}}</b>
-    </ng-template>
-    <ng-template #footer>
-      <span>{{ noteData.dateCreated | date : "dd.MM.yyyy, HH:mm" }}</span>
-    </ng-template>
-    <div class="container-full-no-center gap-2">
-      <div>{{noteData.subtitle}}</div>
+} @else if (noteData.viewKind == 1) {
+<p-panel
+  [toggleable]="true"
+  [collapsed]="true"
+  collapseIcon="pi pi-angle-down"
+  expandIcon="pi pi-angle-up"
+  toggler="header"
+>
+  <ng-template #header>
+    <b>{{ noteData.title }}</b>
+  </ng-template>
+  <ng-template #footer>
+    <span>{{ noteData.dateCreated | date : "dd.MM.yyyy, HH:mm" }}</span>
+  </ng-template>
+  <div class="container-full-no-center gap-2">
+    <div>{{ noteData.description }}</div>
     <div>
       @for (label of noteData.labels; track label.text) {
-    <p-tag
-      [ngStyle]="{ color: label.color, backgroundColor: label.backgroundColor }"
-      >{{ label.text }}</p-tag
-    >
-    }
-  </div>
-  {{ (noteData.done) ? `Done ${noteData.dateDone | date : "short"}` : "Not done"  }}
+      <p-tag
+        [ngStyle]="{
+          color: label.color,
+          backgroundColor: label.backgroundColor
+        }"
+        >{{ label.text }}</p-tag
+      >
+      }
     </div>
-  </p-panel>
+    {{ (noteData.done) ? `Done ${noteData.dateDone | date : "short"}` : "Not done"  }}
+  </div>
+</p-panel>
 }

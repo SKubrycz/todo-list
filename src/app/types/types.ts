@@ -16,7 +16,7 @@ export type ViewKind = 0 | 1;
 export interface Note {
   id: number;
   title: string;
-  subtitle: string;
+  description: string;
   dateCreated: Date;
   dateDone: Date | null;
   labels: Label[];
