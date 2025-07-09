@@ -13,12 +13,11 @@ import {
   STANDARD,
   URGENT,
 } from '../../constants/labels';
-import { NgStyle } from '@angular/common';
+import { SelectTagComponent } from '../select-tag/select-tag.component';
 
 @Component({
   selector: 'app-navbar',
   imports: [
-    NgStyle,
     FormsModule,
     ToolbarModule,
     ButtonModule,
@@ -26,6 +25,7 @@ import { NgStyle } from '@angular/common';
     InputTextModule,
     TextareaModule,
     SelectModule,
+    SelectTagComponent,
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',

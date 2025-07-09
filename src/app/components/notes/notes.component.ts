@@ -23,6 +23,7 @@ import { NavbarComponent } from '../navbar/navbar.component';
 import { CardModule } from 'primeng/card';
 import { PanelModule } from 'primeng/panel';
 import { FloatLabelModule } from 'primeng/floatlabel';
+import { SelectTagComponent } from '../select-tag/select-tag.component';
 
 @Component({
   selector: 'app-notes',
@@ -41,6 +42,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
     TextareaModule,
     ListboxModule,
     DialogModule,
+    SelectTagComponent,
   ],
 })
 export class NotesComponent {

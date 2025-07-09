@@ -20,7 +20,7 @@
         ></p-button>
       </section>
       <section class="notes-list">
-        @for(note of notesList; track $index) {<app-note
+        @for (note of notesList; track $index) {<app-note
           [noteData]="note"
           [style]="{ width: note.viewKind == 1 ? '100%' : 'initial' }"
         ></app-note
@@ -68,9 +68,19 @@
             <label for="description">Description</label>
           </p-floatlabel>
 
-          <!-- Also, p-select, preferrably as a reusable component -->
-
-          <div style="width: 100%; display: flex; justify-content: flex-end">
+          <app-select-tag
+            [options]="labels"
+            optionLabel="text"
+            placeholder="Select priority"
+          ></app-select-tag>
+          <div
+            style="
+              width: 100%;
+              margin: 0.5em 0;
+              display: flex;
+              justify-content: flex-end;
+            "
+          >
             <p-button type="submit">Create</p-button>
           </div>
         </form>
