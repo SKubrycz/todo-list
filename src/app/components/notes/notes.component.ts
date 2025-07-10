@@ -6,12 +6,17 @@ import { ListboxModule } from 'primeng/listbox';
 import { DialogModule } from 'primeng/dialog';
 import { ValidatorService } from '../../validator.service';
 import { NoteComponent } from '../note/note.component';
-import { Note, ViewKind } from '../../types/types';
+import { Label, Note, ViewKind } from '../../types/types';
 import {
+  AbstractControl,
+  FormArray,
   FormBuilder,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
 } from '@angular/forms';
 import {
   HIGHEST_PRIORITY,
@@ -25,6 +30,7 @@ import { PanelModule } from 'primeng/panel';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { SelectTagComponent } from '../select-tag/select-tag.component';
 import { NgStyle } from '@angular/common';
+import { ChipModule } from 'primeng/chip';
 
 @Component({
   selector: 'app-notes',
@@ -37,6 +43,7 @@ import { NgStyle } from '@angular/common';
     NoteComponent,
     NavbarComponent,
     PanelModule,
+    ChipModule,
     CardModule,
     ButtonModule,
     InputTextModule,
@@ -56,8 +63,9 @@ export class NotesComponent {
   currentViewKind: ViewKind = 0;
   titleValue = '';
   descriptionValue = '';
-  selectedLabels = [];
+  selectedLabels: Label[] = [];
   labels = [STANDARD, SECONDARY, URGENT, HIGHEST_PRIORITY];
+  selectedOption: Label | null = null;
   notesList: Note[] = [
     {
       id: 1,
@@ -75,9 +83,9 @@ export class NotesComponent {
 
   ngOnInit() {
     this.noteForm = this.fb.group({
-      title: ['', []],
+      title: ['', [Validators.required]],
       description: ['', []],
-      labels: [[], []],
+      labels: this.fb.array([], [this.minArray(1)]),
     });
     this.setNotesView(0);
   }
@@ -97,6 +105,8 @@ export class NotesComponent {
     };
 
     this.notesList.push(note);
+
+    this.isNoteCreatorDisplayed = false;
   }
 
   // Set view to be either box or list
@@ -108,7 +118,38 @@ export class NotesComponent {
   }
 
   displayNoteCreator() {
-    console.log('Displaying Note Creator...');
     this.isNoteCreatorDisplayed = true;
+  }
+
+  minArray(minLength: number = 0): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      return control.value < minLength ? { minArray: null } : null;
+    };
+  }
+
+  updateLabelsFormArray() {
+    let labels = this.noteForm.get('labels') as FormArray;
+    labels.clear();
+
+    this.selectedLabels.forEach((label) => {
+      labels.push(this.fb.group(label));
+    });
+
+    labels.markAsDirty();
+    labels.updateValueAndValidity();
+  }
+
+  receiveSelectedOption(e: Label) {
+    if (Object.keys(e).includes('id') && !this.selectedLabels.includes(e)) {
+      this.selectedLabels.push(e);
+      this.updateLabelsFormArray();
+    }
+  }
+
+  removeSelectedLabel(label: Label) {
+    if (this.selectedLabels.indexOf(label) !== -1) {
+      this.selectedLabels = this.selectedLabels.filter((el) => el !== label);
+      this.updateLabelsFormArray();
+    }
   }
 }

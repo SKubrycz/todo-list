@@ -79,7 +79,6 @@
               id="description"
               formControlName="description"
               autocomplete="off"
-              required
             />
             <label for="description">Description</label>
           </p-floatlabel>
@@ -88,7 +87,21 @@
             [options]="labels"
             optionLabel="text"
             placeholder="Select priority"
+            [selectedOption]="noteForm.value.labels"
+            (selectedOptionEvent)="receiveSelectedOption($event)"
           ></app-select-tag>
+          @for (label of selectedLabels; track $index) {
+          <p-chip
+            [label]="label.text"
+            [style]="{
+            fontWeight: 600,
+            color: label.color,
+            backgroundColor: label.backgroundColor,
+          }"
+            [removable]="true"
+            (onRemove)="removeSelectedLabel(label)"
+          ></p-chip>
+          }
           <div
             style="
               width: 100%;
@@ -97,7 +110,11 @@
               justify-content: flex-end;
             "
           >
-            <p-button type="submit" label="Create"></p-button>
+            <p-button
+              type="submit"
+              label="Create"
+              [disabled]="!noteForm.valid"
+            ></p-button>
           </div>
         </form>
       </p-dialog>
