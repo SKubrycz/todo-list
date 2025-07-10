@@ -55,18 +55,18 @@ import { ChipModule } from 'primeng/chip';
   ],
 })
 export class NotesComponent {
-  noteForm!: FormGroup;
+  protected noteForm!: FormGroup;
 
   private validator = inject(ValidatorService);
   private fb = inject(FormBuilder);
 
-  currentViewKind: ViewKind = 0;
-  titleValue = '';
-  descriptionValue = '';
-  selectedLabels: Label[] = [];
-  labels = [STANDARD, SECONDARY, URGENT, HIGHEST_PRIORITY];
-  selectedOption: Label | null = null;
-  notesList: Note[] = [
+  protected currentViewKind: ViewKind = 0;
+  protected titleValue = '';
+  protected descriptionValue = '';
+  protected selectedLabels: Label[] = [];
+  protected labels = [STANDARD, SECONDARY, URGENT, HIGHEST_PRIORITY];
+  protected selectedOption: Label | null = null;
+  protected notesList: Note[] = [
     {
       id: 1,
       title: 'Do three pushups',
@@ -79,7 +79,7 @@ export class NotesComponent {
     },
   ];
 
-  isNoteCreatorDisplayed = false;
+  protected isNoteCreatorDisplayed = false;
 
   ngOnInit() {
     this.noteForm = this.fb.group({

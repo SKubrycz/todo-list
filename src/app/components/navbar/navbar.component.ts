@@ -34,7 +34,12 @@ export class NavbarComponent {
   @Input() options: any[] = [];
   @Input() optionLabel: string = '';
   @Input() placeholder: string = '';
-  selectedOption = this.options[0] ?? '';
+  protected selectedOption = this.options[0] ?? '';
 
-  labelList: Label[] = [STANDARD, SECONDARY, URGENT, HIGHEST_PRIORITY];
+  protected labelList: Label[] = [
+    STANDARD,
+    SECONDARY,
+    URGENT,
+    HIGHEST_PRIORITY,
+  ];
 }

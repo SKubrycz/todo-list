@@ -27,7 +27,7 @@ export class SelectTagComponent {
   get selectedOption(): any {
     return this._selectedOption;
   }
-  @Output() selectedOptionEvent = new EventEmitter<any>();
+  @Output() readonly selectedOptionEvent = new EventEmitter<any>();
 
   ngOnInit() {
     if (

@@ -1,5 +1,11 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { afterNextRender, Component, Inject, PLATFORM_ID } from '@angular/core';
+import {
+  afterNextRender,
+  Component,
+  Inject,
+  OnInit,
+  PLATFORM_ID,
+} from '@angular/core';
 import { WINDOW } from '../../window';
 
 @Component({
@@ -8,9 +14,9 @@ import { WINDOW } from '../../window';
   styleUrl: 'dark-mode.component.css',
   imports: [],
 })
-export class DarkModeComponent {
+export class DarkModeComponent implements OnInit {
   private isBrowser: boolean;
-  darkMode = true;
+  protected darkMode = true;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,

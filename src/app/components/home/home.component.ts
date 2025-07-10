@@ -1,5 +1,12 @@
 import { isPlatformBrowser } from '@angular/common';
-import { Component, ElementRef, inject, PLATFORM_ID } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  inject,
+  OnInit,
+  PLATFORM_ID,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 
@@ -9,12 +16,19 @@ import { ButtonModule } from 'primeng/button';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
-export class HomeComponent {
-  elementRef = inject(ElementRef);
+export class HomeComponent implements OnInit, AfterViewInit {
+  protected elementRef = inject(ElementRef);
   private platformId = inject(PLATFORM_ID);
 
-  wordsList = ['Create', 'Plan', 'Complete', 'Schedule', 'Reorder', 'Apply'];
-  joinedWords = this.wordsList.join(' ');
+  protected wordsList = [
+    'Create',
+    'Plan',
+    'Complete',
+    'Schedule',
+    'Reorder',
+    'Apply',
+  ];
+  protected joinedWords = this.wordsList.join(' ');
 
   ngOnInit() {
     this.joinedWords = this.joinedWords + ' ' + this.joinedWords;

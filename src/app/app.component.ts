@@ -8,6 +8,4 @@ import { DarkModeComponent } from './components/dark-mode/dark-mode.component';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
-export class AppComponent {
-  title = 'todo-list';
-}
+export class AppComponent {}
