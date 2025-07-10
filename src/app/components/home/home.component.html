@@ -1,5 +1,6 @@
 <main class="container-full">
   <h1>Welcome to Todo list!</h1>
+  <br />
   <div class="words-carousel">
     <div class="words">
       @for (word of wordsList; track $index) {
@@ -8,9 +9,13 @@
       <span [style]="{ padding: '0.5em' }">{{ word }}</span>
       }
     </div>
-    <span id="space">&nbsp;</span>
     <div class="words-carousel-overlay"></div>
   </div>
   <h3>Create your own list here</h3>
-  <p-button routerLink="/notes" class="font-bold">Start planning</p-button>
+  <p-button
+    routerLink="/notes"
+    class="start-button"
+    [style]="{ fontSize: '18px' }"
+    >Start planning</p-button
+  >
 </main>

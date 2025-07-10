@@ -30,6 +30,22 @@
   white-space: nowrap;
 }
 
+.start-button {
+  animation: 400ms resizePop ease-in 1;
+}
+
+@keyframes resizePop {
+  0% {
+    transform: scale(100%, 100%);
+  }
+  50% {
+    transform: scale(110%, 110%);
+  }
+  100% {
+    transform: scale(100%, 100%);
+  }
+}
+
 /* @keyframes slideWords {
     from {
         transform: translate(0%, 0%);

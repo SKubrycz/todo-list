@@ -141,8 +141,22 @@ export class NotesComponent {
 
   receiveSelectedOption(e: Label) {
     if (Object.keys(e).includes('id') && !this.selectedLabels.includes(e)) {
-      this.selectedLabels.push(e);
-      this.updateLabelsFormArray();
+      let hasPriority = false;
+      let priorityIndex = -1;
+      for (const label of this.selectedLabels) {
+        if (label.kind == 'priority' && e.kind == 'priority') {
+          hasPriority = true;
+          priorityIndex = this.selectedLabels.indexOf(label);
+          break;
+        }
+      }
+      if (!hasPriority) {
+        this.selectedLabels.push(e);
+        this.updateLabelsFormArray();
+      } else {
+        this.selectedLabels[priorityIndex] = e;
+        this.updateLabelsFormArray();
+      }
     }
   }
 

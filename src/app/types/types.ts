@@ -1,3 +1,4 @@
+export type LabelKind = 'priority' | 'other';
 export enum LabelText {
   HIGHEST_PRIORITY = 'Highest priority',
   URGENT = 'Urgent',
@@ -7,6 +8,7 @@ export enum LabelText {
 export interface Label {
   id: number;
   text: LabelText;
+  kind: LabelKind;
   color: string;
   backgroundColor: string;
 }

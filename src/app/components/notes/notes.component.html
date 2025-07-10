@@ -59,6 +59,7 @@
       <p-dialog
         header="Create a note"
         closable="true"
+        draggable="false"
         [modal]="true"
         [(visible)]="isNoteCreatorDisplayed"
       >
@@ -90,18 +91,21 @@
             [selectedOption]="noteForm.value.labels"
             (selectedOptionEvent)="receiveSelectedOption($event)"
           ></app-select-tag>
-          @for (label of selectedLabels; track $index) {
-          <p-chip
-            [label]="label.text"
-            [style]="{
+          <div style="max-width: 300px; margin: 0.5em 0">
+            @for (label of selectedLabels; track $index) {
+            <p-chip
+              [label]="label.text"
+              [style]="{
+                margin: '0.1em',
             fontWeight: 600,
             color: label.color,
             backgroundColor: label.backgroundColor,
           }"
-            [removable]="true"
-            (onRemove)="removeSelectedLabel(label)"
-          ></p-chip>
-          }
+              [removable]="true"
+              (onRemove)="removeSelectedLabel(label)"
+            ></p-chip>
+            }
+          </div>
           <div
             style="
               width: 100%;
