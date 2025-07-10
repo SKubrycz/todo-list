@@ -8,16 +8,30 @@
         [style]="{ width: '80%', margin: '0 0.5em' }"
       ></app-navbar>
       <section class="notes-display-options">
-        <p-button
-          icon="pi pi-list"
-          variant="text"
-          (click)="setNotesView(1)"
-        ></p-button>
-        <p-button
-          icon="pi pi-th-large"
-          variant="text"
-          (click)="setNotesView(0)"
-        ></p-button>
+        <p-button variant="text" (click)="setNotesView(1)">
+          <span
+            class="pi pi-list"
+            [ngStyle]="{
+              color:
+                currentViewKind === 1
+                  ? 'var(--p-primary-active-color)'
+                  : 'var(--p-primary-color)',
+              fontSize: '18px'
+            }"
+          ></span>
+        </p-button>
+        <p-button variant="text" (click)="setNotesView(0)">
+          <span
+            class="pi pi-th-large"
+            [ngStyle]="{
+              color:
+                currentViewKind === 0
+                  ? 'var(--p-primary-active-color)'
+                  : 'var(--p-primary-color)',
+              fontSize: '18px'
+            }"
+          ></span>
+        </p-button>
       </section>
       <section class="notes-list">
         @for (note of notesList; track $index) {<app-note
@@ -55,6 +69,7 @@
               id="title"
               formControlName="title"
               autocomplete="off"
+              required
             />
             <label for="title">Title</label>
           </p-floatlabel>
@@ -64,6 +79,7 @@
               id="description"
               formControlName="description"
               autocomplete="off"
+              required
             />
             <label for="description">Description</label>
           </p-floatlabel>
@@ -81,7 +97,7 @@
               justify-content: flex-end;
             "
           >
-            <p-button type="submit">Create</p-button>
+            <p-button type="submit" label="Create"></p-button>
           </div>
         </form>
       </p-dialog>
