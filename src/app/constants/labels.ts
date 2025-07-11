@@ -5,6 +5,7 @@ import { Label, LabelText } from '../types/types';
 //   STANDARD = 'Standard',
 //   SECONDARY = 'Secondary',
 
+// kind = 'priority'
 export const STANDARD: Label = {
   id: 0,
   text: LabelText.STANDARD,
@@ -17,7 +18,7 @@ export const SECONDARY: Label = {
   id: 1,
   text: LabelText.SECONDARY,
   kind: 'priority',
-  color: 'darkgray',
+  color: 'gray',
   backgroundColor: 'lightgray',
 };
 export const URGENT: Label = {
@@ -33,4 +34,13 @@ export const HIGHEST_PRIORITY: Label = {
   kind: 'priority',
   color: '#a30000',
   backgroundColor: '#e85a5a',
+};
+
+// kind = 'other'
+export const HOBBY: Label = {
+  id: 4,
+  text: LabelText.HOBBY,
+  kind: 'other',
+  color: 'green',
+  backgroundColor: 'lightgreen',
 };

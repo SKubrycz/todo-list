@@ -20,6 +20,7 @@ import {
 } from '@angular/forms';
 import {
   HIGHEST_PRIORITY,
+  HOBBY,
   SECONDARY,
   STANDARD,
   URGENT,
@@ -64,7 +65,7 @@ export class NotesComponent {
   protected titleValue = '';
   protected descriptionValue = '';
   protected selectedLabels: Label[] = [];
-  protected labels = [STANDARD, SECONDARY, URGENT, HIGHEST_PRIORITY];
+  protected labels = [STANDARD, SECONDARY, URGENT, HIGHEST_PRIORITY, HOBBY];
   protected selectedOption: Label | null = null;
   protected notesList: Note[] = [
     {
@@ -91,22 +92,23 @@ export class NotesComponent {
   }
 
   createNote() {
-    const controls = this.noteForm.controls;
+    if (this.noteForm.valid) {
+      const controls = this.noteForm.controls;
 
-    const note: Note = {
-      id: this.notesList.length,
-      title: controls['title'].value,
-      description: controls['description'].value,
-      labels: controls['labels'].value,
-      done: false,
-      dateCreated: new Date(Date.now()),
-      dateDone: null,
-      viewKind: this.currentViewKind,
-    };
+      const note: Note = {
+        id: this.notesList.length,
+        title: controls['title'].value,
+        description: controls['description'].value,
+        labels: controls['labels'].value,
+        done: false,
+        dateCreated: new Date(Date.now()),
+        dateDone: null,
+        viewKind: this.currentViewKind,
+      };
+      this.notesList.push(note);
 
-    this.notesList.push(note);
-
-    this.isNoteCreatorDisplayed = false;
+      this.isNoteCreatorDisplayed = false;
+    }
   }
 
   // Set view to be either box or list

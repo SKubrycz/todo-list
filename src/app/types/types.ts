@@ -4,6 +4,7 @@ export enum LabelText {
   URGENT = 'Urgent',
   STANDARD = 'Standard',
   SECONDARY = 'Secondary',
+  HOBBY = 'Hobby',
 }
 export interface Label {
   id: number;
