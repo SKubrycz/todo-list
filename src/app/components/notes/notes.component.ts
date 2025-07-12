@@ -6,7 +6,13 @@ import { ListboxModule } from 'primeng/listbox';
 import { DialogModule } from 'primeng/dialog';
 import { ValidatorService } from '../../validator.service';
 import { NoteComponent } from '../note/note.component';
-import { Label, Note, ViewKind } from '../../types/types';
+import {
+  Label,
+  LabelText,
+  Note,
+  SearchFilter,
+  ViewKind,
+} from '../../types/types';
 import {
   AbstractControl,
   FormArray,
@@ -66,6 +72,9 @@ export class NotesComponent {
   protected descriptionValue = '';
   protected selectedLabels: Label[] = [];
   protected labels = [STANDARD, SECONDARY, URGENT, HIGHEST_PRIORITY, HOBBY];
+  protected priorityLabels = this.labels.filter(
+    (label) => label.kind === 'priority'
+  );
   protected selectedOption: Label | null = null;
   protected notesList: Note[] = [
     {
@@ -74,11 +83,26 @@ export class NotesComponent {
       description: '...or even more',
       dateCreated: new Date(Date.now()),
       dateDone: null,
+      labels: [this.labels[2]],
+      done: false,
+      viewKind: this.currentViewKind,
+    },
+    {
+      id: 2,
+      title: 'Do four pull ups',
+      description: '...or even more',
+      dateCreated: new Date(Date.now() + 1),
+      dateDone: null,
       labels: [this.labels[3]],
       done: false,
       viewKind: this.currentViewKind,
     },
   ];
+  protected filteredNotesList: Note[] = [];
+  protected filterCriteria: SearchFilter = {
+    text: '',
+    priority: LabelText.HIGHEST_PRIORITY,
+  };
 
   protected isNoteCreatorDisplayed = false;
 
@@ -89,6 +113,7 @@ export class NotesComponent {
       labels: this.fb.array([], [this.minArray(1)]),
     });
     this.setNotesView(0);
+    this.filteredNotesList = [...this.notesList];
   }
 
   createNote() {
@@ -117,6 +142,36 @@ export class NotesComponent {
     this.notesList.forEach((_, i) => {
       this.notesList[i].viewKind = this.currentViewKind;
     });
+  }
+
+  filterNotes() {
+    const passesCriteria = (element: Note) => {
+      const textPass = element.title
+        .toLowerCase()
+        .includes(this.filterCriteria.text.toLowerCase());
+      const priorityPass =
+        this.filterCriteria.priority !== undefined
+          ? element.labels.find((el) => {
+              return (
+                el.kind == 'priority' && el.text == this.filterCriteria.priority
+              );
+            })
+          : true;
+
+      return textPass && priorityPass;
+    };
+
+    this.filteredNotesList = [];
+
+    for (const note of this.notesList) {
+      if (passesCriteria(note)) {
+        this.filteredNotesList.push(note);
+      }
+    }
+  }
+
+  receiveSearchFilterEvent(value: SearchFilter) {
+    this.filterCriteria = value;
   }
 
   displayNoteCreator() {

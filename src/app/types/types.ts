@@ -6,6 +6,7 @@ export enum LabelText {
   SECONDARY = 'Secondary',
   HOBBY = 'Hobby',
 }
+export type LabelTextForPriority = Exclude<LabelText, LabelText.HOBBY>;
 export interface Label {
   id: number;
   text: LabelText;
@@ -25,4 +26,9 @@ export interface Note {
   labels: Label[];
   done: boolean;
   viewKind: ViewKind;
+}
+
+export interface SearchFilter {
+  text: string; // title
+  priority: LabelTextForPriority;
 }

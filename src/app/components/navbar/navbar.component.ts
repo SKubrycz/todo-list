@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { ToolbarModule } from 'primeng/toolbar';
 import { InputTextModule } from 'primeng/inputtext';
@@ -6,7 +6,12 @@ import { TextareaModule } from 'primeng/textarea';
 import { SelectModule } from 'primeng/select';
 import { TagModule } from 'primeng/tag';
 import { FormsModule } from '@angular/forms';
-import { Label } from '../../types/types';
+import {
+  Label,
+  LabelText,
+  LabelTextForPriority,
+  SearchFilter,
+} from '../../types/types';
 import {
   HIGHEST_PRIORITY,
   SECONDARY,
@@ -31,10 +36,19 @@ import { SelectTagComponent } from '../select-tag/select-tag.component';
   styleUrl: './navbar.component.css',
 })
 export class NavbarComponent {
-  @Input() options: any[] = [];
+  @Input() options: Label[] = [];
   @Input() optionLabel: string = '';
   @Input() placeholder: string = '';
   protected selectedOption = this.options[0] ?? '';
+
+  protected searchFilter: SearchFilter = {
+    text: '',
+    priority: LabelText.STANDARD,
+  };
+  @Output() readonly searchFilterEvent: EventEmitter<SearchFilter> =
+    new EventEmitter<SearchFilter>();
+  @Output() readonly filterNotesEvent: EventEmitter<void> =
+    new EventEmitter<void>();
 
   protected labelList: Label[] = [
     STANDARD,
@@ -42,4 +56,26 @@ export class NavbarComponent {
     URGENT,
     HIGHEST_PRIORITY,
   ];
+
+  updateSearchText(newText: string) {
+    this.searchFilter = {
+      ...this.searchFilter,
+      text: newText,
+    };
+    this.searchFilterEvent.emit(this.searchFilter);
+  }
+  updateSearchPriority(newPriority: LabelTextForPriority) {
+    this.searchFilter = {
+      ...this.searchFilter,
+      priority: newPriority,
+    };
+    this.searchFilterEvent.emit(this.searchFilter);
+  }
+  filterNotes() {
+    this.filterNotesEvent.emit();
+  }
+
+  receiveSelectedOption(value: Label) {
+    this.updateSearchPriority(value.text as LabelTextForPriority);
+  }
 }

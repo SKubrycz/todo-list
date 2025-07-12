@@ -2,9 +2,11 @@
   <div class="container-full-nocenter">
     <div style="width: 80%">
       <app-navbar
-        [options]="labels"
+        [options]="priorityLabels"
         optionLabel="text"
         placeholder="Select priority"
+        (filterNotesEvent)="filterNotes()"
+        (searchFilterEvent)="receiveSearchFilterEvent($event)"
         [style]="{ width: '80%', margin: '0 0.5em' }"
       ></app-navbar>
       <section class="notes-display-options">
@@ -34,7 +36,7 @@
         </p-button>
       </section>
       <section class="notes-list">
-        @for (note of notesList; track $index) {<app-note
+        @for (note of filteredNotesList; track $index) {<app-note
           [noteData]="note"
           [style]="{ width: note.viewKind == 1 ? '100%' : 'initial' }"
         ></app-note
@@ -97,10 +99,10 @@
               [label]="label.text"
               [style]="{
                 margin: '0.1em',
-            fontWeight: 600,
-            color: label.color,
-            backgroundColor: label.backgroundColor,
-          }"
+                fontWeight: 600,
+                color: label.color,
+                backgroundColor: label.backgroundColor,
+              }"
               [removable]="true"
               (onRemove)="removeSelectedLabel(label)"
             ></p-chip>
