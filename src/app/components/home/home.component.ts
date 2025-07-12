@@ -35,25 +35,24 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if (isPlatformBrowser(this.platformId)) {
-      const words = this.elementRef.nativeElement.querySelector('.words');
-      const wordsChildren = words.children;
-      let fullWidth = 0;
-      for (const child of wordsChildren) {
-        const childWidth = child.getBoundingClientRect().width;
-        fullWidth += childWidth;
-      }
-
-      words.animate(
-        [
-          { transform: 'translateX(0)' },
-          { transform: `translate(-${fullWidth / 2}px)` },
-        ],
-        {
-          duration: 10000,
-          iterations: Infinity,
-        }
-      );
-    }
+    // if (isPlatformBrowser(this.platformId)) {
+    //   const words = this.elementRef.nativeElement.querySelector('.words');
+    //   const wordsChildren = words.children;
+    //   let fullWidth = 0;
+    //   for (const child of wordsChildren) {
+    //     const childWidth = child.getBoundingClientRect().width;
+    //     fullWidth += childWidth;
+    //   }
+    //   words.animate(
+    //     [
+    //       { transform: 'translateX(0)' },
+    //       { transform: `translate(-${fullWidth / 2}px)` },
+    //     ],
+    //     {
+    //       duration: 10000,
+    //       iterations: Infinity,
+    //     }
+    //   );
+    // }
   }
 }

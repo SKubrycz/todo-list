@@ -4,9 +4,13 @@
   <div class="words-carousel">
     <div class="words">
       @for (word of wordsList; track $index) {
-      <span [style]="{ padding: '0.5em' }">{{ word }}</span>
+      <div>
+        {{ word }}
+      </div>
       } @for (word of wordsList; track $index) {
-      <span [style]="{ padding: '0.5em' }">{{ word }}</span>
+      <div>
+        {{ word }}
+      </div>
       }
     </div>
     <div class="words-carousel-overlay"></div>

@@ -24,10 +24,16 @@
 }
 
 .words {
+  width: fit-content;
+  display: flex;
   font-size: 26px;
   font-weight: 600;
   word-spacing: 2em;
   white-space: nowrap;
+  animation: 6000ms slideWords linear infinite;
+}
+.words > div {
+  padding: 0 0.5em;
 }
 
 .start-button {
@@ -46,11 +52,11 @@
   }
 }
 
-/* @keyframes slideWords {
-    from {
-        transform: translate(0%, 0%);
-    }
-    to {
-        transform: translate(-100%, 0%);
-    }
-} */
+@keyframes slideWords {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
