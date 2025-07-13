@@ -153,7 +153,14 @@ export class NotesComponent {
       this.filterNotes(); // Reapply filter function to add the note that was created
 
       this.isNoteCreatorDisplayed = false;
+
+      this.clearNoteCreator();
     }
+  }
+
+  clearNoteCreator() {
+    this.noteForm.reset();
+    this.selectedLabels = [];
   }
 
   // Set view to be either box or list
