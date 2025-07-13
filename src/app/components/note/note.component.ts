@@ -2,13 +2,22 @@ import { Component, Input } from '@angular/core';
 import { CardModule } from 'primeng/card';
 import { PanelModule } from 'primeng/panel';
 import { TagModule } from 'primeng/tag';
+import { TooltipModule } from 'primeng/tooltip';
 import { type Note } from '../../types/types';
 import { STANDARD } from '../../constants/labels';
 import { DatePipe, NgStyle } from '@angular/common';
-
+import { TimeAgoPipe } from '../../pipes/time-ago.pipe';
 @Component({
   selector: 'app-note',
-  imports: [CardModule, PanelModule, TagModule, DatePipe, NgStyle],
+  imports: [
+    CardModule,
+    PanelModule,
+    TagModule,
+    TooltipModule,
+    DatePipe,
+    TimeAgoPipe,
+    NgStyle,
+  ],
   templateUrl: './note.component.html',
   styleUrl: './note.component.css',
 })

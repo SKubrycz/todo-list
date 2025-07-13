@@ -3,7 +3,7 @@
   [options]="options"
   [optionLabel]="optionLabel"
   [placeholder]="placeholder"
-  [showClear]="showClear"
+  [showClear]="selectedOption ? showClear : false"
   appendTo="body"
 >
   <ng-template let-selectedOption #selectedItem>

@@ -70,6 +70,21 @@ html.my-app-light {
   gap: 4px;
 }
 
+.gap-8 {
+  gap: 8px;
+}
+
+.m-lr-half {
+  * > * {
+    margin: 0 0.5em;
+  }
+}
+.m-tb-half {
+  * > * {
+    margin: 0.5em 0;
+  }
+}
+
 /* Adjustments for PrimeNG component styles */
 .p-card {
   width: 300px;
