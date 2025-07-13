@@ -1,12 +1,16 @@
 export type LabelKind = 'priority' | 'other';
 export enum LabelText {
+  EMPTY = 'None',
   HIGHEST_PRIORITY = 'Highest priority',
   URGENT = 'Urgent',
   STANDARD = 'Standard',
   SECONDARY = 'Secondary',
   HOBBY = 'Hobby',
 }
-export type LabelTextForPriority = Exclude<LabelText, LabelText.HOBBY>;
+export type LabelTextForPriority = Exclude<
+  LabelText,
+  [LabelText.HOBBY, LabelText.EMPTY]
+>;
 export interface Label {
   id: number;
   text: LabelText;
@@ -30,5 +34,7 @@ export interface Note {
 
 export interface SearchFilter {
   text: string; // title
-  priority: LabelTextForPriority;
+  priority: LabelTextForPriority | null;
 }
+
+export type NoteSorting = 'None' | 'Priority' | 'Date created';

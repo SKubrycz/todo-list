@@ -64,7 +64,7 @@ export class NavbarComponent {
     };
     this.searchFilterEvent.emit(this.searchFilter);
   }
-  updateSearchPriority(newPriority: LabelTextForPriority) {
+  updateSearchPriority(newPriority: LabelTextForPriority | null) {
     this.searchFilter = {
       ...this.searchFilter,
       priority: newPriority,
@@ -76,6 +76,7 @@ export class NavbarComponent {
   }
 
   receiveSelectedOption(value: Label) {
-    this.updateSearchPriority(value.text as LabelTextForPriority);
+    if (!value) this.updateSearchPriority(value);
+    else this.updateSearchPriority(value.text as LabelTextForPriority);
   }
 }

@@ -10,30 +10,40 @@
         [style]="{ width: '80%', margin: '0 0.5em' }"
       ></app-navbar>
       <section class="notes-display-options">
-        <p-button variant="text" (click)="setNotesView(1)">
-          <span
-            class="pi pi-list"
-            [ngStyle]="{
-              color:
-                currentViewKind === 1
-                  ? 'var(--p-primary-active-color)'
-                  : 'var(--p-primary-color)',
-              fontSize: '18px'
-            }"
-          ></span>
-        </p-button>
-        <p-button variant="text" (click)="setNotesView(0)">
-          <span
-            class="pi pi-th-large"
-            [ngStyle]="{
-              color:
-                currentViewKind === 0
-                  ? 'var(--p-primary-active-color)'
-                  : 'var(--p-primary-color)',
-              fontSize: '18px'
-            }"
-          ></span>
-        </p-button>
+        <div class="notes-display-options-left">
+          <span style="padding: 0.5em">Sort by:</span>
+          <p-select
+            [options]="sortingOptions"
+            [(ngModel)]="selectedSort"
+            placeholder="Choose sorting"
+          ></p-select>
+        </div>
+        <div class="notes-display-options-right">
+          <p-button variant="text" (click)="setNotesView(1)">
+            <span
+              class="pi pi-list"
+              [ngStyle]="{
+                color:
+                  currentViewKind === 1
+                    ? 'var(--p-primary-active-color)'
+                    : 'var(--p-primary-color)',
+                fontSize: '18px'
+              }"
+            ></span>
+          </p-button>
+          <p-button variant="text" (click)="setNotesView(0)">
+            <span
+              class="pi pi-th-large"
+              [ngStyle]="{
+                color:
+                  currentViewKind === 0
+                    ? 'var(--p-primary-active-color)'
+                    : 'var(--p-primary-color)',
+                fontSize: '18px'
+              }"
+            ></span>
+          </p-button>
+        </div>
       </section>
       <section class="notes-list">
         @for (note of filteredNotesList; track $index) {<app-note
@@ -90,6 +100,7 @@
             [options]="labels"
             optionLabel="text"
             placeholder="Select priority"
+            [showClear]="false"
             [selectedOption]="noteForm.value.labels"
             (selectedOptionEvent)="receiveSelectedOption($event)"
           ></app-select-tag>

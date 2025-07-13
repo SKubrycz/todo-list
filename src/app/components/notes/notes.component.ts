@@ -10,6 +10,7 @@ import {
   Label,
   LabelText,
   Note,
+  NoteSorting,
   SearchFilter,
   ViewKind,
 } from '../../types/types';
@@ -38,6 +39,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { SelectTagComponent } from '../select-tag/select-tag.component';
 import { NgStyle } from '@angular/common';
 import { ChipModule } from 'primeng/chip';
+import { SelectModule } from 'primeng/select';
 
 @Component({
   selector: 'app-notes',
@@ -58,6 +60,7 @@ import { ChipModule } from 'primeng/chip';
     TextareaModule,
     ListboxModule,
     DialogModule,
+    SelectModule,
     SelectTagComponent,
   ],
 })
@@ -76,6 +79,12 @@ export class NotesComponent {
     (label) => label.kind === 'priority'
   );
   protected selectedOption: Label | null = null;
+  protected selectedSort: NoteSorting = 'None';
+  protected sortingOptions: NoteSorting[] = [
+    'None',
+    'Priority',
+    'Date created',
+  ];
   protected notesList: Note[] = [
     {
       id: 1,
@@ -131,6 +140,7 @@ export class NotesComponent {
         viewKind: this.currentViewKind,
       };
       this.notesList.push(note);
+      this.filterNotes(); // Reapply filter function to add the note that was created
 
       this.isNoteCreatorDisplayed = false;
     }
@@ -149,14 +159,13 @@ export class NotesComponent {
       const textPass = element.title
         .toLowerCase()
         .includes(this.filterCriteria.text.toLowerCase());
-      const priorityPass =
-        this.filterCriteria.priority !== undefined
-          ? element.labels.find((el) => {
-              return (
-                el.kind == 'priority' && el.text == this.filterCriteria.priority
-              );
-            })
-          : true;
+      const priorityPass = this.filterCriteria.priority
+        ? element.labels.find((el) => {
+            return (
+              el.kind == 'priority' && el.text == this.filterCriteria.priority
+            );
+          })
+        : true;
 
       return textPass && priorityPass;
     };
@@ -197,6 +206,7 @@ export class NotesComponent {
   }
 
   receiveSelectedOption(e: Label) {
+    if (!e) return;
     if (Object.keys(e).includes('id') && !this.selectedLabels.includes(e)) {
       let hasPriority = false;
       let priorityIndex = -1;

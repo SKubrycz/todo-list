@@ -14,6 +14,7 @@ export class SelectTagComponent {
   @Input() options: any[] = [];
   @Input() optionLabel: string = '';
   @Input() placeholder: string = '';
+  @Input() showClear: boolean = false;
 
   private _selectedOption: any;
 
