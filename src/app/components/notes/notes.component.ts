@@ -118,6 +118,16 @@ export class NotesComponent {
       done: true,
       viewKind: this.currentViewKind,
     },
+    {
+      id: 4,
+      title: 'Learn Japanese',
+      description: '私は日本語を勉強します',
+      dateCreated: new Date(Date.now() - 1000 * 10),
+      dateDone: new Date(Date.now() - 700),
+      labels: [this.labels[2]],
+      done: true,
+      viewKind: this.currentViewKind,
+    },
   ];
   protected filteredNotesList: Note[] = [];
   protected filterCriteria: SearchFilter = {

@@ -71,9 +71,6 @@ export class NavbarComponent {
     };
     this.searchFilterEvent.emit(this.searchFilter);
   }
-  filterNotes() {
-    this.filterNotesEvent.emit();
-  }
 
   receiveSelectedOption(value: Label) {
     if (!value) this.updateSearchPriority(value);
