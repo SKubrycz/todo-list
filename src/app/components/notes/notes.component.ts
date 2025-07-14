@@ -223,6 +223,15 @@ export class NotesComponent {
     }
   }
 
+  receiveMarkAsDone(noteId: number) {
+    this.filteredNotesList.map((note) => {
+      if (note.id === noteId) {
+        note.done = true;
+        note.dateDone = new Date(Date.now());
+      }
+    });
+  }
+
   // Set view to be either box or list
   setNotesView(viewKind: ViewKind) {
     this.currentViewKind = viewKind;

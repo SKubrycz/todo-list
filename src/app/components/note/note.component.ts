@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CardModule } from 'primeng/card';
 import { PanelModule } from 'primeng/panel';
 import { TagModule } from 'primeng/tag';
@@ -32,4 +32,10 @@ export class NoteComponent {
     done: false,
     viewKind: 0,
   };
+
+  @Output() markAsDoneEvent = new EventEmitter<number>();
+
+  markAsDone(noteId: number) {
+    this.markAsDoneEvent.emit(noteId);
+  }
 }

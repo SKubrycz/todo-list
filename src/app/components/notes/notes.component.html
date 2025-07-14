@@ -48,10 +48,15 @@
       <section class="notes-list">
         @for (note of filteredNotesList; track $index) {<app-note
           [noteData]="note"
+          (markAsDoneEvent)="receiveMarkAsDone($event)"
           [style]="{ width: note.viewKind == 1 ? '100%' : 'initial' }"
         ></app-note
         >} @if (currentViewKind == 0) {
-        <p-card class="add-note" (click)="displayNoteCreator()">
+        <p-card
+          class="add-note"
+          (click)="displayNoteCreator()"
+          [style]="{ justifyContent: 'center' }"
+        >
           <ng-template #content>
             <div class="container-full"><p class="pi pi-plus"></p></div>
           </ng-template>

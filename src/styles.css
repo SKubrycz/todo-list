@@ -106,11 +106,10 @@ html.my-app-dark {
 .p-card {
   width: 300px;
   height: fit-content;
-  min-height: 200px;
+  min-height: 250px;
   max-height: 300px;
   margin: 0.3em;
   display: flex;
-  justify-content: center;
   overflow: hidden;
 }
 

@@ -5,11 +5,11 @@
       <div
         style="
           width: 100%;
-          padding: 1.5em 1em 1.6em 1em;
+          padding: 1em 1em 1em 1em;
           background: linear-gradient(
             0deg,
             var(--p-content-background) 0%,
-            var(--p-primary-tile-color) 95%
+            var(--p-primary-tile-color) 99%
           );
         "
       >
@@ -37,6 +37,12 @@
     } @else {
     <p style="color: rgb(158, 158, 158)">
       <span class="pi pi-times" style="padding: 0 0.2em"></span>Not done yet
+      <span
+        pTooltip="Mark as done"
+        class="pi pi-check-square"
+        style="margin-left: 0.2em; cursor: pointer"
+        (click)="markAsDone(noteData.id)"
+      ></span>
     </p>
     }
   </ng-template>
@@ -83,6 +89,12 @@
     - {{ noteData.dateDone | date : "medium" }} } @else {
     <span style="color: rgb(158, 158, 158)">
       <span class="pi pi-times" style="padding: 0 0.2em"></span>Not done yet
+      <span
+        pTooltip="Mark as done"
+        class="pi pi-check-square"
+        style="margin-left: 0.2em; cursor: pointer"
+        (click)="markAsDone(noteData.id)"
+      ></span>
     </span>
     }
   </div>
