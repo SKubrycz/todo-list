@@ -12,9 +12,9 @@ body {
 html.my-app-light {
   background: linear-gradient(
     90deg,
-    color-mix(in srgb, var(--p-primary-contrast-color) 80%, transparent),
-    color-mix(in srgb, var(--p-primary-inverse-color) 50%, transparent),
-    color-mix(in srgb, var(--p-primary-contrast-color) 80%, transparent)
+    color-mix(in srgb, var(--p-primary-contrast-color) 80%, transparent) 0%,
+    color-mix(in srgb, var(--p-primary-inverse-color) 50%, transparent) 30%,
+    color-mix(in srgb, var(--p-primary-contrast-color) 80%, transparent) 70%
   );
 }
 html.my-app-dark {

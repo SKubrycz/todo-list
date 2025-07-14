@@ -198,6 +198,7 @@ export class NotesComponent {
 
   receiveSearchFilterEvent(value: SearchFilter) {
     this.filterCriteria = value;
+    this.filterNotes();
   }
 
   displayNoteCreator() {

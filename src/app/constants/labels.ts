@@ -10,8 +10,8 @@ export const STANDARD: Label = {
   id: 0,
   text: LabelText.STANDARD,
   kind: 'priority',
-  color: 'deepskyblue',
-  backgroundColor: '#bde1f0',
+  color: '#00a7de',
+  backgroundColor: '#b5e4f9',
 };
 
 export const SECONDARY: Label = {
