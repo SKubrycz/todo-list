@@ -39,7 +39,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { SelectTagComponent } from '../select-tag/select-tag.component';
 import { NgStyle } from '@angular/common';
 import { ChipModule } from 'primeng/chip';
-import { SelectModule } from 'primeng/select';
+import { SelectChangeEvent, SelectModule } from 'primeng/select';
 
 @Component({
   selector: 'app-notes',
@@ -82,15 +82,17 @@ export class NotesComponent {
   protected selectedSort: NoteSorting = 'None';
   protected sortingOptions: NoteSorting[] = [
     'None',
-    'Priority',
-    'Date created',
+    'Most important first',
+    'Least important first',
+    'Date created (from oldest)',
+    'Date created (from newest)',
   ];
   protected notesList: Note[] = [
     {
       id: 1,
       title: 'Do three pushups',
       description: '...or even more',
-      dateCreated: new Date(Date.now() - 50000),
+      dateCreated: new Date(Date.now() - 1000 * 60 * 60),
       dateDone: null,
       labels: [this.labels[2]],
       done: false,
@@ -100,7 +102,7 @@ export class NotesComponent {
       id: 2,
       title: 'Do four pull ups',
       description: '...or even more',
-      dateCreated: new Date(Date.now() - 60000),
+      dateCreated: new Date(Date.now() - 1000 * 60 * 12),
       dateDone: null,
       labels: [this.labels[3]],
       done: false,
@@ -110,7 +112,7 @@ export class NotesComponent {
       id: 3,
       title: 'Leg day 🦵',
       description: 'Gotta do it',
-      dateCreated: new Date(Date.now() - 70000),
+      dateCreated: new Date(Date.now() - 1000 * 55),
       dateDone: new Date(Date.now() - 500),
       labels: [this.labels[0]],
       done: true,
@@ -161,6 +163,54 @@ export class NotesComponent {
   clearNoteCreator() {
     this.noteForm.reset();
     this.selectedLabels = [];
+  }
+
+  sortNotes(e: SelectChangeEvent) {
+    if (!e) return;
+    if (e.value as NoteSorting) {
+      switch (e.value as NoteSorting) {
+        case 'None':
+          break;
+        case 'Most important first':
+          this.filteredNotesList.sort((a: Note, b: Note) => {
+            const aLabel = a.labels.find(
+              (label: Label) => label.kind === 'priority'
+            );
+            const bLabel = b.labels.find(
+              (label: Label) => label.kind === 'priority'
+            );
+
+            if (!aLabel || !bLabel) return 0;
+            return bLabel.priority - aLabel.priority;
+          });
+          break;
+        case 'Least important first':
+          this.filteredNotesList.sort((a: Note, b: Note) => {
+            const aLabel = a.labels.find(
+              (label: Label) => label.kind === 'priority'
+            );
+            const bLabel = b.labels.find(
+              (label: Label) => label.kind === 'priority'
+            );
+
+            if (!aLabel || !bLabel) return 0;
+            return aLabel.priority - bLabel.priority;
+          });
+          break;
+        case 'Date created (from oldest)':
+          this.filteredNotesList.sort((a: Note, b: Note) => {
+            return a.dateCreated.getTime() - b.dateCreated.getTime();
+          });
+          break;
+        case 'Date created (from newest)':
+          this.filteredNotesList.sort((a: Note, b: Note) => {
+            return b.dateCreated.getTime() - a.dateCreated.getTime();
+          });
+          break;
+        default:
+          break;
+      }
+    }
   }
 
   // Set view to be either box or list

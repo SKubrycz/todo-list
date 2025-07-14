@@ -11,13 +11,23 @@ export type LabelTextForPriority = Exclude<
   LabelText,
   [LabelText.HOBBY, LabelText.EMPTY]
 >;
-export interface Label {
-  id: number;
-  text: LabelText;
-  kind: LabelKind;
-  color: string;
-  backgroundColor: string;
-}
+export type Label =
+  | {
+      id: number;
+      text: LabelText;
+      kind: 'priority';
+      priority: number;
+      color: string;
+      backgroundColor: string;
+    }
+  | {
+      id: number;
+      text: LabelText;
+      kind: Exclude<LabelKind, 'priority'>;
+      priority?: never;
+      color: string;
+      backgroundColor: string;
+    };
 
 export type ViewKind = 0 | 1;
 
@@ -37,4 +47,9 @@ export interface SearchFilter {
   priority: LabelTextForPriority | null;
 }
 
-export type NoteSorting = 'None' | 'Priority' | 'Date created';
+export type NoteSorting =
+  | 'None'
+  | 'Most important first'
+  | 'Least important first'
+  | 'Date created (from oldest)'
+  | 'Date created (from newest)';
