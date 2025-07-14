@@ -7,10 +7,11 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
+import { TimelineModule } from 'primeng/timeline';
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink, ButtonModule],
+  imports: [RouterLink, ButtonModule, TimelineModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
@@ -26,6 +27,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     'Apply',
   ];
   protected joinedWords = this.wordsList.join(' ');
+  protected timelineValues = ['Plan', 'Create', 'Schedule', 'Complete'];
 
   ngOnInit() {
     this.joinedWords = this.joinedWords + ' ' + this.joinedWords;

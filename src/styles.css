@@ -78,6 +78,12 @@ html.my-app-dark {
   justify-content: center;
   align-items: flex-start;
 }
+.flex-col-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
 .gap-2 {
   gap: 2px;
