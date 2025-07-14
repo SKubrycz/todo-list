@@ -10,7 +10,24 @@ body {
   font-style: normal;
 }
 html.my-app-light {
-  background-color: var(--p-primary-0);
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--p-primary-contrast-color) 80%, transparent),
+    color-mix(in srgb, var(--p-primary-inverse-color) 50%, transparent),
+    color-mix(in srgb, var(--p-primary-contrast-color) 80%, transparent)
+  );
+}
+html.my-app-dark {
+  background: linear-gradient(
+      0deg,
+      color-mix(in srgb, var(--p-primary-contrast-color) 80%, transparent),
+      color-mix(in srgb, var(--p-primary-inverse-color) 50%, transparent) 70%
+    ),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--p-primary-inverse-color) 80%, transparent),
+      color-mix(in srgb, var(--p-primary-contrast-color) 80%, transparent) 70%
+    );
 }
 
 .container {
