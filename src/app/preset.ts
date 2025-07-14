@@ -25,6 +25,7 @@ export const preset = definePreset(Aura, {
           contrastColor: '{sky.50}',
           hoverColor: '{sky.900}',
           activeColor: '{sky.500}',
+          tileColor: '{sky.100}',
         },
         highlight: {
           background: '{sky.950}',
@@ -40,6 +41,7 @@ export const preset = definePreset(Aura, {
           contrastColor: 'rgba(18, 18, 18, 1.0)',
           hoverColor: '{sky.200}',
           activeColor: '{sky.300}',
+          tileColor: 'rgba(15, 15, 15, 1.0)',
         },
         highlight: {
           background: 'rgba(250, 250, 250, .16)',

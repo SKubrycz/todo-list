@@ -1,5 +1,22 @@
 @if (noteData.viewKind == 0) {
-<p-card [header]="noteData.title" [subheader]="noteData.description">
+<p-card [subheader]="noteData.description">
+  <ng-template #header>
+    <div class="note-image-container">
+      <div
+        style="
+          width: 100%;
+          padding: 1.5em 1em 1.6em 1em;
+          background: linear-gradient(
+            0deg,
+            var(--p-content-background) 0%,
+            var(--p-primary-tile-color) 95%
+          );
+        "
+      >
+        <b style="font-size: 18px">{{ noteData.title }}</b>
+      </div>
+    </div>
+  </ng-template>
   <ng-template #content>
     @for (label of noteData.labels; track label.text) {
     <p-tag
