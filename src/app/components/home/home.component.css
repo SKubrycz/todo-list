@@ -7,18 +7,25 @@
   position: relative;
   overflow: hidden;
   z-index: var(--carousel-index);
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--p-primary-contrast-color) 10%,
+    var(--p-primary-contrast-color) 90%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--p-primary-contrast-color) 10%,
+    var(--p-primary-contrast-color) 90%,
+    transparent 100%
+  );
 }
 .words-carousel-overlay {
   width: 100%;
   height: 100%;
   position: absolute;
-  background: linear-gradient(
-    90deg,
-    var(--p-primary-contrast-color) 0%,
-    transparent 10%,
-    transparent 90%,
-    var(--p-primary-contrast-color) 100%
-  );
   transform: translate(0%, -100%);
   z-index: calc(var(--carousel-index) + 1);
 }
