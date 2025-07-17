@@ -25,9 +25,11 @@
         >Start planning</p-button
       >
     </div>
-    <p-timeline [value]="timelineValues" align="alternate">
+    <p-timeline [value]="timelinePoints" align="alternate">
+      <ng-template #marker let-event> </ng-template>
       <ng-template #content let-value>
-        {{ value }}
+        <h3>{{ value.header }}</h3>
+        <p>{{ value.description }}</p>
       </ng-template>
     </p-timeline>
   </div>
