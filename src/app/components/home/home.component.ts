@@ -33,22 +33,26 @@ export class HomeComponent implements OnInit, AfterViewInit {
       id: 0,
       header: this.timelineValues[0],
       description: 'Decide what to put on a list',
+      iconClass: 'pi pi-lightbulb',
     },
     {
       id: 1,
       header: this.timelineValues[1],
       description:
         'Add notes describing what and how you want to achieve your goal',
+      iconClass: 'pi pi-plus',
     },
     {
       id: 2,
       header: this.timelineValues[2],
       description: 'Prepare a finish date',
+      iconClass: 'pi pi-calendar',
     },
     {
       id: 3,
       header: this.timelineValues[3],
       description: 'Cross finished goals from the list!',
+      iconClass: 'pi pi-check',
     },
   ];
 

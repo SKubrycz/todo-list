@@ -25,12 +25,44 @@
         >Start planning</p-button
       >
     </div>
-    <p-timeline [value]="timelinePoints" align="alternate">
-      <ng-template #marker let-event> </ng-template>
-      <ng-template #content let-value>
-        <h3>{{ value.header }}</h3>
-        <p>{{ value.description }}</p>
-      </ng-template>
-    </p-timeline>
   </div>
 </main>
+<section class="container-full">
+  <p-timeline
+    [value]="timelinePoints"
+    align="alternate"
+    [style]="{ display: 'flex', justifyContent: 'center' }"
+  >
+    <ng-template #marker let-value>
+      <i
+        class="{{ value.iconClass }}"
+        style="
+          padding: 0.5em;
+          font-size: 1.2em;
+          color: var(--p-primary-contrast-color);
+          background-color: var(--p-primary-color);
+          border-radius: 100%;
+        "
+      ></i>
+    </ng-template>
+    <ng-template #content let-value>
+      <h3>{{ value.header }}</h3>
+      <p style="min-height: 3em">{{ value.description }}</p>
+    </ng-template>
+  </p-timeline>
+</section>
+<!--TODO: Make scroll down button interactive-->
+<span
+  style="
+    position: fixed;
+    top: 95%;
+    margin: 0 50%;
+    translate: transform(-50%, -50%);
+    cursor: pointer;
+  "
+>
+  <i
+    class="pi pi-arrow-down"
+    style="font-size: 1.2em; color: var(--p-primary-color)"
+  ></i>
+</span>
