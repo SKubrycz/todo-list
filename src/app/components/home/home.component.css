@@ -47,6 +47,10 @@
   animation: 400ms resizePop ease-in 1;
 }
 
+.slide-down {
+  animation: 600ms fadeSlideDown ease-out 1;
+}
+
 @keyframes resizePop {
   0% {
     transform: scale(100%, 100%);
@@ -65,5 +69,16 @@
   }
   to {
     transform: translateX(-50%);
+  }
+}
+
+@keyframes fadeSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0%);
   }
 }

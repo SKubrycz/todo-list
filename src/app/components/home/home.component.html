@@ -1,5 +1,5 @@
-<main class="container-full">
-  <div class="container">
+<main class="container-full" style="margin-bottom: 0.1em">
+  <div class="container slide-down">
     <div class="flex-col-center" style="margin: 1em">
       <h1>Welcome to Todo list!</h1>
       <br />
@@ -32,6 +32,9 @@
     [value]="timelinePoints"
     align="alternate"
     [style]="{ display: 'flex', justifyContent: 'center' }"
+    pAnimateOnScroll
+    enterClass="slide-down"
+    once="false"
   >
     <ng-template #marker let-value>
       <i
@@ -52,15 +55,7 @@
   </p-timeline>
 </section>
 <!--TODO: Make scroll down button interactive-->
-<span
-  style="
-    position: fixed;
-    top: 95%;
-    margin: 0 50%;
-    translate: transform(-50%, -50%);
-    cursor: pointer;
-  "
->
+<span style="position: fixed; top: 95%; left: 50%; cursor: pointer">
   <i
     class="pi pi-arrow-down"
     style="font-size: 1.2em; color: var(--p-primary-color)"

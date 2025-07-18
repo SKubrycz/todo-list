@@ -8,10 +8,11 @@ import {
 import { RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { TimelineModule } from 'primeng/timeline';
+import { AnimateOnScrollModule } from 'primeng/animateonscroll';
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink, ButtonModule, TimelineModule],
+  imports: [RouterLink, ButtonModule, TimelineModule, AnimateOnScrollModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
