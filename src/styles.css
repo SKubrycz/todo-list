@@ -1,6 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 @import "primeicons/primeicons.css";
 
+:root {
+  --timeline-hover: 150ms;
+}
+
 body {
   width: 100%;
   height: 100vh;
@@ -20,6 +24,8 @@ html.my-app-light {
     color-mix(in srgb, var(--p-primary-inverse-color) 50%, transparent) 30%,
     color-mix(in srgb, var(--p-primary-contrast-color) 80%, transparent) 70%
   );
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 html.my-app-dark {
   background: linear-gradient(
@@ -32,6 +38,8 @@ html.my-app-dark {
       color-mix(in srgb, var(--p-primary-inverse-color) 80%, transparent),
       color-mix(in srgb, var(--p-primary-contrast-color) 80%, transparent) 70%
     );
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 .container {
@@ -135,6 +143,19 @@ html.my-app-dark {
 }
 .note-add-panel {
   width: 100%;
+}
+
+/* Highlight timeline marker on hover */
+.p-timeline-event:hover .p-timeline-event-separator .timeline-marker {
+  background-color: var(--p-primary-hover-color);
+}
+
+.p-timeline-event-content {
+  transition: filter var(--timeline-hover) ease-in;
+}
+/* Add shadow for current point in timeline content */
+.p-timeline-event:hover .p-timeline-event-content {
+  filter: drop-shadow(0 0px 10px rgba(0, 0, 0, 0.15));
 }
 
 /* KEYFRAMES */

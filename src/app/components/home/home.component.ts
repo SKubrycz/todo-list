@@ -78,7 +78,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
     if (!this.scrollButton) return;
     if (this.isAtBottom) {
-      this.scrollButton.style.animation = `800ms fadeOut 1`;
+      this.scrollButton.style.animation = `2000ms bounceTranslated infinite, 800ms fadeOut 1`;
 
       if (this.scrollAnimationEnd) {
         this.scrollButton.removeEventListener(

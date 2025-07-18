@@ -51,6 +51,15 @@
   animation: 600ms fadeSlideDown ease-out 1;
 }
 
+.timeline-marker {
+  padding: 0.5em;
+  font-size: 1.2em;
+  color: var(--p-primary-contrast-color);
+  background-color: var(--p-primary-color);
+  border-radius: 100%;
+  transition: background var(--timeline-hover) ease-in;
+}
+
 @keyframes slideWords {
   from {
     transform: translateX(0%);

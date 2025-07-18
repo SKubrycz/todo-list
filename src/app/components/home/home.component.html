@@ -38,16 +38,7 @@
     once="false"
   >
     <ng-template #marker let-value>
-      <i
-        class="{{ value.iconClass }}"
-        style="
-          padding: 0.5em;
-          font-size: 1.2em;
-          color: var(--p-primary-contrast-color);
-          background-color: var(--p-primary-color);
-          border-radius: 100%;
-        "
-      ></i>
+      <i class="{{ value.iconClass }} timeline-marker"></i>
     </ng-template>
     <ng-template #content let-value>
       <h3>{{ value.header }}</h3>
