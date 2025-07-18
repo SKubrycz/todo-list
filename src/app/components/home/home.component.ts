@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  HostListener,
   inject,
   OnInit,
 } from '@angular/core';
@@ -56,10 +57,26 @@ export class HomeComponent implements OnInit, AfterViewInit {
       iconClass: 'pi pi-check',
     },
   ];
+  protected isAtBottom = false;
 
   ngOnInit() {
     this.joinedWords = this.joinedWords + ' ' + this.joinedWords;
   }
 
   ngAfterViewInit() {}
+
+  @HostListener('window:scroll', ['$event'])
+  checkIsAtBottom() {
+    this.isAtBottom =
+      window.scrollY + window.innerHeight >= document.body.scrollHeight;
+  }
+
+  scrollDown(e: MouseEvent) {
+    if (e) {
+      window.scrollBy({
+        left: 0,
+        top: document.body.scrollHeight - window.innerHeight,
+      });
+    }
+  }
 }

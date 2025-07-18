@@ -54,8 +54,16 @@
     </ng-template>
   </p-timeline>
 </section>
-<!--TODO: Make scroll down button interactive-->
-<span style="position: fixed; top: 95%; left: 50%; cursor: pointer">
+<span
+  [style]="{
+    display: isAtBottom ? 'none' : 'initial',
+    position: 'fixed',
+    top: '95%',
+    left: '50%',
+    cursor: 'pointer'
+  }"
+  (click)="scrollDown($event)"
+>
   <i
     class="pi pi-arrow-down"
     style="font-size: 1.2em; color: var(--p-primary-color)"

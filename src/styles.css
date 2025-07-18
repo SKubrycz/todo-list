@@ -9,6 +9,10 @@ body {
   font-family: "Fira Sans", sans-serif;
   font-style: normal;
 }
+html {
+  scroll-behavior: smooth;
+}
+
 html.my-app-light {
   background: linear-gradient(
     90deg,
