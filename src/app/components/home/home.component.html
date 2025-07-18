@@ -21,6 +21,7 @@
       <p-button
         routerLink="/notes"
         class="start-button"
+        raised="true"
         [style]="{ fontSize: '18px' }"
         >Start planning</p-button
       >
@@ -55,17 +56,25 @@
   </p-timeline>
 </section>
 <span
+  id="scroll-down-button"
   [style]="{
-    display: isAtBottom ? 'none' : 'initial',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
     position: 'fixed',
     top: '95%',
     left: '50%',
+    transform: 'translate(-50%, -50%)',
+    color: 'var(--p-primary-hover-color)',
+    animation: '2000ms bounceTranslated infinite',
     cursor: 'pointer'
   }"
   (click)="scrollDown($event)"
 >
+  Scroll down
   <i
     class="pi pi-arrow-down"
-    style="font-size: 1.2em; color: var(--p-primary-color)"
+    style="padding: 0.2em 0; font-size: 1.2em; color: var(--p-primary-color)"
   ></i>
 </span>
