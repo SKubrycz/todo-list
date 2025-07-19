@@ -1,13 +1,5 @@
 @if (darkMode) {
-<i
-  class="pi pi-moon dark-mode-toggle"
-  [style]="{ fontSize: '1.8em' }"
-  (click)="this.updateDarkMode(false)"
-></i>
+<i class="pi pi-moon dark-mode-toggle" (click)="this.updateDarkMode(false)"></i>
 } @else {
-<i
-  class="pi pi-sun dark-mode-toggle"
-  [style]="{ fontSize: '1.8em' }"
-  (click)="this.updateDarkMode(true)"
-></i>
+<i class="pi pi-sun dark-mode-toggle" (click)="this.updateDarkMode(true)"></i>
 }

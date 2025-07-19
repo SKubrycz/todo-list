@@ -3,6 +3,10 @@
   left: 100%;
   top: 0%;
   transform: translate(-100%, -0%);
-  position: absolute;
+  position: fixed;
+  font-size: 1.8em;
   cursor: pointer;
+}
+.dark-mode-toggle:hover {
+  color: var(--p-primary-hover-color);
 }
