@@ -151,11 +151,17 @@ html.my-app-dark {
 }
 
 .p-timeline-event-content {
-  transition: filter var(--timeline-hover) ease-in;
+  transition: filter var(--timeline-hover) ease-in,
+    transform var(--timeline-hover) ease-in;
 }
 /* Add shadow for current point in timeline content */
-.p-timeline-event:hover .p-timeline-event-content {
+.p-timeline-event:hover:nth-child(even) .p-timeline-event-content {
   filter: drop-shadow(0 0px 10px rgba(0, 0, 0, 0.15));
+  transform: translate(-2%, -1%);
+}
+.p-timeline-event:hover:nth-child(odd) .p-timeline-event-content {
+  filter: drop-shadow(0 0px 10px rgba(0, 0, 0, 0.15));
+  transform: translate(2%, -1%);
 }
 
 /* KEYFRAMES */
