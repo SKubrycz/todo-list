@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { TextareaModule } from 'primeng/textarea';
@@ -64,7 +64,7 @@ import { SelectChangeEvent, SelectModule } from 'primeng/select';
     SelectTagComponent,
   ],
 })
-export class NotesComponent {
+export class NotesComponent implements OnInit {
   protected noteForm!: FormGroup;
 
   private validator = inject(ValidatorService);

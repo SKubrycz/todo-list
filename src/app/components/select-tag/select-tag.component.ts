@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { SelectModule } from 'primeng/select';
 import { NgStyle } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -10,7 +10,7 @@ import { TagModule } from 'primeng/tag';
   templateUrl: './select-tag.component.html',
   styleUrl: './select-tag.component.css',
 })
-export class SelectTagComponent {
+export class SelectTagComponent implements OnInit {
   @Input() options: any[] = [];
   @Input() optionLabel: string = '';
   @Input() placeholder: string = '';
