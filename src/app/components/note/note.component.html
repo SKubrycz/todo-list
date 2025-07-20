@@ -56,7 +56,28 @@
   toggler="header"
 >
   <ng-template #header>
-    <b style="font-size: 18px">{{ noteData.title }}</b>
+    <div class="flex-between gap-8">
+      <b style="font-size: 18px"
+        >{{ noteData.title }} - @if (priorityLabel) {
+        <p-tag
+          [ngStyle]="{
+            color: priorityLabel.color,
+            backgroundColor: priorityLabel.backgroundColor
+          }"
+          >{{ priorityLabel.text }}</p-tag
+        >
+        }
+      </b>
+      @if (noteData.dateDone) {
+      <span style="color: rgb(0, 167, 0)">
+        <span class="pi pi-check" style="padding: 0 0.2em"></span>Finished
+      </span>
+      - {{ noteData.dateDone | date : "medium" }} } @else {
+      <span style="color: rgb(158, 158, 158)">
+        <span class="pi pi-times" style="padding: 0 0.2em"></span>Not done yet
+      </span>
+      }
+    </div>
   </ng-template>
   <ng-template #footer>
     <p
