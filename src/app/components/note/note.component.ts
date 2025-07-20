@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { CardModule } from 'primeng/card';
 import { PanelModule } from 'primeng/panel';
 import { TagModule } from 'primeng/tag';
@@ -21,7 +28,7 @@ import { TimeAgoPipe } from '../../pipes/time-ago.pipe';
   templateUrl: './note.component.html',
   styleUrl: './note.component.css',
 })
-export class NoteComponent implements OnInit {
+export class NoteComponent implements OnInit, OnChanges {
   @Input() noteData: Note = {
     id: 0,
     title: '',
@@ -38,6 +45,14 @@ export class NoteComponent implements OnInit {
   protected priorityLabel: Label | undefined;
 
   ngOnInit() {
+    this.findPriorityLabel();
+  }
+
+  ngOnChanges() {
+    this.findPriorityLabel();
+  }
+
+  findPriorityLabel() {
     this.priorityLabel = this.noteData.labels.find(
       (label) => label.kind === 'priority'
     );
