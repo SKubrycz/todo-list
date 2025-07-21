@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   HostListener,
@@ -17,7 +16,7 @@ import { AnimateOnScrollModule } from 'primeng/animateonscroll';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
-export class HomeComponent implements OnInit, AfterViewInit {
+export class HomeComponent implements OnInit {
   protected elementRef = inject(ElementRef);
 
   protected wordsList = [
@@ -67,8 +66,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
       '#scroll-down-button'
     ) as HTMLElement;
   }
-
-  ngAfterViewInit() {}
 
   @HostListener('window:scroll', ['$event'])
   @HostListener('')

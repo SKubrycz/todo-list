@@ -138,13 +138,17 @@ export class NotesComponent implements OnInit {
   protected isNoteCreatorDisplayed = false;
 
   ngOnInit() {
+    this.initializeNoteForm();
+    this.setNotesView(0);
+    this.filteredNotesList = [...this.notesList];
+  }
+
+  initializeNoteForm() {
     this.noteForm = this.fb.group({
       title: ['', [Validators.required]],
       description: ['', []],
       labels: this.fb.array([], [this.minArray(1)]),
     });
-    this.setNotesView(0);
-    this.filteredNotesList = [...this.notesList];
   }
 
   createNote() {

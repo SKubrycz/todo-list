@@ -48,6 +48,10 @@ export class DarkModeComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.readLocalStorage();
+  }
+
+  readLocalStorage() {
     if (this.isBrowser) {
       const result = localStorage.getItem('darkmode');
       if (result && typeof Boolean(result) === 'boolean') {

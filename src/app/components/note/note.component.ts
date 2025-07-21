@@ -5,6 +5,7 @@ import {
   OnChanges,
   OnInit,
   Output,
+  SimpleChanges,
 } from '@angular/core';
 import { CardModule } from 'primeng/card';
 import { PanelModule } from 'primeng/panel';
@@ -40,7 +41,7 @@ export class NoteComponent implements OnInit, OnChanges {
     viewKind: 0,
   };
 
-  @Output() markAsDoneEvent = new EventEmitter<number>();
+  @Output() readonly markAsDoneEvent = new EventEmitter<number>();
 
   protected priorityLabel: Label | undefined;
 
@@ -48,7 +49,7 @@ export class NoteComponent implements OnInit, OnChanges {
     this.findPriorityLabel();
   }
 
-  ngOnChanges() {
+  ngOnChanges(_: SimpleChanges) {
     this.findPriorityLabel();
   }
 
