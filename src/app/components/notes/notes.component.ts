@@ -40,6 +40,7 @@ import { SelectTagComponent } from '../select-tag/select-tag.component';
 import { NgStyle } from '@angular/common';
 import { ChipModule } from 'primeng/chip';
 import { SelectChangeEvent, SelectModule } from 'primeng/select';
+import { StorageService } from '../../storage/storage.service';
 
 @Component({
   selector: 'app-notes',
@@ -69,6 +70,7 @@ export class NotesComponent implements OnInit {
 
   private validator = inject(ValidatorService);
   private fb = inject(FormBuilder);
+  private storage = inject(StorageService);
 
   protected currentViewKind: ViewKind = 0;
   protected titleValue = '';
@@ -128,6 +130,16 @@ export class NotesComponent implements OnInit {
       done: true,
       viewKind: this.currentViewKind,
     },
+    {
+      id: 5,
+      title: 'Draw something',
+      description: '',
+      dateCreated: new Date(Date.now() - 1000 * 5),
+      dateDone: new Date(Date.now() - 600),
+      labels: [this.labels[1]],
+      done: false,
+      viewKind: this.currentViewKind,
+    },
   ];
   protected filteredNotesList: Note[] = [];
   protected filterCriteria: SearchFilter = {
@@ -140,6 +152,7 @@ export class NotesComponent implements OnInit {
   ngOnInit() {
     this.initializeNoteForm();
     this.setNotesView(0);
+    this.getNotes();
     this.filteredNotesList = [...this.notesList];
   }
 
@@ -149,6 +162,14 @@ export class NotesComponent implements OnInit {
       description: ['', []],
       labels: this.fb.array([], [this.minArray(1)]),
     });
+  }
+
+  getNotes() {
+    // add storageservice
+  }
+
+  saveNotes() {
+    // add storageservice
   }
 
   createNote() {
