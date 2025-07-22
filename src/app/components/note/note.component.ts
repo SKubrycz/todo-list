@@ -64,7 +64,7 @@ export class NoteComponent implements OnInit, OnChanges {
     }
   }
 
-  findPriorityLabel() {
+  private findPriorityLabel() {
     this.priorityLabel = this.noteData.labels.find(
       (label) => label.kind === 'priority'
     );

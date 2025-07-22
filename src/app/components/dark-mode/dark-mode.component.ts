@@ -42,16 +42,11 @@ export class DarkModeComponent implements OnInit {
     });
   }
 
-  updateDarkMode(value: boolean) {
-    this.darkMode = value;
-    this.toggleDarkMode();
-  }
-
   ngOnInit() {
     this.readLocalStorage();
   }
 
-  readLocalStorage() {
+  private readLocalStorage() {
     if (this.isBrowser) {
       const result = localStorage.getItem('darkmode');
       if (result && typeof Boolean(result) === 'boolean') {
@@ -61,7 +56,7 @@ export class DarkModeComponent implements OnInit {
     }
   }
 
-  toggleDarkMode() {
+  private toggleDarkMode() {
     const html = this.document.querySelector('html');
     if (!html) return;
     if (this.darkMode) {
@@ -77,5 +72,10 @@ export class DarkModeComponent implements OnInit {
         localStorage.setItem('darkmode', 'false');
       }
     }
+  }
+
+  updateDarkMode(value: boolean) {
+    this.darkMode = value;
+    this.toggleDarkMode();
   }
 }

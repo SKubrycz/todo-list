@@ -157,7 +157,7 @@ export class NotesComponent implements OnInit {
     this.filteredNotesList = [...this.notesList];
   }
 
-  initializeNoteForm() {
+  private initializeNoteForm() {
     this.noteForm = this.fb.group({
       title: ['', [Validators.required]],
       description: ['', []],
@@ -165,7 +165,7 @@ export class NotesComponent implements OnInit {
     });
   }
 
-  getNotes() {
+  private getNotes() {
     const notes = this.storageService.read(this.LOCALSTORAGE_KEY);
     if (notes) {
       this.notesList = notes as Note[];
@@ -174,8 +174,56 @@ export class NotesComponent implements OnInit {
     }
   }
 
-  saveNotes() {
+  private saveNotes() {
     this.storageService.save(this.notesList, this.LOCALSTORAGE_KEY);
+  }
+
+  private clearNoteCreator() {
+    this.noteForm.reset();
+    this.selectedLabels = [];
+  }
+
+  private filterNotes() {
+    const passesCriteria = (element: Note) => {
+      const textPass = element.title
+        .toLowerCase()
+        .includes(this.filterCriteria.text.toLowerCase());
+      const priorityPass = this.filterCriteria.priority
+        ? element.labels.find((el) => {
+            return (
+              el.kind == 'priority' && el.text == this.filterCriteria.priority
+            );
+          })
+        : true;
+
+      return textPass && priorityPass;
+    };
+
+    this.filteredNotesList = [];
+
+    for (const note of this.notesList) {
+      if (passesCriteria(note)) {
+        this.filteredNotesList.push(note);
+      }
+    }
+  }
+
+  private minArray(minLength: number = 0): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      return control.value < minLength ? { minArray: null } : null;
+    };
+  }
+
+  private updateLabelsFormArray() {
+    let labels = this.noteForm.get('labels') as FormArray;
+    labels.clear();
+
+    this.selectedLabels.forEach((label) => {
+      labels.push(this.fb.group(label));
+    });
+
+    labels.markAsDirty();
+    labels.updateValueAndValidity();
   }
 
   createNote() {
@@ -201,11 +249,6 @@ export class NotesComponent implements OnInit {
 
       this.clearNoteCreator();
     }
-  }
-
-  clearNoteCreator() {
-    this.noteForm.reset();
-    this.selectedLabels = [];
   }
 
   sortNotes(e: SelectChangeEvent) {
@@ -273,31 +316,6 @@ export class NotesComponent implements OnInit {
     });
   }
 
-  filterNotes() {
-    const passesCriteria = (element: Note) => {
-      const textPass = element.title
-        .toLowerCase()
-        .includes(this.filterCriteria.text.toLowerCase());
-      const priorityPass = this.filterCriteria.priority
-        ? element.labels.find((el) => {
-            return (
-              el.kind == 'priority' && el.text == this.filterCriteria.priority
-            );
-          })
-        : true;
-
-      return textPass && priorityPass;
-    };
-
-    this.filteredNotesList = [];
-
-    for (const note of this.notesList) {
-      if (passesCriteria(note)) {
-        this.filteredNotesList.push(note);
-      }
-    }
-  }
-
   receiveSearchFilterEvent(value: SearchFilter) {
     this.filterCriteria = value;
     this.filterNotes();
@@ -305,24 +323,6 @@ export class NotesComponent implements OnInit {
 
   displayNoteCreator() {
     this.isNoteCreatorDisplayed = true;
-  }
-
-  minArray(minLength: number = 0): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      return control.value < minLength ? { minArray: null } : null;
-    };
-  }
-
-  updateLabelsFormArray() {
-    let labels = this.noteForm.get('labels') as FormArray;
-    labels.clear();
-
-    this.selectedLabels.forEach((label) => {
-      labels.push(this.fb.group(label));
-    });
-
-    labels.markAsDirty();
-    labels.updateValueAndValidity();
   }
 
   receiveSelectedOption(e: Label) {

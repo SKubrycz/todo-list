@@ -31,6 +31,10 @@ export class SelectTagComponent implements OnInit {
   @Output() readonly selectedOptionEvent = new EventEmitter<any>();
 
   ngOnInit() {
+    this.initializeSelectedOption();
+  }
+
+  private initializeSelectedOption() {
     if (
       this.options &&
       this.options.length > 0 &&

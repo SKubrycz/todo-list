@@ -68,7 +68,6 @@ export class HomeComponent implements OnInit {
   }
 
   @HostListener('window:scroll', ['$event'])
-  @HostListener('')
   checkIsAtBottom() {
     this.isAtBottom =
       window.scrollY + window.innerHeight >= document.body.scrollHeight;
