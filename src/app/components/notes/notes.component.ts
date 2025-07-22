@@ -68,10 +68,11 @@ import { StorageService } from '../../storage/storage.service';
 export class NotesComponent implements OnInit {
   protected noteForm!: FormGroup;
 
-  private validator = inject(ValidatorService);
+  private validatorService = inject(ValidatorService);
   private fb = inject(FormBuilder);
-  private storage = inject(StorageService);
+  private storageService = inject(StorageService);
 
+  protected LOCALSTORAGE_KEY = 'notes';
   protected currentViewKind: ViewKind = 0;
   protected titleValue = '';
   protected descriptionValue = '';
@@ -165,11 +166,16 @@ export class NotesComponent implements OnInit {
   }
 
   getNotes() {
-    // add storageservice
+    const notes = this.storageService.read(this.LOCALSTORAGE_KEY);
+    if (notes) {
+      this.notesList = notes as Note[];
+      this.filteredNotesList = [...this.notesList];
+      this.filterNotes();
+    }
   }
 
   saveNotes() {
-    // add storageservice
+    this.storageService.save(this.notesList, this.LOCALSTORAGE_KEY);
   }
 
   createNote() {
@@ -177,7 +183,7 @@ export class NotesComponent implements OnInit {
       const controls = this.noteForm.controls;
 
       const note: Note = {
-        id: this.notesList.length,
+        id: this.notesList.length + 1,
         title: controls['title'].value,
         description: controls['description'].value,
         labels: controls['labels'].value,
@@ -188,6 +194,8 @@ export class NotesComponent implements OnInit {
       };
       this.notesList.push(note);
       this.filterNotes(); // Reapply filter function to add the note that was created
+
+      this.saveNotes();
 
       this.isNoteCreatorDisplayed = false;
 

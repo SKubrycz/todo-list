@@ -46,11 +46,22 @@ export class NoteComponent implements OnInit, OnChanges {
   protected priorityLabel: Label | undefined;
 
   ngOnInit() {
+    this.processDates();
     this.findPriorityLabel();
   }
 
   ngOnChanges(_: SimpleChanges) {
     this.findPriorityLabel();
+  }
+
+  private processDates() {
+    if (typeof this.noteData.dateCreated === 'string') {
+      this.noteData.dateCreated = new Date(this.noteData.dateCreated);
+    }
+
+    if (typeof this.noteData.dateDone === 'string') {
+      this.noteData.dateDone = new Date(this.noteData.dateDone);
+    }
   }
 
   findPriorityLabel() {
