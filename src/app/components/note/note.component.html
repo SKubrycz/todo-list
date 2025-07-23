@@ -1,10 +1,16 @@
 @if (noteData.viewKind == 0) {
-<p-card [subheader]="noteData.description">
+<p-card
+  [subheader]="noteData.description"
+  (mouseover)="displayEditButton($event, true)"
+  (mouseleave)="displayEditButton($event, false)"
+>
   <ng-template #header>
     <div class="note-image-container">
       <div
         style="
           width: 100%;
+          display: flex;
+          justify-content: space-between;
           padding: 1em 1em 1em 1em;
           background: linear-gradient(
             0deg,
@@ -14,6 +20,14 @@
         "
       >
         <b style="font-size: 18px">{{ noteData.title }}</b>
+        <div
+          [style]="{
+            display: isHovered ? 'inline' : 'none',
+            cursor: 'pointer',
+          }"
+        >
+          <i class="pi pi-pencil"></i>
+        </div>
       </div>
     </div>
   </ng-template>
@@ -55,6 +69,8 @@
   expandIcon="pi pi-angle-up"
   toggler="header"
   (collapsedChange)="toggleHeaderInfo($event)"
+  (mouseover)="displayEditButton($event, true)"
+  (mouseleave)="displayEditButton($event, false)"
 >
   <ng-template #header>
     <div class="flex-between gap-8">
@@ -81,6 +97,18 @@
       } } @else {
       <b style="font-size: 18px">{{ noteData.title }}</b>
       }
+    </div>
+    <div
+      [style]="{
+        margin: 0,
+        padding: 0,
+        display: isHovered ? 'flex' : 'none',
+        flex: 1,
+        justifyContent: 'flex-end',
+        cursor: 'pointer',
+      }"
+    >
+      <i class="pi pi-pencil"></i>
     </div>
   </ng-template>
   <ng-template #footer>

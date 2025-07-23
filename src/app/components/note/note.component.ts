@@ -45,6 +45,7 @@ export class NoteComponent implements OnInit, OnChanges {
 
   protected priorityLabel: Label | undefined;
   protected displayHeaderInfo: boolean = true;
+  protected isHovered: boolean = false;
 
   ngOnInit() {
     this.processDates();
@@ -69,6 +70,12 @@ export class NoteComponent implements OnInit, OnChanges {
     this.priorityLabel = this.noteData.labels.find(
       (label) => label.kind === 'priority'
     );
+  }
+
+  displayEditButton(e: MouseEvent, display: boolean) {
+    if (e.target) {
+      this.isHovered = display;
+    }
   }
 
   markAsDone(noteId: number) {
