@@ -242,11 +242,9 @@ export class NotesComponent implements OnInit {
       };
       this.notesList.push(note);
       this.filterNotes(); // Reapply filter function to add the note that was created
-
       this.saveNotes();
 
       this.isNoteCreatorDisplayed = false;
-
       this.clearNoteCreator();
     }
   }
@@ -256,6 +254,9 @@ export class NotesComponent implements OnInit {
     if (e.value as NoteSorting) {
       switch (e.value as NoteSorting) {
         case 'None':
+          this.filteredNotesList.sort((a: Note, b: Note) => {
+            return a.id - b.id;
+          });
           break;
         case 'Most important first':
           this.filteredNotesList.sort((a: Note, b: Note) => {
@@ -306,6 +307,7 @@ export class NotesComponent implements OnInit {
         note.dateDone = new Date(Date.now());
       }
     });
+    this.saveNotes();
   }
 
   // Set view to be either box or list

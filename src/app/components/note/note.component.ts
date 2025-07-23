@@ -44,6 +44,7 @@ export class NoteComponent implements OnInit, OnChanges {
   @Output() readonly markAsDoneEvent = new EventEmitter<number>();
 
   protected priorityLabel: Label | undefined;
+  protected displayHeaderInfo: boolean = true;
 
   ngOnInit() {
     this.processDates();
@@ -72,5 +73,9 @@ export class NoteComponent implements OnInit, OnChanges {
 
   markAsDone(noteId: number) {
     this.markAsDoneEvent.emit(noteId);
+  }
+
+  toggleHeaderInfo(value: boolean) {
+    this.displayHeaderInfo = value;
   }
 }

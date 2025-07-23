@@ -54,9 +54,11 @@
   collapseIcon="pi pi-angle-down"
   expandIcon="pi pi-angle-up"
   toggler="header"
+  (collapsedChange)="toggleHeaderInfo($event)"
 >
   <ng-template #header>
     <div class="flex-between gap-8">
+      @if (displayHeaderInfo) {
       <b style="font-size: 18px"
         >{{ noteData.title }} - @if (priorityLabel) {
         <p-tag
@@ -76,6 +78,8 @@
       <span style="color: rgb(158, 158, 158)">
         <span class="pi pi-times" style="padding: 0 0.2em"></span>Not done yet
       </span>
+      } } @else {
+      <b style="font-size: 18px">{{ noteData.title }}</b>
       }
     </div>
   </ng-template>
