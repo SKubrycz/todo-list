@@ -33,7 +33,7 @@ export class StorageService {
           if (!data) throw new Error('Error trying to get localStorage data');
 
           const result = JSON.parse(data);
-          if (!result)
+          if (result !== 0 && !result)
             throw new Error('Error trying to get JSON.parse localStorage data');
           return result;
         } catch (e) {

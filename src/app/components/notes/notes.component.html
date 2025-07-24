@@ -49,6 +49,7 @@
         @for (note of filteredNotesList; track $index) {<app-note
           [noteData]="note"
           (markAsDoneEvent)="receiveMarkAsDone($event)"
+          (editNoteEvent)="displayNoteCreator(note.id)"
           [style]="{ width: note.viewKind == 1 ? '100%' : 'initial' }"
         ></app-note
         >} @if (currentViewKind == 0) {
@@ -74,13 +75,13 @@
       </section>
       @if (isNoteCreatorDisplayed) {
       <p-dialog
-        header="Create a note"
+        [header]="selectedNote !== -1 ? 'Edit existing note' : 'Create a note'"
         closable="true"
         draggable="false"
         [modal]="true"
         [(visible)]="isNoteCreatorDisplayed"
       >
-        <form [formGroup]="noteForm" (submit)="createNote()">
+        <form [formGroup]="noteForm" (submit)="submitNote()">
           <p-floatlabel variant="in" style="margin: 0.5em 0">
             <input
               pInputText
@@ -134,7 +135,7 @@
           >
             <p-button
               type="submit"
-              label="Create"
+              [label]="selectedNote !== -1 ? 'Update' : 'Create'"
               [disabled]="!noteForm.valid"
             ></p-button>
           </div>

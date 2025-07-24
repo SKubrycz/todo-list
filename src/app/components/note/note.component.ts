@@ -41,6 +41,7 @@ export class NoteComponent implements OnInit, OnChanges {
     viewKind: 0,
   };
 
+  @Output() readonly editNoteEvent = new EventEmitter<void>();
   @Output() readonly markAsDoneEvent = new EventEmitter<number>();
 
   protected priorityLabel: Label | undefined;
@@ -76,6 +77,10 @@ export class NoteComponent implements OnInit, OnChanges {
     if (e.target) {
       this.isHovered = display;
     }
+  }
+
+  displayNoteCreator() {
+    this.editNoteEvent.emit();
   }
 
   markAsDone(noteId: number) {

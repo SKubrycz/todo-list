@@ -72,7 +72,8 @@ export class NotesComponent implements OnInit {
   private fb = inject(FormBuilder);
   private storageService = inject(StorageService);
 
-  protected LOCALSTORAGE_KEY = 'notes';
+  private LOCALSTORAGE_KEY = 'notes';
+  private VIEWKIND_KEY = 'notes-viewkind';
   protected currentViewKind: ViewKind = 0;
   protected titleValue = '';
   protected descriptionValue = '';
@@ -90,6 +91,7 @@ export class NotesComponent implements OnInit {
     'Date created (from oldest)',
     'Date created (from newest)',
   ];
+  protected selectedNote: number = -1;
   protected notesList: Note[] = [
     {
       id: 1,
@@ -152,8 +154,9 @@ export class NotesComponent implements OnInit {
 
   ngOnInit() {
     this.initializeNoteForm();
-    this.setNotesView(0);
     this.getNotes();
+    this.setCurrentViewKind();
+    this.setNotesView(this.currentViewKind);
     this.filteredNotesList = [...this.notesList];
   }
 
@@ -163,6 +166,29 @@ export class NotesComponent implements OnInit {
       description: ['', []],
       labels: this.fb.array([], [this.minArray(1)]),
     });
+  }
+
+  private getLocalViewKind(): ViewKind | null {
+    const viewKind: ViewKind | null = this.storageService.read(
+      this.VIEWKIND_KEY
+    );
+
+    return viewKind;
+  }
+
+  private setLocalViewKind() {
+    this.storageService.save(this.currentViewKind, this.VIEWKIND_KEY);
+  }
+
+  setCurrentViewKind() {
+    const viewKind: ViewKind | null = this.getLocalViewKind();
+    console.log(viewKind);
+    if (viewKind || viewKind === 0) {
+      this.notesList.forEach((_, i) => (this.notesList[i].viewKind = viewKind));
+      this.currentViewKind = viewKind;
+    } else {
+      this.currentViewKind = this.notesList[0].viewKind;
+    }
   }
 
   private getNotes() {
@@ -226,24 +252,33 @@ export class NotesComponent implements OnInit {
     labels.updateValueAndValidity();
   }
 
-  createNote() {
+  submitNote() {
     if (this.noteForm.valid) {
       const controls = this.noteForm.controls;
 
-      const note: Note = {
-        id: this.notesList.length + 1,
-        title: controls['title'].value,
-        description: controls['description'].value,
-        labels: controls['labels'].value,
-        done: false,
-        dateCreated: new Date(Date.now()),
-        dateDone: null,
-        viewKind: this.currentViewKind,
-      };
-      this.notesList.push(note);
+      if (this.selectedNote !== -1) {
+        const note = this.notesList.find((n) => n.id === this.selectedNote);
+        if (!note) return;
+        note.title = controls['title'].value;
+        note.description = controls['description'].value;
+        note.labels = controls['labels'].value;
+      } else {
+        const note: Note = {
+          id: this.notesList.length + 1,
+          title: controls['title'].value,
+          description: controls['description'].value,
+          labels: controls['labels'].value,
+          done: false,
+          dateCreated: new Date(Date.now()),
+          dateDone: null,
+          viewKind: this.currentViewKind,
+        };
+        this.notesList.push(note);
+      }
       this.filterNotes(); // Reapply filter function to add the note that was created
       this.saveNotes();
 
+      this.selectedNote = -1;
       this.isNoteCreatorDisplayed = false;
       this.clearNoteCreator();
     }
@@ -316,6 +351,7 @@ export class NotesComponent implements OnInit {
     this.notesList.forEach((_, i) => {
       this.notesList[i].viewKind = this.currentViewKind;
     });
+    this.setLocalViewKind();
   }
 
   receiveSearchFilterEvent(value: SearchFilter) {
@@ -323,7 +359,38 @@ export class NotesComponent implements OnInit {
     this.filterNotes();
   }
 
-  displayNoteCreator() {
+  findNoteById(noteId: number): Note | undefined {
+    if (noteId) {
+      let found: Note | undefined = this.notesList.find(
+        (note) => note.id === noteId
+      );
+      return found;
+    }
+
+    return undefined;
+  }
+
+  displayNoteCreator(noteId?: number) {
+    // If no noteId present, create a new note
+    // Else display information about the note that is being currently edited
+    if (noteId) {
+      this.selectedNote = noteId;
+      const note = this.findNoteById(noteId);
+
+      if (note) {
+        this.noteForm.patchValue({
+          title: note.title,
+          description: note.description,
+        });
+        this.selectedLabels = [];
+        if (note.labels && note.labels.length) {
+          note.labels.forEach((label) => this.selectedLabels.push(label));
+          this.updateLabelsFormArray();
+        }
+      }
+    } else {
+      this.selectedNote = -1;
+    }
     this.isNoteCreatorDisplayed = true;
   }
 
