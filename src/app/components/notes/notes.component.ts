@@ -148,6 +148,7 @@ export class NotesComponent implements OnInit {
   protected filterCriteria: SearchFilter = {
     text: '',
     priority: LabelText.HIGHEST_PRIORITY,
+    other: null,
   };
 
   protected isNoteCreatorDisplayed = false;
@@ -223,8 +224,13 @@ export class NotesComponent implements OnInit {
             );
           })
         : true;
+      const otherPass = this.filterCriteria.other
+        ? element.labels.find((el) => {
+            return el.kind == 'other' && el.text == this.filterCriteria.other;
+          })
+        : true;
 
-      return (titlePass || descriptionPass) && priorityPass;
+      return (titlePass || descriptionPass) && priorityPass && otherPass;
     };
 
     this.filteredNotesList = [];

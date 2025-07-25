@@ -12,12 +12,22 @@
   <ng-template #end>
     <div class="flex gap-4">
       <app-select-tag
-        [options]="options"
-        [optionLabel]="optionLabel"
-        [placeholder]="placeholder"
+        [options]="priorityOptions"
+        [optionLabel]="priorityOptionLabel"
+        [placeholder]="priorityPlaceholder"
         [showClear]="true"
-        [selectedOption]="selectedOption"
-        (selectedOptionEvent)="receiveSelectedOption($event)"
+        [selectedOption]="prioritySelectedOption"
+        (selectedOptionEvent)="receivePrioritySelectedOption($event)"
+      ></app-select-tag>
+    </div>
+    <div class="flex gap-4">
+      <app-select-tag
+        [options]="otherOptions"
+        [optionLabel]="otherOptionLabel"
+        [placeholder]="otherPlaceholder"
+        [showClear]="true"
+        [selectedOption]="otherSelectedOption"
+        (selectedOptionEvent)="receiveOtherSelectedOption($event)"
       ></app-select-tag>
     </div>
   </ng-template>

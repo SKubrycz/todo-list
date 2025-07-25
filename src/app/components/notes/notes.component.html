@@ -2,9 +2,9 @@
   <div class="container-full-nocenter">
     <div style="width: 80%">
       <app-navbar
-        [options]="priorityLabels"
-        optionLabel="text"
-        placeholder="Select priority"
+        [options]="labels"
+        priorityPlaceholder="Select priority"
+        otherPlaceholder="Select other labels"
         (searchFilterEvent)="receiveSearchFilterEvent($event)"
         [style]="{ width: '80%', margin: '0 0.5em' }"
       ></app-navbar>

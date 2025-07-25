@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { ToolbarModule } from 'primeng/toolbar';
 import { InputTextModule } from 'primeng/inputtext';
@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import {
   Label,
   LabelText,
+  LabelTextForOther,
   LabelTextForPriority,
   SearchFilter,
 } from '../../types/types';
@@ -35,15 +36,23 @@ import { SelectTagComponent } from '../select-tag/select-tag.component';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
   @Input() options: Label[] = [];
-  @Input() optionLabel: string = '';
-  @Input() placeholder: string = '';
-  protected selectedOption = this.options[0] ?? '';
+  @Input() priorityPlaceholder: string = '';
+  @Input() otherPlaceholder: string = '';
+
+  protected priorityOptionLabel: string = '';
+  protected priorityOptions: Label[] = [];
+  protected prioritySelectedOption = '';
+
+  protected otherOptionLabel: string = '';
+  protected otherOptions: Label[] = [];
+  protected otherSelectedOption = '';
 
   protected searchFilter: SearchFilter = {
     text: '',
     priority: LabelText.STANDARD,
+    other: null,
   };
   @Output() readonly searchFilterEvent: EventEmitter<SearchFilter> =
     new EventEmitter<SearchFilter>();
@@ -56,6 +65,18 @@ export class NavbarComponent {
     URGENT,
     HIGHEST_PRIORITY,
   ];
+
+  ngOnInit() {
+    this.initializeLabels();
+  }
+
+  private initializeLabels() {
+    this.priorityOptions = this.options.filter(
+      (label) =>
+        label.kind === 'priority' && Object.keys(label).includes('priority')
+    );
+    this.otherOptions = this.options.filter((label) => label.kind === 'other');
+  }
 
   updateSearchText(newText: string) {
     this.searchFilter = {
@@ -71,9 +92,21 @@ export class NavbarComponent {
     };
     this.searchFilterEvent.emit(this.searchFilter);
   }
+  updateSearchOther(newOther: LabelTextForOther | null) {
+    this.searchFilter = {
+      ...this.searchFilter,
+      other: newOther,
+    };
+    this.searchFilterEvent.emit(this.searchFilter);
+  }
 
-  receiveSelectedOption(value: Label) {
+  receivePrioritySelectedOption(value: Label) {
     if (!value) this.updateSearchPriority(value);
     else this.updateSearchPriority(value.text as LabelTextForPriority);
+  }
+
+  receiveOtherSelectedOption(value: Label) {
+    if (!value) this.updateSearchOther(value);
+    else this.updateSearchOther(value.text as LabelTextForOther);
   }
 }

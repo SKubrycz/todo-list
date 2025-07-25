@@ -11,6 +11,15 @@ export type LabelTextForPriority = Exclude<
   LabelText,
   [LabelText.HOBBY, LabelText.EMPTY]
 >;
+export type LabelTextForOther = Exclude<
+  LabelText,
+  [
+    LabelText.HIGHEST_PRIORITY,
+    LabelText.URGENT,
+    LabelText.STANDARD,
+    LabelText.SECONDARY
+  ]
+>;
 export type Label =
   | {
       id: number;
@@ -45,6 +54,7 @@ export interface Note {
 export interface SearchFilter {
   text: string; // Either title or description
   priority: LabelTextForPriority | null;
+  other: LabelTextForOther | null;
 }
 
 export type NoteSorting =
