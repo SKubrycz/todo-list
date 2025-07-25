@@ -107,8 +107,8 @@
             optionLabel="text"
             placeholder="Select labels"
             [showClear]="false"
-            [selectedOption]="noteForm.value.labels"
-            (selectedOptionEvent)="receiveSelectedOption($event)"
+            [(selectedOption)]="noteForm.value.labels"
+            (selectedOptionChange)="receiveSelectedOption($event)"
           ></app-select-tag>
           <div style="max-width: 300px; margin: 0.5em 0">
             @for (label of selectedLabels; track $index) {

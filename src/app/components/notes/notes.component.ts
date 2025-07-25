@@ -147,7 +147,7 @@ export class NotesComponent implements OnInit {
   protected filteredNotesList: Note[] = [];
   protected filterCriteria: SearchFilter = {
     text: '',
-    priority: LabelText.HIGHEST_PRIORITY,
+    priority: null,
     other: null,
   };
 
@@ -220,13 +220,17 @@ export class NotesComponent implements OnInit {
       const priorityPass = this.filterCriteria.priority
         ? element.labels.find((el) => {
             return (
-              el.kind == 'priority' && el.text == this.filterCriteria.priority
+              el.kind == 'priority' &&
+              el.text == this.filterCriteria.priority?.text
             );
           })
         : true;
+
       const otherPass = this.filterCriteria.other
         ? element.labels.find((el) => {
-            return el.kind == 'other' && el.text == this.filterCriteria.other;
+            return (
+              el.kind == 'other' && el.text == this.filterCriteria.other?.text
+            );
           })
         : true;
 
@@ -416,11 +420,10 @@ export class NotesComponent implements OnInit {
       }
       if (!hasPriority) {
         this.selectedLabels.push(e);
-        this.updateLabelsFormArray();
       } else {
         this.selectedLabels[priorityIndex] = e;
-        this.updateLabelsFormArray();
       }
+      this.updateLabelsFormArray();
     }
   }
 

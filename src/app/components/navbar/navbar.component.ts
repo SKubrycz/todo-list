@@ -51,7 +51,7 @@ export class NavbarComponent implements OnInit {
 
   protected searchFilter: SearchFilter = {
     text: '',
-    priority: LabelText.STANDARD,
+    priority: null,
     other: null,
   };
   @Output() readonly searchFilterEvent: EventEmitter<SearchFilter> =
@@ -78,6 +78,21 @@ export class NavbarComponent implements OnInit {
     this.otherOptions = this.options.filter((label) => label.kind === 'other');
   }
 
+  clearAllFilters() {
+    const emptyFilter: SearchFilter = {
+      text: '',
+      priority: null,
+      other: null,
+    };
+
+    this.priorityOptionLabel = '';
+    this.prioritySelectedOption = '';
+    this.otherOptionLabel = '';
+    this.otherSelectedOption = '';
+
+    this.searchFilterEvent.emit(emptyFilter);
+  }
+
   updateSearchText(newText: string) {
     this.searchFilter = {
       ...this.searchFilter,
@@ -85,14 +100,14 @@ export class NavbarComponent implements OnInit {
     };
     this.searchFilterEvent.emit(this.searchFilter);
   }
-  updateSearchPriority(newPriority: LabelTextForPriority | null) {
+  updateSearchPriority(newPriority: Label | null) {
     this.searchFilter = {
       ...this.searchFilter,
       priority: newPriority,
     };
     this.searchFilterEvent.emit(this.searchFilter);
   }
-  updateSearchOther(newOther: LabelTextForOther | null) {
+  updateSearchOther(newOther: Label | null) {
     this.searchFilter = {
       ...this.searchFilter,
       other: newOther,
@@ -102,11 +117,11 @@ export class NavbarComponent implements OnInit {
 
   receivePrioritySelectedOption(value: Label) {
     if (!value) this.updateSearchPriority(value);
-    else this.updateSearchPriority(value.text as LabelTextForPriority);
+    else this.updateSearchPriority(value);
   }
 
   receiveOtherSelectedOption(value: Label) {
     if (!value) this.updateSearchOther(value);
-    else this.updateSearchOther(value.text as LabelTextForOther);
+    else this.updateSearchOther(value);
   }
 }

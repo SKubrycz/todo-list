@@ -9,16 +9,15 @@ export enum LabelText {
 }
 export type LabelTextForPriority = Exclude<
   LabelText,
-  [LabelText.HOBBY, LabelText.EMPTY]
+  LabelText.HOBBY | LabelText.EMPTY
 >;
 export type LabelTextForOther = Exclude<
   LabelText,
-  [
-    LabelText.HIGHEST_PRIORITY,
-    LabelText.URGENT,
-    LabelText.STANDARD,
-    LabelText.SECONDARY
-  ]
+  | LabelText.HIGHEST_PRIORITY
+  | LabelText.URGENT
+  | LabelText.STANDARD
+  | LabelText.SECONDARY
+  | LabelText.EMPTY
 >;
 export type Label =
   | {
@@ -53,8 +52,8 @@ export interface Note {
 
 export interface SearchFilter {
   text: string; // Either title or description
-  priority: LabelTextForPriority | null;
-  other: LabelTextForOther | null;
+  priority: Label | null;
+  other: Label | null;
 }
 
 export type NoteSorting =

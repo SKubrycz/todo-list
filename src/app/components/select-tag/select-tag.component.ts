@@ -22,13 +22,13 @@ export class SelectTagComponent implements OnInit {
   set selectedOption(value: any) {
     if (this._selectedOption !== value) {
       this._selectedOption = value;
-      this.selectedOptionEvent.emit(this._selectedOption);
+      this.selectedOptionChange.emit(this._selectedOption);
     }
   }
   get selectedOption(): any {
     return this._selectedOption;
   }
-  @Output() readonly selectedOptionEvent = new EventEmitter<any>();
+  @Output() readonly selectedOptionChange = new EventEmitter<any>();
 
   ngOnInit() {
     this.initializeSelectedOption();

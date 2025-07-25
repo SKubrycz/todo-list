@@ -16,8 +16,8 @@
         [optionLabel]="priorityOptionLabel"
         [placeholder]="priorityPlaceholder"
         [showClear]="true"
-        [selectedOption]="prioritySelectedOption"
-        (selectedOptionEvent)="receivePrioritySelectedOption($event)"
+        [(selectedOption)]="prioritySelectedOption"
+        (selectedOptionChange)="updateSearchPriority($event)"
       ></app-select-tag>
     </div>
     <div class="flex gap-4">
@@ -26,9 +26,12 @@
         [optionLabel]="otherOptionLabel"
         [placeholder]="otherPlaceholder"
         [showClear]="true"
-        [selectedOption]="otherSelectedOption"
-        (selectedOptionEvent)="receiveOtherSelectedOption($event)"
+        [(selectedOption)]="otherSelectedOption"
+        (selectedOptionChange)="updateSearchOther($event)"
       ></app-select-tag>
+    </div>
+    <div class="flex gap-4">
+      <p-button label="Clear" (click)="clearAllFilters()"></p-button>
     </div>
   </ng-template>
 </p-toolbar>
