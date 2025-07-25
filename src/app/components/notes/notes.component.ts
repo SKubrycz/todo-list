@@ -182,7 +182,6 @@ export class NotesComponent implements OnInit {
 
   setCurrentViewKind() {
     const viewKind: ViewKind | null = this.getLocalViewKind();
-    console.log(viewKind);
     if (viewKind || viewKind === 0) {
       this.notesList.forEach((_, i) => (this.notesList[i].viewKind = viewKind));
       this.currentViewKind = viewKind;
