@@ -90,6 +90,10 @@ export class NotesComponent implements OnInit {
     'Least important first',
     'Date created (from oldest)',
     'Date created (from newest)',
+    'Finished first',
+    'Not finished first',
+    'Date done (from oldest)',
+    'Date done (from newest)',
   ];
   protected selectedNote: number = -1;
   protected notesList: Note[] = [
@@ -296,10 +300,10 @@ export class NotesComponent implements OnInit {
     }
   }
 
-  sortNotes(e: SelectChangeEvent) {
-    if (!e) return;
-    if (e.value as NoteSorting) {
-      switch (e.value as NoteSorting) {
+  sortNotes() {
+    //if (!e) return;
+    if (this.selectedSort as NoteSorting) {
+      switch (this.selectedSort as NoteSorting) {
         case 'None':
           this.filteredNotesList.sort((a: Note, b: Note) => {
             return a.id - b.id;
@@ -341,6 +345,46 @@ export class NotesComponent implements OnInit {
             return b.dateCreated.getTime() - a.dateCreated.getTime();
           });
           break;
+        case 'Finished first':
+          this.filteredNotesList.sort((a: Note, b: Note) => {
+            return Number(b.done) - Number(a.done);
+          });
+          break;
+        case 'Not finished first':
+          this.filteredNotesList.sort((a: Note, b: Note) => {
+            return Number(a.done) - Number(b.done);
+          });
+          break;
+        case 'Date done (from oldest)':
+          this.filteredNotesList.sort((a: Note, b: Note) => {
+            if (a.done !== b.done) {
+              return b.done ? 1 : -1;
+            }
+
+            let dateA = a.dateDone
+              ? a.dateDone.getTime()
+              : Number.MAX_SAFE_INTEGER;
+            let dateB = b.dateDone
+              ? b.dateDone.getTime()
+              : Number.MAX_SAFE_INTEGER;
+            return dateA - dateB;
+          });
+          break;
+        case 'Date done (from newest)':
+          this.filteredNotesList.sort((a: Note, b: Note) => {
+            if (a.done !== b.done) {
+              return b.done ? 1 : -1;
+            }
+
+            let dateA = a.dateDone
+              ? a.dateDone.getTime()
+              : Number.MAX_SAFE_INTEGER;
+            let dateB = b.dateDone
+              ? b.dateDone.getTime()
+              : Number.MAX_SAFE_INTEGER;
+            return dateB - dateA;
+          });
+          break;
         default:
           break;
       }
@@ -355,6 +399,7 @@ export class NotesComponent implements OnInit {
       }
     });
     this.saveNotes();
+    this.sortNotes();
   }
 
   // Set view to be either box or list

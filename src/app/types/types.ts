@@ -61,4 +61,8 @@ export type NoteSorting =
   | 'Most important first'
   | 'Least important first'
   | 'Date created (from oldest)'
-  | 'Date created (from newest)';
+  | 'Date created (from newest)'
+  | 'Finished first'
+  | 'Not finished first'
+  | 'Date done (from oldest)'
+  | 'Date done (from newest)';
