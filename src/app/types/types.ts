@@ -43,7 +43,7 @@ export interface Note {
 }
 
 export interface SearchFilter {
-  text: string; // title
+  text: string; // Either title or description
   priority: LabelTextForPriority | null;
 }
 

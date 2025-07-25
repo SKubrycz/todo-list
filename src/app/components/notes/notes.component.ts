@@ -210,7 +210,10 @@ export class NotesComponent implements OnInit {
 
   private filterNotes() {
     const passesCriteria = (element: Note) => {
-      const textPass = element.title
+      const titlePass = element.title
+        .toLowerCase()
+        .includes(this.filterCriteria.text.toLowerCase());
+      const descriptionPass = element.description
         .toLowerCase()
         .includes(this.filterCriteria.text.toLowerCase());
       const priorityPass = this.filterCriteria.priority
@@ -221,7 +224,7 @@ export class NotesComponent implements OnInit {
           })
         : true;
 
-      return textPass && priorityPass;
+      return (titlePass || descriptionPass) && priorityPass;
     };
 
     this.filteredNotesList = [];
