@@ -19,8 +19,6 @@
         [(selectedOption)]="prioritySelectedOption"
         (selectedOptionChange)="updateSearchPriority($event)"
       ></app-select-tag>
-    </div>
-    <div class="flex gap-4">
       <app-select-tag
         [options]="otherOptions"
         [optionLabel]="otherOptionLabel"
@@ -29,9 +27,9 @@
         [(selectedOption)]="otherSelectedOption"
         (selectedOptionChange)="updateSearchOther($event)"
       ></app-select-tag>
-    </div>
-    <div class="flex gap-4">
-      <p-button label="Clear" (click)="clearAllFilters()"></p-button>
+      <p-button (click)="clearAllFilters()"
+        >Clear <i class="pi pi-filter-slash"></i
+      ></p-button>
     </div>
   </ng-template>
 </p-toolbar>
