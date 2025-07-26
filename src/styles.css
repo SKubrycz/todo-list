@@ -83,6 +83,11 @@ html.my-app-dark {
   justify-content: space-between;
   align-items: center;
 }
+.flex-start {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
 
 .flex-col {
   display: flex;
@@ -129,6 +134,10 @@ html.my-app-dark {
   margin: 0.3em;
   display: flex;
   overflow: hidden;
+  transition: 150ms box-shadow linear;
+}
+.p-card:hover {
+  box-shadow: var(--p-overlay-popover-shadow);
 }
 
 .p-panel-header {

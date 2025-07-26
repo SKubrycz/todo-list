@@ -162,6 +162,7 @@ export class NotesComponent implements OnInit {
     this.getNotes();
     this.setCurrentViewKind();
     this.setNotesView(this.currentViewKind);
+    this.sortLabels();
     this.filteredNotesList = [...this.notesList];
   }
 
@@ -389,6 +390,18 @@ export class NotesComponent implements OnInit {
           break;
       }
     }
+  }
+
+  // Sort labels for all notes
+  sortLabels() {
+    this.notesList.forEach((_, i) =>
+      this.notesList[i].labels.sort((a: Label, b: Label) => {
+        const aLabel = a.kind === 'priority' ? 1 : -1;
+        const bLabel = b.kind === 'priority' ? 1 : -1;
+
+        return aLabel - bLabel;
+      })
+    );
   }
 
   receiveMarkAsDone(noteId: number) {

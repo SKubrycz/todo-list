@@ -12,11 +12,11 @@
           display: flex;
           justify-content: space-between;
           padding: 1em 1em 1em 1em;
-          background: linear-gradient(
+          /*background: linear-gradient(
             0deg,
             var(--p-content-background) 0%,
             var(--p-primary-tile-color) 99%
-          );
+          );*/
         "
       >
         <b style="font-size: 18px">{{ noteData.title }}</b>
@@ -33,12 +33,17 @@
     </div>
   </ng-template>
   <ng-template #content>
-    @for (label of noteData.labels; track label.text) {
-    <p-tag
-      [ngStyle]="{ color: label.color, backgroundColor: label.backgroundColor }"
-      >{{ label.text }}</p-tag
-    >
-    }
+    <div class="flex-start gap-4">
+      @for (label of noteData.labels; track label.text) {
+      <p-tag
+        [ngStyle]="{
+          color: label.color,
+          backgroundColor: label.backgroundColor
+        }"
+        >{{ label.text }}</p-tag
+      >
+      }
+    </div>
     <p
       [pTooltip]="(noteData.dateCreated | date : 'medium') || ''"
       tooltipPosition="bottom"
