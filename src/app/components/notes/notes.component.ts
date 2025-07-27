@@ -427,6 +427,7 @@ export class NotesComponent implements OnInit {
   receiveSearchFilterEvent(value: SearchFilter) {
     this.filterCriteria = value;
     this.filterNotes();
+    this.sortNotes();
   }
 
   findNoteById(noteId: number): Note | undefined {

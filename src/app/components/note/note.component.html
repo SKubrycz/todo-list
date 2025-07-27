@@ -27,7 +27,7 @@
           }"
           (click)="displayNoteCreator()"
         >
-          <i class="pi pi-pencil"></i>
+          <i class="pi pi-pencil note-icon-hover"></i>
         </div>
       </div>
     </div>
@@ -59,8 +59,7 @@
       <span class="pi pi-times" style="padding: 0 0.2em"></span>Not done yet
       <span
         pTooltip="Mark as done"
-        class="pi pi-check-square"
-        style="margin-left: 0.2em; cursor: pointer"
+        class="pi pi-check-square note-mark-as-done note-icon-hover"
         (click)="markAsDone(noteData.id)"
       ></span>
     </p>
@@ -114,7 +113,10 @@
         cursor: 'pointer',
       }"
     >
-      <i class="pi pi-pencil" (click)="displayNoteCreator()"></i>
+      <i
+        class="pi pi-pencil note-icon-hover"
+        (click)="displayNoteCreator()"
+      ></i>
     </div>
   </ng-template>
   <ng-template #footer>
@@ -130,7 +132,7 @@
     <div [style]="{ color: 'var(--p-card-subtitle-color)' }">
       {{ noteData.description }}
     </div>
-    <div>
+    <div class="flex-start gap-4">
       @for (label of noteData.labels; track label.text) {
       <p-tag
         [ngStyle]="{
@@ -150,8 +152,7 @@
       <span class="pi pi-times" style="padding: 0 0.2em"></span>Not done yet
       <span
         pTooltip="Mark as done"
-        class="pi pi-check-square"
-        style="margin-left: 0.2em; cursor: pointer"
+        class="pi pi-check-square note-mark-as-done note-icon-hover"
         (click)="markAsDone(noteData.id)"
       ></span>
     </span>
