@@ -1,14 +1,14 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { TextareaModule } from 'primeng/textarea';
 import { ListboxModule } from 'primeng/listbox';
 import { DialogModule } from 'primeng/dialog';
+import { SkeletonModule } from 'primeng/skeleton';
 import { ValidatorService } from '../../validator.service';
 import { NoteComponent } from '../note/note.component';
 import {
   Label,
-  LabelText,
   Note,
   NoteSorting,
   SearchFilter,
@@ -39,7 +39,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { SelectTagComponent } from '../select-tag/select-tag.component';
 import { NgStyle } from '@angular/common';
 import { ChipModule } from 'primeng/chip';
-import { SelectChangeEvent, SelectModule } from 'primeng/select';
+import { SelectModule } from 'primeng/select';
 import { StorageService } from '../../storage/storage.service';
 
 @Component({
@@ -63,9 +63,10 @@ import { StorageService } from '../../storage/storage.service';
     DialogModule,
     SelectModule,
     SelectTagComponent,
+    SkeletonModule,
   ],
 })
-export class NotesComponent implements OnInit {
+export class NotesComponent implements OnInit, OnDestroy {
   protected noteForm!: FormGroup;
 
   private validatorService = inject(ValidatorService);
@@ -97,56 +98,56 @@ export class NotesComponent implements OnInit {
   ];
   protected selectedNote: number = -1;
   protected notesList: Note[] = [
-    {
-      id: 1,
-      title: 'Do three pushups',
-      description: '...or even more',
-      dateCreated: new Date(Date.now() - 1000 * 60 * 60),
-      dateDone: null,
-      labels: [this.labels[2]],
-      done: false,
-      viewKind: this.currentViewKind,
-    },
-    {
-      id: 2,
-      title: 'Do four pull ups',
-      description: '...or even more',
-      dateCreated: new Date(Date.now() - 1000 * 60 * 12),
-      dateDone: null,
-      labels: [this.labels[3]],
-      done: false,
-      viewKind: this.currentViewKind,
-    },
-    {
-      id: 3,
-      title: 'Leg day 🦵',
-      description: 'Gotta do it',
-      dateCreated: new Date(Date.now() - 1000 * 55),
-      dateDone: new Date(Date.now() - 500),
-      labels: [this.labels[0]],
-      done: true,
-      viewKind: this.currentViewKind,
-    },
-    {
-      id: 4,
-      title: 'Learn Japanese',
-      description: '私は日本語を勉強します',
-      dateCreated: new Date(Date.now() - 1000 * 10),
-      dateDone: new Date(Date.now() - 700),
-      labels: [this.labels[2]],
-      done: true,
-      viewKind: this.currentViewKind,
-    },
-    {
-      id: 5,
-      title: 'Draw something',
-      description: '',
-      dateCreated: new Date(Date.now() - 1000 * 5),
-      dateDone: new Date(Date.now() - 600),
-      labels: [this.labels[1]],
-      done: false,
-      viewKind: this.currentViewKind,
-    },
+    // {
+    //   id: 1,
+    //   title: 'Do three pushups',
+    //   description: '...or even more',
+    //   dateCreated: new Date(Date.now() - 1000 * 60 * 60),
+    //   dateDone: null,
+    //   labels: [this.labels[2]],
+    //   done: false,
+    //   viewKind: this.currentViewKind,
+    // },
+    // {
+    //   id: 2,
+    //   title: 'Do four pull ups',
+    //   description: '...or even more',
+    //   dateCreated: new Date(Date.now() - 1000 * 60 * 12),
+    //   dateDone: null,
+    //   labels: [this.labels[3]],
+    //   done: false,
+    //   viewKind: this.currentViewKind,
+    // },
+    // {
+    //   id: 3,
+    //   title: 'Leg day 🦵',
+    //   description: 'Gotta do it',
+    //   dateCreated: new Date(Date.now() - 1000 * 55),
+    //   dateDone: new Date(Date.now() - 500),
+    //   labels: [this.labels[0]],
+    //   done: true,
+    //   viewKind: this.currentViewKind,
+    // },
+    // {
+    //   id: 4,
+    //   title: 'Learn Japanese',
+    //   description: '私は日本語を勉強します',
+    //   dateCreated: new Date(Date.now() - 1000 * 10),
+    //   dateDone: new Date(Date.now() - 700),
+    //   labels: [this.labels[2]],
+    //   done: true,
+    //   viewKind: this.currentViewKind,
+    // },
+    // {
+    //   id: 5,
+    //   title: 'Draw something',
+    //   description: '',
+    //   dateCreated: new Date(Date.now() - 1000 * 5),
+    //   dateDone: new Date(Date.now() - 600),
+    //   labels: [this.labels[1]],
+    //   done: false,
+    //   viewKind: this.currentViewKind,
+    // },
   ];
   protected filteredNotesList: Note[] = [];
   protected filterCriteria: SearchFilter = {
@@ -154,16 +155,27 @@ export class NotesComponent implements OnInit {
     priority: null,
     other: null,
   };
+  protected noteLoadingTimeout!: NodeJS.Timeout;
 
+  protected isAddNoteButtonDisplayed = false;
   protected isNoteCreatorDisplayed = false;
 
   ngOnInit() {
     this.initializeNoteForm();
-    this.getNotes();
-    this.setCurrentViewKind();
-    this.setNotesView(this.currentViewKind);
-    this.sortLabels();
-    this.filteredNotesList = [...this.notesList];
+    this.getLocalViewKind();
+    // Timeout later to be replaced by API call from the backend
+    this.noteLoadingTimeout = setTimeout(() => {
+      this.getNotes();
+      this.setCurrentViewKind();
+      this.setNotesView(this.currentViewKind);
+      this.sortLabels();
+      this.filteredNotesList = [...this.notesList];
+      this.isAddNoteButtonDisplayed = true;
+    }, 500);
+  }
+
+  ngOnDestroy() {
+    clearTimeout(this.noteLoadingTimeout);
   }
 
   private initializeNoteForm() {
@@ -174,12 +186,12 @@ export class NotesComponent implements OnInit {
     });
   }
 
-  private getLocalViewKind(): ViewKind | null {
+  private getLocalViewKind() {
     const viewKind: ViewKind | null = this.storageService.read(
       this.VIEWKIND_KEY
     );
 
-    return viewKind;
+    if (viewKind || viewKind === 0) this.currentViewKind = viewKind;
   }
 
   private setLocalViewKind() {
@@ -187,10 +199,10 @@ export class NotesComponent implements OnInit {
   }
 
   setCurrentViewKind() {
-    const viewKind: ViewKind | null = this.getLocalViewKind();
-    if (viewKind || viewKind === 0) {
-      this.notesList.forEach((_, i) => (this.notesList[i].viewKind = viewKind));
-      this.currentViewKind = viewKind;
+    if (this.currentViewKind || this.currentViewKind === 0) {
+      this.notesList.forEach(
+        (_, i) => (this.notesList[i].viewKind = this.currentViewKind)
+      );
     } else {
       this.currentViewKind = this.notesList[0].viewKind;
     }

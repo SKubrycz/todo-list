@@ -52,7 +52,7 @@
           (editNoteEvent)="displayNoteCreator(note.id)"
           [style]="{ width: note.viewKind == 1 ? '100%' : 'initial' }"
         ></app-note
-        >} @if (currentViewKind == 0) {
+        >} @if (isAddNoteButtonDisplayed) { @if (currentViewKind == 0) {
         <p-card
           class="add-note"
           (click)="displayNoteCreator()"
@@ -69,9 +69,81 @@
           </ng-template>
           <ng-template #content></ng-template>
         </p-panel>
-        } @else {
-        <p>Something went wrong with displaying notes</p>
-        }
+        } } @else { @if (currentViewKind == 0) {
+        <p-skeleton
+          width="300px"
+          height="200px"
+          class="note-skeleton"
+        ></p-skeleton>
+        <p-skeleton
+          width="300px"
+          height="200px"
+          class="note-skeleton"
+        ></p-skeleton>
+        <p-skeleton
+          width="300px"
+          height="200px"
+          class="note-skeleton"
+        ></p-skeleton>
+        <p-skeleton
+          width="300px"
+          height="200px"
+          class="note-skeleton"
+        ></p-skeleton>
+        <p-skeleton
+          width="300px"
+          height="200px"
+          class="note-skeleton"
+        ></p-skeleton>
+        <p-skeleton
+          width="300px"
+          height="200px"
+          class="note-skeleton"
+        ></p-skeleton>
+        } @else if (currentViewKind == 1) {
+        <div style="width: 100%">
+          <p-skeleton
+            width="100%"
+            height="50px"
+            class="note-skeleton"
+          ></p-skeleton>
+          <p-skeleton
+            width="100%"
+            height="50px"
+            class="note-skeleton"
+          ></p-skeleton>
+          <p-skeleton
+            width="100%"
+            height="50px"
+            class="note-skeleton"
+          ></p-skeleton>
+          <p-skeleton
+            width="100%"
+            height="50px"
+            class="note-skeleton"
+          ></p-skeleton>
+          <p-skeleton
+            width="100%"
+            height="50px"
+            class="note-skeleton"
+          ></p-skeleton>
+          <p-skeleton
+            width="100%"
+            height="50px"
+            class="note-skeleton"
+          ></p-skeleton>
+          <p-skeleton
+            width="100%"
+            height="50px"
+            class="note-skeleton"
+          ></p-skeleton>
+          <p-skeleton
+            width="100%"
+            height="50px"
+            class="note-skeleton"
+          ></p-skeleton>
+        </div>
+        } }
       </section>
       @if (isNoteCreatorDisplayed) {
       <p-dialog

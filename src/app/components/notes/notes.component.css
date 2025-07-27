@@ -43,3 +43,7 @@
   align-items: center;
   cursor: pointer;
 }
+
+.note-skeleton {
+  margin: 0.3em;
+}
