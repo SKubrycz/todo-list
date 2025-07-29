@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { DarkModeComponent } from './components/dark-mode/dark-mode.component';
+import { DarkModeComponent } from '../dark-mode/dark-mode.component';
 
 @Component({
   selector: 'app-root',

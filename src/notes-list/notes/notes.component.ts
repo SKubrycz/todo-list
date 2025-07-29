@@ -37,7 +37,7 @@ import { CardModule } from 'primeng/card';
 import { PanelModule } from 'primeng/panel';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { SelectTagComponent } from '../select-tag/select-tag.component';
-import { NgStyle } from '@angular/common';
+import { NgIf, NgStyle } from '@angular/common';
 import { ChipModule } from 'primeng/chip';
 import { SelectModule } from 'primeng/select';
 import { StorageService } from '../../storage/storage.service';
@@ -48,6 +48,7 @@ import { StorageService } from '../../storage/storage.service';
   styleUrl: './notes.component.css',
   imports: [
     NgStyle,
+    NgIf,
     FormsModule,
     ReactiveFormsModule,
     NoteComponent,

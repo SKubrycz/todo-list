@@ -6,7 +6,7 @@ import {
   OnInit,
   PLATFORM_ID,
 } from '@angular/core';
-import { WINDOW } from '../../window';
+import { WINDOW } from '../window';
 
 @Component({
   selector: 'app-dark-mode',
