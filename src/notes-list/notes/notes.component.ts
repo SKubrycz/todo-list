@@ -183,7 +183,7 @@ export class NotesComponent implements OnInit, OnDestroy {
     this.noteForm = this.fb.group({
       title: ['', [Validators.required]],
       description: ['', []],
-      labels: this.fb.array([], [this.minArray(1)]),
+      labels: this.fb.array([], [this.minArray(0)]),
     });
   }
 
@@ -210,9 +210,11 @@ export class NotesComponent implements OnInit, OnDestroy {
   }
 
   private getNotes() {
-    const notes = this.storageService.read(this.LOCALSTORAGE_KEY);
+    const notes: Note[] | null = this.storageService.read(
+      this.LOCALSTORAGE_KEY
+    );
     if (notes) {
-      this.notesList = notes as Note[];
+      this.notesList = notes;
       this.filteredNotesList = [...this.notesList];
       this.filterNotes();
     }
@@ -315,7 +317,6 @@ export class NotesComponent implements OnInit, OnDestroy {
   }
 
   sortNotes() {
-    //if (!e) return;
     if (this.selectedSort as NoteSorting) {
       switch (this.selectedSort as NoteSorting) {
         case 'None':
