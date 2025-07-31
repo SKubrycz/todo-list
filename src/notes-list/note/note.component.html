@@ -1,6 +1,6 @@
 @if (noteData.viewKind == 0) {
 <p-card
-  [subheader]="noteData.description"
+  [style]="{ maxHeight: '200px' }"
   (mouseover)="displayEditButton($event, true)"
   (mouseleave)="displayEditButton($event, false)"
 >
@@ -14,7 +14,15 @@
           padding: 1em 1em 1em 1em;
         "
       >
-        <b style="font-size: 18px">{{ noteData.title }}</b>
+        <b
+          style="
+            font-size: 18px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          "
+          >{{ noteData.title }}</b
+        >
 
         <div class="flex gap-8">
           <div
@@ -39,13 +47,19 @@
       </div>
     </div>
   </ng-template>
+
+  <ng-template #subtitle>
+    <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap">
+      {{ noteData.description }}
+    </div>
+  </ng-template>
   <ng-template #content>
     <div class="flex-start gap-4">
       @for (label of noteData.labels; track label.text) {
       <p-tag
         [ngStyle]="{
           color: label.color,
-          backgroundColor: label.backgroundColor
+          backgroundColor: label.backgroundColor,
         }"
         >{{ label.text }}</p-tag
       >
