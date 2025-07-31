@@ -98,8 +98,7 @@ export class NotesComponent implements OnInit, OnDestroy {
     'Date done (from newest)',
   ];
   protected selectedNote: number = -1;
-  protected notesList: Note[] = [
-  ];
+  protected notesList: Note[] = [];
   protected filteredNotesList: Note[] = [];
   protected filterCriteria: SearchFilter = {
     text: '',
@@ -109,11 +108,13 @@ export class NotesComponent implements OnInit, OnDestroy {
   protected noteLoadingTimeout!: NodeJS.Timeout;
 
   protected isAddNoteButtonDisplayed = false;
+  protected isNoteRemovalDisplayed = false;
   protected isNoteCreatorDisplayed = false;
 
   ngOnInit() {
     this.initializeNoteForm();
     this.getLocalViewKind();
+
     // Timeout later to be replaced by API call from the backend
     this.noteLoadingTimeout = setTimeout(() => {
       this.getNotes();
@@ -403,6 +404,36 @@ export class NotesComponent implements OnInit, OnDestroy {
     }
 
     return undefined;
+  }
+
+  displayNoteRemoval(noteId: number) {
+    if (noteId) {
+      this.selectedNote = noteId;
+      const note = this.findNoteById(noteId);
+
+      if (note) {
+        this.isNoteRemovalDisplayed = true;
+      }
+    }
+  }
+
+  hideNoteRemoval() {
+    this.isNoteRemovalDisplayed = false;
+  }
+
+  removeSelectedNote() {
+    if (this.selectedNote && this.selectedNote !== -1) {
+      const note = this.findNoteById(this.selectedNote);
+
+      if (note) {
+        this.notesList = this.notesList.filter((n: Note) => n.id !== note.id);
+        this.filterNotes();
+        this.sortNotes();
+        this.saveNotes();
+        this.selectedNote = -1;
+        this.isNoteRemovalDisplayed = false;
+      }
+    }
   }
 
   displayNoteCreator(noteId?: number) {

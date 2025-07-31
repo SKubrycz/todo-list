@@ -15,14 +15,26 @@
         "
       >
         <b style="font-size: 18px">{{ noteData.title }}</b>
-        <div
-          [style]="{
+
+        <div class="flex gap-8">
+          <div
+            [style]="{
             display: isHovered ? 'inline' : 'none',
             cursor: 'pointer',
           }"
-          (click)="displayNoteCreator()"
-        >
-          <i class="pi pi-pencil note-icon-hover"></i>
+            (click)="displayNoteRemoval()"
+          >
+            <i class="pi pi-trash note-icon-trash-hover"></i>
+          </div>
+          <div
+            [style]="{
+            display: isHovered ? 'inline' : 'none',
+            cursor: 'pointer',
+          }"
+            (click)="displayNoteCreator()"
+          >
+            <i class="pi pi-pencil note-icon-pencil-hover"></i>
+          </div>
         </div>
       </div>
     </div>
@@ -104,12 +116,17 @@
         padding: 0,
         display: isHovered ? 'flex' : 'none',
         flex: 1,
+        gap: '8px',
         justifyContent: 'flex-end',
         cursor: 'pointer',
       }"
     >
       <i
-        class="pi pi-pencil note-icon-hover"
+        class="pi pi-trash note-icon-trash-hover"
+        (click)="displayNoteRemoval()"
+      ></i>
+      <i
+        class="pi pi-pencil note-icon-pencil-hover"
         (click)="displayNoteCreator()"
       ></i>
     </div>

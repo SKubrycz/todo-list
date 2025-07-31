@@ -41,6 +41,7 @@ export class NoteComponent implements OnInit, OnChanges {
     viewKind: 0,
   };
 
+  @Output() readonly removeNoteEvent = new EventEmitter<void>();
   @Output() readonly editNoteEvent = new EventEmitter<void>();
   @Output() readonly markAsDoneEvent = new EventEmitter<number>();
 
@@ -77,6 +78,10 @@ export class NoteComponent implements OnInit, OnChanges {
     if (e.target) {
       this.isHovered = display;
     }
+  }
+
+  displayNoteRemoval() {
+    this.removeNoteEvent.emit();
   }
 
   displayNoteCreator() {

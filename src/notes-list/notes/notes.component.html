@@ -49,6 +49,7 @@
         @for (note of filteredNotesList; track $index) {<app-note
           [noteData]="note"
           (markAsDoneEvent)="receiveMarkAsDone($event)"
+          (removeNoteEvent)="displayNoteRemoval(note.id)"
           (editNoteEvent)="displayNoteCreator(note.id)"
           [style]="{ width: note.viewKind == 1 ? '100%' : 'initial' }"
         ></app-note
@@ -152,6 +153,25 @@
         </ng-template>
         }
       </section>
+      <ng-container *ngIf="isNoteRemovalDisplayed">
+        <p-dialog
+          header="Confirm note removal"
+          closable="true"
+          draggable="false"
+          [modal]="true"
+          [(visible)]="isNoteRemovalDisplayed"
+        >
+          <p>Do you want to remove selected note?</p>
+          <div class="flex gap-8">
+            <p-button label="Yes" (click)="removeSelectedNote()"></p-button>
+            <p-button
+              label="No"
+              severity="secondary"
+              (click)="hideNoteRemoval()"
+            ></p-button>
+          </div>
+        </p-dialog>
+      </ng-container>
       <ng-container *ngIf="isNoteCreatorDisplayed">
         <p-dialog
           [header]="
