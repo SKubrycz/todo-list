@@ -99,56 +99,6 @@ export class NotesComponent implements OnInit, OnDestroy {
   ];
   protected selectedNote: number = -1;
   protected notesList: Note[] = [
-    // {
-    //   id: 1,
-    //   title: 'Do three pushups',
-    //   description: '...or even more',
-    //   dateCreated: new Date(Date.now() - 1000 * 60 * 60),
-    //   dateDone: null,
-    //   labels: [this.labels[2]],
-    //   done: false,
-    //   viewKind: this.currentViewKind,
-    // },
-    // {
-    //   id: 2,
-    //   title: 'Do four pull ups',
-    //   description: '...or even more',
-    //   dateCreated: new Date(Date.now() - 1000 * 60 * 12),
-    //   dateDone: null,
-    //   labels: [this.labels[3]],
-    //   done: false,
-    //   viewKind: this.currentViewKind,
-    // },
-    // {
-    //   id: 3,
-    //   title: 'Leg day 🦵',
-    //   description: 'Gotta do it',
-    //   dateCreated: new Date(Date.now() - 1000 * 55),
-    //   dateDone: new Date(Date.now() - 500),
-    //   labels: [this.labels[0]],
-    //   done: true,
-    //   viewKind: this.currentViewKind,
-    // },
-    // {
-    //   id: 4,
-    //   title: 'Learn Japanese',
-    //   description: '私は日本語を勉強します',
-    //   dateCreated: new Date(Date.now() - 1000 * 10),
-    //   dateDone: new Date(Date.now() - 700),
-    //   labels: [this.labels[2]],
-    //   done: true,
-    //   viewKind: this.currentViewKind,
-    // },
-    // {
-    //   id: 5,
-    //   title: 'Draw something',
-    //   description: '',
-    //   dateCreated: new Date(Date.now() - 1000 * 5),
-    //   dateDone: new Date(Date.now() - 600),
-    //   labels: [this.labels[1]],
-    //   done: false,
-    //   viewKind: this.currentViewKind,
-    // },
   ];
   protected filteredNotesList: Note[] = [];
   protected filterCriteria: SearchFilter = {
