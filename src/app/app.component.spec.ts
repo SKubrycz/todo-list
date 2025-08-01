@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { By } from '@angular/platform-browser';
 import { RouterOutlet } from '@angular/router';
-import { DarkModeComponent } from './components/dark-mode/dark-mode.component';
+import { DarkModeComponent } from '../dark-mode/dark-mode.component';
 
 describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;

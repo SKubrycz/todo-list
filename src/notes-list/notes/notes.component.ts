@@ -105,7 +105,7 @@ export class NotesComponent implements OnInit, OnDestroy {
     priority: null,
     other: null,
   };
-  protected noteLoadingTimeout!: NodeJS.Timeout;
+  protected noteLoadingTimeout!: number;
 
   protected isAddNoteButtonDisplayed = false;
   protected isNoteRemovalDisplayed = false;
@@ -116,7 +116,7 @@ export class NotesComponent implements OnInit, OnDestroy {
     this.getLocalViewKind();
 
     // Timeout later to be replaced by API call from the backend
-    this.noteLoadingTimeout = setTimeout(() => {
+    this.noteLoadingTimeout = window.setTimeout(() => {
       this.getNotes();
       this.setCurrentViewKind();
       this.setNotesView(this.currentViewKind);

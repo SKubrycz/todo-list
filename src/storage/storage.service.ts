@@ -30,7 +30,10 @@ export class StorageService {
       if (key) {
         try {
           const data = localStorage.getItem(key);
-          if (!data) throw new Error('Error trying to get localStorage data');
+          if (!data) {
+            console.log('No localStorage data found');
+            return null;
+          }
 
           const result = JSON.parse(data);
           if (result !== 0 && !result)
