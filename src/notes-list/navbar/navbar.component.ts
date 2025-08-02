@@ -8,11 +8,8 @@ import { TagModule } from 'primeng/tag';
 import { FormsModule } from '@angular/forms';
 import {
   Label,
-  LabelText,
-  LabelTextForOther,
-  LabelTextForPriority,
   SearchFilter,
-} from '../../types/types';
+} from '../notes/notes.model';
 import {
   HIGHEST_PRIORITY,
   SECONDARY,

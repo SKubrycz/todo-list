@@ -11,7 +11,7 @@ import { CardModule } from 'primeng/card';
 import { PanelModule } from 'primeng/panel';
 import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
-import { Label, type Note } from '../../types/types';
+import { Label, type Note } from '../notes/notes.model';
 import { STANDARD } from '../../constants/labels';
 import { DatePipe, NgStyle } from '@angular/common';
 import { TimeAgoPipe } from '../../pipes/time-ago.pipe';

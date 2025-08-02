@@ -13,7 +13,7 @@ import {
   NoteSorting,
   SearchFilter,
   ViewKind,
-} from '../../types/types';
+} from './notes.model';
 import {
   AbstractControl,
   FormArray,
