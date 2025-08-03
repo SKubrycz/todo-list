@@ -7,7 +7,7 @@ import { SelectModule } from 'primeng/select';
 import { TagModule } from 'primeng/tag';
 import { FormsModule } from '@angular/forms';
 import { Label, SearchFilter } from '../notes/notes.model';
-import { SelectTagComponent } from '../select-tag/select-tag.component';
+import { SelectTagComponent } from '../../shared/select-tag/select-tag.component';
 
 @Component({
   selector: 'app-navbar',
