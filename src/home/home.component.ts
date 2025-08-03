@@ -17,7 +17,12 @@ import { AnimateOnScrollModule } from 'primeng/animateonscroll';
   styleUrl: './home.component.css',
 })
 export class HomeComponent implements OnInit {
-  protected elementRef = inject(ElementRef);
+  private elementRef = inject(ElementRef);
+
+  private isAtBottom = false;
+  private scrollButton: HTMLElement | null = null;
+  private scrollAnimationEnd: (() => void) | null = null;
+  private joinedWords = '';
 
   protected wordsList = [
     'Create',
@@ -27,7 +32,6 @@ export class HomeComponent implements OnInit {
     'Reorder',
     'Apply',
   ];
-  protected joinedWords = this.wordsList.join(' ');
   protected timelineValues = ['Plan', 'Create', 'Schedule', 'Complete'];
   protected timelinePoints = [
     {
@@ -56,11 +60,9 @@ export class HomeComponent implements OnInit {
       iconClass: 'pi pi-check',
     },
   ];
-  protected scrollButton: HTMLElement | null = null;
-  protected scrollAnimationEnd: (() => void) | null = null;
-  protected isAtBottom = false;
 
   ngOnInit() {
+    this.joinedWords = this.wordsList.join(' ');
     this.joinedWords = this.joinedWords + ' ' + this.joinedWords;
     this.scrollButton = this.elementRef.nativeElement.querySelector(
       '#scroll-down-button'
@@ -68,7 +70,7 @@ export class HomeComponent implements OnInit {
   }
 
   @HostListener('window:scroll', ['$event'])
-  checkIsAtBottom() {
+  protected checkIsAtBottom() {
     this.isAtBottom =
       window.scrollY + window.innerHeight >= document.body.scrollHeight;
 
@@ -106,7 +108,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  scrollDown(e: MouseEvent) {
+  protected scrollDown(e: MouseEvent) {
     if (e) {
       window.scrollBy({
         left: 0,

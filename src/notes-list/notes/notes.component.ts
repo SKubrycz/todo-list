@@ -74,17 +74,25 @@ export class NotesComponent implements OnInit, OnDestroy {
   private fb = inject(FormBuilder);
   private storageService = inject(StorageService);
 
-  private LOCALSTORAGE_KEY = 'notes';
-  private VIEWKIND_KEY = 'notes-viewkind';
+  private LOCALSTORAGE_KEY: string = 'notes';
+  private VIEWKIND_KEY: string = 'notes-viewkind';
+
+  private filterCriteria: SearchFilter = {
+    text: '',
+    priority: null,
+    other: null,
+  };
+  private noteLoadingTimeout!: number;
+
   protected currentViewKind: ViewKind = 0;
-  protected titleValue = '';
-  protected descriptionValue = '';
   protected selectedLabels: Label[] = [];
-  protected labels = [STANDARD, SECONDARY, URGENT, HIGHEST_PRIORITY, HOBBY];
-  protected priorityLabels = this.labels.filter(
-    (label) => label.kind === 'priority'
-  );
-  protected selectedOption: Label | null = null;
+  protected labels: Label[] = [
+    STANDARD,
+    SECONDARY,
+    URGENT,
+    HIGHEST_PRIORITY,
+    HOBBY,
+  ];
   protected selectedSort: NoteSorting = 'None';
   protected sortingOptions: NoteSorting[] = [
     'None',
@@ -97,19 +105,12 @@ export class NotesComponent implements OnInit, OnDestroy {
     'Date done (from oldest)',
     'Date done (from newest)',
   ];
-  protected selectedNote: number = -1;
+  protected selectedNote: number = -1; // if no selection, then -1
   protected notesList: Note[] = [];
   protected filteredNotesList: Note[] = [];
-  protected filterCriteria: SearchFilter = {
-    text: '',
-    priority: null,
-    other: null,
-  };
-  protected noteLoadingTimeout!: number;
-
-  protected isAddNoteButtonDisplayed = false;
-  protected isNoteRemovalDisplayed = false;
-  protected isNoteCreatorDisplayed = false;
+  protected isAddNoteButtonDisplayed: boolean = false;
+  protected isNoteRemovalDisplayed: boolean = false;
+  protected isNoteCreatorDisplayed: boolean = false;
 
   ngOnInit() {
     this.initializeNoteForm();
@@ -150,7 +151,7 @@ export class NotesComponent implements OnInit, OnDestroy {
     this.storageService.save(this.currentViewKind, this.VIEWKIND_KEY);
   }
 
-  setCurrentViewKind() {
+  private setCurrentViewKind() {
     if (this.currentViewKind || this.currentViewKind === 0) {
       this.notesList.forEach(
         (_, i) => (this.notesList[i].viewKind = this.currentViewKind)
@@ -235,7 +236,7 @@ export class NotesComponent implements OnInit, OnDestroy {
     labels.updateValueAndValidity();
   }
 
-  submitNote() {
+  protected submitNote() {
     if (this.noteForm.valid) {
       const controls = this.noteForm.controls;
 
@@ -267,7 +268,7 @@ export class NotesComponent implements OnInit, OnDestroy {
     }
   }
 
-  sortNotes() {
+  protected sortNotes() {
     if (this.selectedSort as NoteSorting) {
       switch (this.selectedSort as NoteSorting) {
         case 'None':
@@ -358,7 +359,7 @@ export class NotesComponent implements OnInit, OnDestroy {
   }
 
   // Sort labels for all notes
-  sortLabels() {
+  protected sortLabels() {
     this.notesList.forEach((_, i) =>
       this.notesList[i].labels.sort((a: Label, b: Label) => {
         const aLabel = a.kind === 'priority' ? 1 : -1;
@@ -369,7 +370,7 @@ export class NotesComponent implements OnInit, OnDestroy {
     );
   }
 
-  receiveMarkAsDone(noteId: number) {
+  protected receiveMarkAsDone(noteId: number) {
     this.filteredNotesList.map((note) => {
       if (note.id === noteId) {
         note.done = true;
@@ -381,7 +382,7 @@ export class NotesComponent implements OnInit, OnDestroy {
   }
 
   // Set view to be either box or list
-  setNotesView(viewKind: ViewKind) {
+  protected setNotesView(viewKind: ViewKind) {
     this.currentViewKind = viewKind;
     this.notesList.forEach((_, i) => {
       this.notesList[i].viewKind = this.currentViewKind;
@@ -389,13 +390,13 @@ export class NotesComponent implements OnInit, OnDestroy {
     this.setLocalViewKind();
   }
 
-  receiveSearchFilterEvent(value: SearchFilter) {
+  protected receiveSearchFilterEvent(value: SearchFilter) {
     this.filterCriteria = value;
     this.filterNotes();
     this.sortNotes();
   }
 
-  findNoteById(noteId: number): Note | undefined {
+  protected findNoteById(noteId: number): Note | undefined {
     if (noteId) {
       let found: Note | undefined = this.notesList.find(
         (note) => note.id === noteId
@@ -406,7 +407,7 @@ export class NotesComponent implements OnInit, OnDestroy {
     return undefined;
   }
 
-  displayNoteRemoval(noteId: number) {
+  protected displayNoteRemoval(noteId: number) {
     if (noteId) {
       this.selectedNote = noteId;
       const note = this.findNoteById(noteId);
@@ -417,11 +418,11 @@ export class NotesComponent implements OnInit, OnDestroy {
     }
   }
 
-  hideNoteRemoval() {
+  protected hideNoteRemoval() {
     this.isNoteRemovalDisplayed = false;
   }
 
-  removeSelectedNote() {
+  protected removeSelectedNote() {
     if (this.selectedNote && this.selectedNote !== -1) {
       const note = this.findNoteById(this.selectedNote);
 
@@ -436,7 +437,7 @@ export class NotesComponent implements OnInit, OnDestroy {
     }
   }
 
-  displayNoteCreator(noteId?: number) {
+  protected displayNoteCreator(noteId?: number) {
     // If no noteId present, create a new note
     // Else display information about the note that is being currently edited
     if (noteId) {
@@ -460,7 +461,7 @@ export class NotesComponent implements OnInit, OnDestroy {
     this.isNoteCreatorDisplayed = true;
   }
 
-  receiveSelectedOption(e: Label) {
+  protected receiveSelectedLabel(e: Label) {
     if (!e) return;
     if (Object.keys(e).includes('id') && !this.selectedLabels.includes(e)) {
       let hasPriority = false;
@@ -481,7 +482,7 @@ export class NotesComponent implements OnInit, OnDestroy {
     }
   }
 
-  removeSelectedLabel(label: Label) {
+  protected removeSelectedLabel(label: Label) {
     if (this.selectedLabels.indexOf(label) !== -1) {
       this.selectedLabels = this.selectedLabels.filter((el) => el !== label);
       this.updateLabelsFormArray();

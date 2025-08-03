@@ -74,25 +74,25 @@ export class NoteComponent implements OnInit, OnChanges {
     );
   }
 
-  displayEditButton(e: MouseEvent, display: boolean) {
+  protected displayEditButton(e: MouseEvent, display: boolean) {
     if (e.target) {
       this.isHovered = display;
     }
   }
 
-  displayNoteRemoval() {
+  protected displayNoteRemoval() {
     this.removeNoteEvent.emit();
   }
 
-  displayNoteCreator() {
+  protected displayNoteCreator() {
     this.editNoteEvent.emit();
   }
 
-  markAsDone(noteId: number) {
+  protected markAsDone(noteId: number) {
     this.markAsDoneEvent.emit(noteId);
   }
 
-  toggleHeaderInfo(value: boolean) {
+  protected toggleHeaderInfo(value: boolean) {
     this.displayHeaderInfo = value;
   }
 }

@@ -74,7 +74,7 @@ export class DarkModeComponent implements OnInit {
     }
   }
 
-  updateDarkMode(value: boolean) {
+  protected updateDarkMode(value: boolean) {
     this.darkMode = value;
     this.toggleDarkMode();
   }
