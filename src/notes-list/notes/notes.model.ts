@@ -40,7 +40,7 @@ export type Label =
 export type ViewKind = 0 | 1;
 
 export interface Note {
-  id: number;
+  id: string; // UUID
   title: string;
   description: string;
   dateCreated: Date;
@@ -48,6 +48,17 @@ export interface Note {
   labels: Label[];
   done: boolean;
   viewKind: ViewKind;
+  collapsed: boolean;
+}
+
+export interface NoteDTO {
+  id: string; // UUID
+  title: string;
+  description: string;
+  dateCreated: Date;
+  dateDone: Date | null;
+  labels: Label[];
+  done: boolean;
 }
 
 export interface SearchFilter {

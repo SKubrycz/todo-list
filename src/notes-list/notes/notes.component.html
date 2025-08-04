@@ -19,6 +19,15 @@
           ></p-select>
         </div>
         <div class="notes-display-options-right">
+          @if (currentViewKind === 1) {
+          <p-button
+            variant="text"
+            [style]="{ fontWeight: 'normal' }"
+            (click)="collapseNotes()"
+          >
+            <ng-template #content>Collapse all notes</ng-template>
+          </p-button>
+          }
           <p-button variant="text" (click)="setNotesView(1)">
             <span
               class="pi pi-list"
@@ -175,7 +184,7 @@
       <ng-container *ngIf="isNoteCreatorDisplayed">
         <p-dialog
           [header]="
-            selectedNote !== -1 ? 'Edit existing note' : 'Create a note'
+            selectedNote !== '' ? 'Edit existing note' : 'Create a note'
           "
           closable="true"
           draggable="false"
@@ -236,7 +245,7 @@
             >
               <p-button
                 type="submit"
-                [label]="selectedNote !== -1 ? 'Update' : 'Create'"
+                [label]="selectedNote !== '' ? 'Update' : 'Create'"
                 [disabled]="!noteForm.valid"
               ></p-button>
             </div>

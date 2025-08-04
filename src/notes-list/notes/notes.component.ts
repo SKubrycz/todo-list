@@ -10,6 +10,7 @@ import { NoteComponent } from '../note/note.component';
 import {
   Label,
   Note,
+  NoteDTO,
   NoteSorting,
   SearchFilter,
   ViewKind,
@@ -41,6 +42,7 @@ import { NgIf, NgStyle } from '@angular/common';
 import { ChipModule } from 'primeng/chip';
 import { SelectModule } from 'primeng/select';
 import { StorageService } from '../../storage/storage.service';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'app-notes',
@@ -105,7 +107,7 @@ export class NotesComponent implements OnInit, OnDestroy {
     'Date done (from oldest)',
     'Date done (from newest)',
   ];
-  protected selectedNote: number = -1; // if no selection, then -1
+  protected selectedNote: string = ''; // if no selection, then ''
   protected notesList: Note[] = [];
   protected filteredNotesList: Note[] = [];
   protected isAddNoteButtonDisplayed: boolean = false;
@@ -166,6 +168,10 @@ export class NotesComponent implements OnInit, OnDestroy {
       this.LOCALSTORAGE_KEY
     );
     if (notes) {
+      for (let i = 0; i < notes.length; i++) {
+        notes[i].collapsed = true;
+        notes[i].viewKind = this.currentViewKind;
+      }
       this.notesList = notes;
       this.filteredNotesList = [...this.notesList];
       this.filterNotes();
@@ -173,7 +179,24 @@ export class NotesComponent implements OnInit, OnDestroy {
   }
 
   private saveNotes() {
-    this.storageService.save(this.notesList, this.LOCALSTORAGE_KEY);
+    // Save only necessary information, the rest would be calculated on runtime
+    const notesListToSave: NoteDTO[] = [];
+    for (const note of this.notesList) {
+      // Transform each note into an appropriate DTO
+      const noteToSave: NoteDTO = {
+        id: note.id,
+        title: note.title,
+        description: note.description,
+        dateCreated: note.dateCreated,
+        dateDone: note.dateDone,
+        labels: note.labels,
+        done: note.done,
+      };
+
+      notesListToSave.push(noteToSave);
+    }
+
+    this.storageService.save(notesListToSave, this.LOCALSTORAGE_KEY);
   }
 
   private clearNoteCreator() {
@@ -240,7 +263,7 @@ export class NotesComponent implements OnInit, OnDestroy {
     if (this.noteForm.valid) {
       const controls = this.noteForm.controls;
 
-      if (this.selectedNote !== -1) {
+      if (this.selectedNote !== '') {
         const note = this.notesList.find((n) => n.id === this.selectedNote);
         if (!note) return;
         note.title = controls['title'].value;
@@ -248,7 +271,7 @@ export class NotesComponent implements OnInit, OnDestroy {
         note.labels = controls['labels'].value;
       } else {
         const note: Note = {
-          id: this.notesList.length + 1,
+          id: uuidv4(),
           title: controls['title'].value,
           description: controls['description'].value,
           labels: controls['labels'].value,
@@ -256,13 +279,14 @@ export class NotesComponent implements OnInit, OnDestroy {
           dateCreated: new Date(Date.now()),
           dateDone: null,
           viewKind: this.currentViewKind,
+          collapsed: true,
         };
         this.notesList.push(note);
       }
       this.filterNotes(); // Reapply filter function to add the note that was created
       this.saveNotes();
 
-      this.selectedNote = -1;
+      this.selectedNote = '';
       this.isNoteCreatorDisplayed = false;
       this.clearNoteCreator();
     }
@@ -273,7 +297,14 @@ export class NotesComponent implements OnInit, OnDestroy {
       switch (this.selectedSort as NoteSorting) {
         case 'None':
           this.filteredNotesList.sort((a: Note, b: Note) => {
-            return a.id - b.id;
+            if (a.id < b.id) {
+              return -1;
+            }
+            if (a.id > b.id) {
+              return 1;
+            }
+
+            return 0;
           });
           break;
         case 'Most important first':
@@ -370,7 +401,7 @@ export class NotesComponent implements OnInit, OnDestroy {
     );
   }
 
-  protected receiveMarkAsDone(noteId: number) {
+  protected receiveMarkAsDone(noteId: string) {
     this.filteredNotesList.map((note) => {
       if (note.id === noteId) {
         note.done = true;
@@ -396,7 +427,7 @@ export class NotesComponent implements OnInit, OnDestroy {
     this.sortNotes();
   }
 
-  protected findNoteById(noteId: number): Note | undefined {
+  protected findNoteById(noteId: string): Note | undefined {
     if (noteId) {
       let found: Note | undefined = this.notesList.find(
         (note) => note.id === noteId
@@ -407,7 +438,7 @@ export class NotesComponent implements OnInit, OnDestroy {
     return undefined;
   }
 
-  protected displayNoteRemoval(noteId: number) {
+  protected displayNoteRemoval(noteId: string) {
     if (noteId) {
       this.selectedNote = noteId;
       const note = this.findNoteById(noteId);
@@ -423,7 +454,7 @@ export class NotesComponent implements OnInit, OnDestroy {
   }
 
   protected removeSelectedNote() {
-    if (this.selectedNote && this.selectedNote !== -1) {
+    if (this.selectedNote && this.selectedNote !== '') {
       const note = this.findNoteById(this.selectedNote);
 
       if (note) {
@@ -431,13 +462,13 @@ export class NotesComponent implements OnInit, OnDestroy {
         this.filterNotes();
         this.sortNotes();
         this.saveNotes();
-        this.selectedNote = -1;
+        this.selectedNote = '';
         this.isNoteRemovalDisplayed = false;
       }
     }
   }
 
-  protected displayNoteCreator(noteId?: number) {
+  protected displayNoteCreator(noteId?: string) {
     // If no noteId present, create a new note
     // Else display information about the note that is being currently edited
     if (noteId) {
@@ -456,7 +487,7 @@ export class NotesComponent implements OnInit, OnDestroy {
         }
       }
     } else {
-      this.selectedNote = -1;
+      this.selectedNote = '';
     }
     this.isNoteCreatorDisplayed = true;
   }
@@ -488,4 +519,7 @@ export class NotesComponent implements OnInit, OnDestroy {
       this.updateLabelsFormArray();
     }
   }
+
+  // For ViewKind === 1 only - collapses all expanded notes
+  protected collapseNotes() {}
 }

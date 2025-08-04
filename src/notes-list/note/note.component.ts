@@ -15,6 +15,8 @@ import { Label, type Note } from '../notes/notes.model';
 import { STANDARD } from '../../constants/labels';
 import { DatePipe, NgStyle } from '@angular/common';
 import { TimeAgoPipe } from '../../pipes/time-ago.pipe';
+import { v4 as uuidv4 } from 'uuid';
+
 @Component({
   selector: 'app-note',
   imports: [
@@ -31,7 +33,7 @@ import { TimeAgoPipe } from '../../pipes/time-ago.pipe';
 })
 export class NoteComponent implements OnInit, OnChanges {
   @Input() noteData: Note = {
-    id: 0,
+    id: uuidv4(),
     title: '',
     description: '',
     dateCreated: new Date(Date.now()),
@@ -39,11 +41,12 @@ export class NoteComponent implements OnInit, OnChanges {
     labels: [STANDARD],
     done: false,
     viewKind: 0,
+    collapsed: true,
   };
 
   @Output() readonly removeNoteEvent = new EventEmitter<void>();
   @Output() readonly editNoteEvent = new EventEmitter<void>();
-  @Output() readonly markAsDoneEvent = new EventEmitter<number>();
+  @Output() readonly markAsDoneEvent = new EventEmitter<string>();
 
   protected priorityLabel: Label | undefined;
   protected displayHeaderInfo: boolean = true;
@@ -88,7 +91,7 @@ export class NoteComponent implements OnInit, OnChanges {
     this.editNoteEvent.emit();
   }
 
-  protected markAsDone(noteId: number) {
+  protected markAsDone(noteId: string) {
     this.markAsDoneEvent.emit(noteId);
   }
 
