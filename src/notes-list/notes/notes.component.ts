@@ -113,6 +113,7 @@ export class NotesComponent implements OnInit, OnDestroy {
   protected isAddNoteButtonDisplayed: boolean = false;
   protected isNoteRemovalDisplayed: boolean = false;
   protected isNoteCreatorDisplayed: boolean = false;
+  protected allCollapsed: boolean = true;
 
   ngOnInit() {
     this.initializeNoteForm();
@@ -521,5 +522,22 @@ export class NotesComponent implements OnInit, OnDestroy {
   }
 
   // For ViewKind === 1 only - collapses all expanded notes
-  protected collapseNotes() {}
+  protected toggleNotesCollapse() {
+    if (!this.allCollapsed) {
+      for (let i = 0; i < this.notesList.length; i++) {
+        this.notesList.map((note: Note) => {
+          note.collapsed = true;
+        });
+      }
+
+      this.allCollapsed = true;
+    } else {
+      for (let i = 0; i < this.notesList.length; i++) {
+        this.notesList.map((note: Note) => {
+          note.collapsed = false;
+        });
+      }
+      this.allCollapsed = false;
+    }
+  }
 }

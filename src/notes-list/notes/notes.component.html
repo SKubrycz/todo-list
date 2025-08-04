@@ -23,9 +23,13 @@
           <p-button
             variant="text"
             [style]="{ fontWeight: 'normal' }"
-            (click)="collapseNotes()"
+            (click)="toggleNotesCollapse()"
           >
+            @if (!allCollapsed) {
             <ng-template #content>Collapse all notes</ng-template>
+            } @else {
+            <ng-template #content>Extend all notes</ng-template>
+            }
           </p-button>
           }
           <p-button variant="text" (click)="setNotesView(1)">
