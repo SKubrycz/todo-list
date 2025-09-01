@@ -7,7 +7,9 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.UUID;
 
+@Entity
 @Getter
 @Setter
 @NoArgsConstructor
@@ -16,6 +18,9 @@ public class Note {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
+    private UUID uuid;
 
     @Column(nullable = false)
     private String title;
