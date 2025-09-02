@@ -39,8 +39,10 @@ export type Label =
 
 export type ViewKind = 0 | 1;
 
+export type UUID = string;
+
 export interface Note {
-  id: string; // UUID
+  id: UUID;
   title: string;
   description: string;
   dateCreated: Date;
@@ -52,7 +54,7 @@ export interface Note {
 }
 
 export interface NoteDTO {
-  id: string; // UUID
+  id: UUID;
   title: string;
   description: string;
   dateCreated: Date;

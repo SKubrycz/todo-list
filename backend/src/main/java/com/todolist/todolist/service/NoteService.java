@@ -5,6 +5,7 @@ import com.todolist.todolist.dto.NoteDTO;
 import com.todolist.todolist.model.Note;
 import com.todolist.todolist.repository.NoteRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,13 +13,10 @@ import java.util.List;
 
 @Service
 public class NoteService {
-    private final NoteRepository noteRepository;
-    private final ModelMapper modelMapper;
-
-    public NoteService(NoteRepository noteRepository, ModelMapper modelMapper) {
-        this.noteRepository = noteRepository;
-        this.modelMapper = modelMapper;
-    }
+    @Autowired
+    private NoteRepository noteRepository;
+    @Autowired
+    private ModelMapper modelMapper;
 
     public ArrayList<NoteDTO> getNotes() {
         List<Note> notesList = noteRepository.findAll();
