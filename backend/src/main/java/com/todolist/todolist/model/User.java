@@ -24,4 +24,8 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
     private String password;
+
+    @OneToOne
+    @JoinColumn(name = "verification_id", referencedColumnName = "id")
+    private Verification verification;
 }

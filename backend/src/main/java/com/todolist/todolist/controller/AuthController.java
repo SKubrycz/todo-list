@@ -1,6 +1,7 @@
 package com.todolist.todolist.controller;
 
 import com.todolist.todolist.config.JwtUtil;
+import com.todolist.todolist.dto.UserDTO;
 import com.todolist.todolist.model.User;
 import com.todolist.todolist.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +9,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("api/auth")
@@ -24,9 +24,9 @@ public class AuthController {
     JwtUtil jwtutil;
 
     @PostMapping("/login")
-    public String authenticateUser(@RequestBody User user) {
+    public String authenticateUser(@RequestBody UserDTO userDTO) {
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())
+                new UsernamePasswordAuthenticationToken(userDTO.getUsername(), userDTO.getPassword())
         );
 
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
@@ -34,18 +34,18 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@RequestBody User user) {
-        String message = userService.saveUser(user);
-        if (message != null) {
-            return message;
+    public String registerUser(@RequestBody UserDTO userDTO) {
+        boolean success = userService.saveUser(userDTO);
+        if (!success) {
+            return "Error trying to register account";
         }
-        return "Error trying to register account";
+        return "Account registered successfully";
     }
 
-    @PostMapping("/verify")
-    public String verifyUser(@RequestBody String verificationCode) {
+    @PostMapping("/verify/{uuid}")
+    public String verifyUser(@PathVariable("uuid") UUID uuid, @RequestBody String verificationCode) {
+        userService.verify(uuid, verificationCode);
 
-
-        return "Error verifying account";
+        return "Account verified successfully";
     }
 }
