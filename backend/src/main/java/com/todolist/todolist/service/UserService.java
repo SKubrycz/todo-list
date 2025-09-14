@@ -20,6 +20,7 @@ public class UserService {
         User newUser = new User(
                 null,
                 user.getUsername(),
+                user.getEmail(),
                 encoder.encode(user.getPassword())
         );
         userRepository.save(newUser);

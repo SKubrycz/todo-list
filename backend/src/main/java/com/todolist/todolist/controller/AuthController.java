@@ -39,7 +39,13 @@ public class AuthController {
         if (message != null) {
             return message;
         }
-        return "Error creating account";
+        return "Error trying to register account";
     }
 
+    @PostMapping("/verify")
+    public String verifyUser(@RequestBody String verificationCode) {
+
+
+        return "Error verifying account";
+    }
 }
