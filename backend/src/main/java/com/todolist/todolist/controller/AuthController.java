@@ -2,8 +2,10 @@ package com.todolist.todolist.controller;
 
 import com.todolist.todolist.config.JwtUtil;
 import com.todolist.todolist.dto.UserDTO;
+import com.todolist.todolist.dto.VerificationDTO;
 import com.todolist.todolist.model.User;
 import com.todolist.todolist.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,7 +26,7 @@ public class AuthController {
     JwtUtil jwtutil;
 
     @PostMapping("/login")
-    public String authenticateUser(@RequestBody UserDTO userDTO) {
+    public String authenticateUser(@Valid @RequestBody UserDTO userDTO) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(userDTO.getUsername(), userDTO.getPassword())
         );
@@ -34,7 +36,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@RequestBody UserDTO userDTO) {
+    public String registerUser(@Valid @RequestBody UserDTO userDTO) {
         boolean success = userService.saveUser(userDTO);
         if (!success) {
             return "Error trying to register account";
@@ -43,8 +45,8 @@ public class AuthController {
     }
 
     @PostMapping("/verify/{uuid}")
-    public String verifyUser(@PathVariable("uuid") UUID uuid, @RequestBody String verificationCode) {
-        userService.verify(uuid, verificationCode);
+    public String verifyUser(@PathVariable("uuid") UUID uuid, @Valid @RequestBody VerificationDTO verificationDTO) {
+        userService.verify(uuid, verificationDTO.getVerificationCode());
 
         return "Account verified successfully";
     }
