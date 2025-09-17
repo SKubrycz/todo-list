@@ -1,0 +1,46 @@
+<div class="flex container-full">
+  <h2>Register</h2>
+  <p>Your planning journey begins here!</p>
+  <form [formGroup]="registerForm" class="flex-col-center">
+    <p-floatlabel variant="in" style="margin: 0.5em 0">
+      <input
+        id="username"
+        type="text"
+        pInputText
+        formControlName="username"
+        autocomplete="off"
+        required
+      />
+      <label for="username">Username</label>
+    </p-floatlabel>
+    <p-floatlabel variant="in" style="margin: 0.5em 0">
+      <input
+        id="email"
+        type="text"
+        pInputText
+        formControlName="email"
+        autocomplete="off"
+        required
+      />
+      <label for="email">Email</label>
+    </p-floatlabel>
+    <p-floatlabel variant="in" style="margin: 0.5em 0">
+      <input
+        id="password"
+        type="password"
+        pInputText
+        formControlName="password"
+        autocomplete="off"
+        required
+      />
+      <label for="password">Password</label>
+    </p-floatlabel>
+    <p-button
+      type="submit"
+      label="Register"
+      [disabled]="!registerForm.valid"
+      [style]="{ margin: '0.5em' }"
+    ></p-button>
+  </form>
+  {{ registerForm.status | json }}
+</div>
