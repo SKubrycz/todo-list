@@ -1,4 +1,3 @@
-import { JsonPipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import {
   FormBuilder,
@@ -17,7 +16,6 @@ import { InputTextModule } from 'primeng/inputtext';
     InputTextModule,
     FloatLabelModule,
     ButtonModule,
-    JsonPipe,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
