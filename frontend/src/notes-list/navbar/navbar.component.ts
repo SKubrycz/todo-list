@@ -71,6 +71,8 @@ export class NavbarComponent implements OnInit {
     this.otherOptionLabel = '';
     this.otherSelectedOption = '';
 
+    this.searchFilter = emptyFilter;
+
     this.searchFilterEvent.emit(emptyFilter);
   }
 
