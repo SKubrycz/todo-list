@@ -41,6 +41,13 @@ html.my-app-dark {
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
+a {
+  text-decoration: none;
+  color: var(--p-primary-hover-color);
+}
+a:hover {
+  color: var(--p-primary-active-color);
+}
 
 .container {
   width: fit-content;

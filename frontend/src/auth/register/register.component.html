@@ -1,4 +1,17 @@
 <div class="flex container-full">
+  <div
+    routerLink="/"
+    style="
+      position: absolute;
+      left: 1%;
+      top: 1.5%;
+      font-size: 1.5em;
+      font-weight: 600;
+      cursor: pointer;
+    "
+  >
+    Todo list
+  </div>
   <h2>Register</h2>
   <p>Your planning journey begins here!</p>
   <form [formGroup]="registerForm" class="flex-col-center">
@@ -42,4 +55,5 @@
       [style]="{ margin: '0.5em' }"
     ></p-button>
   </form>
+  <div>Already have an account? <a routerLink="/login">Login here</a></div>
 </div>
