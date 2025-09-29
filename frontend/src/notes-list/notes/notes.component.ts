@@ -13,6 +13,7 @@ import {
   NoteDTO,
   NoteSorting,
   SearchFilter,
+  UUID,
   ViewKind,
 } from './notes.model';
 import {
@@ -95,9 +96,8 @@ export class NotesComponent implements OnInit, OnDestroy {
     HIGHEST_PRIORITY,
     HOBBY,
   ];
-  protected selectedSort: NoteSorting = 'None';
+  protected selectedSort: NoteSorting = 'Most important first';
   protected sortingOptions: NoteSorting[] = [
-    'None',
     'Most important first',
     'Least important first',
     'Date created (from oldest)',
@@ -127,6 +127,8 @@ export class NotesComponent implements OnInit, OnDestroy {
       this.sortLabels();
       this.filteredNotesList = [...this.notesList];
       this.isAddNoteButtonDisplayed = true;
+
+      this.sortNotes();
     }, 500);
   }
 
@@ -296,18 +298,6 @@ export class NotesComponent implements OnInit, OnDestroy {
   protected sortNotes() {
     if (this.selectedSort as NoteSorting) {
       switch (this.selectedSort as NoteSorting) {
-        case 'None':
-          this.filteredNotesList.sort((a: Note, b: Note) => {
-            if (a.id < b.id) {
-              return -1;
-            }
-            if (a.id > b.id) {
-              return 1;
-            }
-
-            return 0;
-          });
-          break;
         case 'Most important first':
           this.filteredNotesList.sort((a: Note, b: Note) => {
             const aLabel = a.labels.find(
@@ -402,7 +392,7 @@ export class NotesComponent implements OnInit, OnDestroy {
     );
   }
 
-  protected receiveMarkAsDone(noteId: string) {
+  protected receiveMarkAsDone(noteId: UUID) {
     this.filteredNotesList.map((note) => {
       if (note.id === noteId) {
         note.done = true;
@@ -428,7 +418,7 @@ export class NotesComponent implements OnInit, OnDestroy {
     this.sortNotes();
   }
 
-  protected findNoteById(noteId: string): Note | undefined {
+  protected findNoteById(noteId: UUID): Note | undefined {
     if (noteId) {
       let found: Note | undefined = this.notesList.find(
         (note) => note.id === noteId
@@ -439,7 +429,7 @@ export class NotesComponent implements OnInit, OnDestroy {
     return undefined;
   }
 
-  protected displayNoteRemoval(noteId: string) {
+  protected displayNoteRemoval(noteId: UUID) {
     if (noteId) {
       this.selectedNote = noteId;
       const note = this.findNoteById(noteId);
@@ -469,9 +459,11 @@ export class NotesComponent implements OnInit, OnDestroy {
     }
   }
 
-  protected displayNoteCreator(noteId?: string) {
+  protected displayNoteCreator(noteId?: UUID) {
     // If no noteId present, create a new note
     // Else display information about the note that is being currently edited
+    this.clearNoteCreator(); // Make sure that note creator is empty
+
     if (noteId) {
       this.selectedNote = noteId;
       const note = this.findNoteById(noteId);

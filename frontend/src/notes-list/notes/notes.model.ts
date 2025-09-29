@@ -70,7 +70,6 @@ export interface SearchFilter {
 }
 
 export type NoteSorting =
-  | 'None'
   | 'Most important first'
   | 'Least important first'
   | 'Date created (from oldest)'
