@@ -13,13 +13,13 @@
           <span style="padding: 0.5em">Sort by:</span>
           <p-select
             [options]="sortingOptions"
-            [(ngModel)]="selectedSort"
-            (onChange)="sortNotes()"
+            [ngModel]="notesService.sort()"
+            (onChange)="onSortChange($event)"
             placeholder="Choose sorting"
           ></p-select>
         </div>
         <div class="notes-display-options-right">
-          @if (currentViewKind === 1) {
+          @if (notesService.viewKind() === 1) {
           <p-button
             variant="text"
             [style]="{ fontWeight: 'normal' }"
@@ -37,7 +37,7 @@
               class="pi pi-list"
               [ngStyle]="{
                 color:
-                  currentViewKind === 1
+                  notesService.viewKind() === 1
                     ? 'var(--p-primary-active-color)'
                     : 'var(--p-primary-color)',
                 fontSize: '18px'
@@ -49,7 +49,7 @@
               class="pi pi-th-large"
               [ngStyle]="{
                 color:
-                  currentViewKind === 0
+                  notesService.viewKind() === 0
                     ? 'var(--p-primary-active-color)'
                     : 'var(--p-primary-color)',
                 fontSize: '18px'
@@ -59,7 +59,7 @@
         </div>
       </section>
       <section class="notes-list">
-        @for (note of filteredNotesList; track $index) {<app-note
+        @for (note of notesService.filteredNotes(); track $index) {<app-note
           [noteData]="note"
           (markAsDoneEvent)="receiveMarkAsDone($event)"
           (removeNoteEvent)="displayNoteRemoval(note.id)"
@@ -67,7 +67,7 @@
           [style]="{ width: note.viewKind == 1 ? '100%' : 'initial' }"
         ></app-note
         >} @if (isAddNoteButtonDisplayed) {
-        <ng-container *ngIf="currentViewKind == 0; else skeletonBox">
+        <ng-container *ngIf="notesService.viewKind() == 0; else skeletonBox">
           <p-card
             class="add-note"
             (click)="displayNoteCreator()"
@@ -88,7 +88,7 @@
           </p-panel>
         </ng-template>
         } @else {
-        <ng-container *ngIf="currentViewKind == 0; else skeletonList">
+        <ng-container *ngIf="notesService.viewKind() == 0; else skeletonList">
           <p-skeleton
             width="300px"
             height="200px"
@@ -188,7 +188,7 @@
       <ng-container *ngIf="isNoteCreatorDisplayed">
         <p-dialog
           [header]="
-            selectedNote !== '' ? 'Edit existing note' : 'Create a note'
+            selectedNoteId !== '' ? 'Edit existing note' : 'Create a note'
           "
           closable="true"
           draggable="false"
@@ -249,7 +249,7 @@
             >
               <p-button
                 type="submit"
-                [label]="selectedNote !== '' ? 'Update' : 'Create'"
+                [label]="selectedNoteId !== '' ? 'Update' : 'Create'"
                 [disabled]="!noteForm.valid"
               ></p-button>
             </div>

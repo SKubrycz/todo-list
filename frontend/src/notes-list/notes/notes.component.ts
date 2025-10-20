@@ -1,16 +1,13 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { TextareaModule } from 'primeng/textarea';
 import { ListboxModule } from 'primeng/listbox';
 import { DialogModule } from 'primeng/dialog';
 import { SkeletonModule } from 'primeng/skeleton';
-import { ValidatorService } from '../../validator.service';
 import { NoteComponent } from '../note/note.component';
 import {
   Label,
-  Note,
-  NoteDTO,
   NoteSorting,
   SearchFilter,
   UUID,
@@ -42,8 +39,7 @@ import { SelectTagComponent } from '../../shared/select-tag/select-tag.component
 import { NgIf, NgStyle } from '@angular/common';
 import { ChipModule } from 'primeng/chip';
 import { SelectModule } from 'primeng/select';
-import { StorageService } from '../../storage/storage.service';
-import { v4 as uuidv4 } from 'uuid';
+import { NotesService } from './notes.service';
 
 @Component({
   selector: 'app-notes',
@@ -70,25 +66,19 @@ import { v4 as uuidv4 } from 'uuid';
     SkeletonModule,
   ],
 })
-export class NotesComponent implements OnInit, OnDestroy {
-  protected noteForm!: FormGroup;
-
-  private validatorService = inject(ValidatorService);
+export class NotesComponent implements OnInit {
+  protected notesService = inject(NotesService);
   private fb = inject(FormBuilder);
-  private storageService = inject(StorageService);
 
-  private LOCALSTORAGE_KEY: string = 'notes';
-  private VIEWKIND_KEY: string = 'notes-viewkind';
-
-  private filterCriteria: SearchFilter = {
-    text: '',
-    priority: null,
-    other: null,
-  };
-  private noteLoadingTimeout!: number;
-
-  protected currentViewKind: ViewKind = 0;
+  protected noteForm!: FormGroup;
   protected selectedLabels: Label[] = [];
+  protected selectedNoteId: UUID = ''; // if no selection, then ''
+  protected isNoteRemovalDisplayed: boolean = false;
+  protected isNoteCreatorDisplayed: boolean = false;
+  protected isAddNoteButtonDisplayed = true;
+  protected allCollapsed: boolean = true;
+
+  // Constants
   protected labels: Label[] = [
     STANDARD,
     SECONDARY,
@@ -96,7 +86,7 @@ export class NotesComponent implements OnInit, OnDestroy {
     HIGHEST_PRIORITY,
     HOBBY,
   ];
-  protected selectedSort: NoteSorting = 'Most important first';
+
   protected sortingOptions: NoteSorting[] = [
     'Most important first',
     'Least important first',
@@ -107,33 +97,9 @@ export class NotesComponent implements OnInit, OnDestroy {
     'Date done (from oldest)',
     'Date done (from newest)',
   ];
-  protected selectedNote: string = ''; // if no selection, then ''
-  protected notesList: Note[] = [];
-  protected filteredNotesList: Note[] = [];
-  protected isAddNoteButtonDisplayed: boolean = false;
-  protected isNoteRemovalDisplayed: boolean = false;
-  protected isNoteCreatorDisplayed: boolean = false;
-  protected allCollapsed: boolean = true;
 
   ngOnInit() {
     this.initializeNoteForm();
-    this.getLocalViewKind();
-
-    // Timeout later to be replaced by API call from the backend
-    this.noteLoadingTimeout = window.setTimeout(() => {
-      this.getNotes();
-      this.setCurrentViewKind();
-      this.setNotesView(this.currentViewKind);
-      this.sortLabels();
-      this.filteredNotesList = [...this.notesList];
-      this.isAddNoteButtonDisplayed = true;
-
-      this.sortNotes();
-    }, 500);
-  }
-
-  ngOnDestroy() {
-    clearTimeout(this.noteLoadingTimeout);
   }
 
   private initializeNoteForm() {
@@ -144,109 +110,12 @@ export class NotesComponent implements OnInit, OnDestroy {
     });
   }
 
-  private getLocalViewKind() {
-    const viewKind: ViewKind | null = this.storageService.read(
-      this.VIEWKIND_KEY
-    );
-
-    if (viewKind || viewKind === 0) this.currentViewKind = viewKind;
-  }
-
-  private setLocalViewKind() {
-    this.storageService.save(this.currentViewKind, this.VIEWKIND_KEY);
-  }
-
-  private setCurrentViewKind() {
-    if (this.currentViewKind || this.currentViewKind === 0) {
-      this.notesList.forEach(
-        (_, i) => (this.notesList[i].viewKind = this.currentViewKind)
-      );
-    } else {
-      this.currentViewKind = this.notesList[0].viewKind;
-    }
-  }
-
-  private getNotes() {
-    const notes: Note[] | null = this.storageService.read(
-      this.LOCALSTORAGE_KEY
-    );
-    if (notes) {
-      for (let i = 0; i < notes.length; i++) {
-        notes[i].collapsed = true;
-        notes[i].viewKind = this.currentViewKind;
-      }
-      this.notesList = notes;
-      this.filteredNotesList = [...this.notesList];
-      this.filterNotes();
-    }
-  }
-
-  private saveNotes() {
-    // Save only necessary information, the rest would be calculated on runtime
-    const notesListToSave: NoteDTO[] = [];
-    for (const note of this.notesList) {
-      // Transform each note into an appropriate DTO
-      const noteToSave: NoteDTO = {
-        id: note.id,
-        title: note.title,
-        description: note.description,
-        dateCreated: note.dateCreated,
-        dateDone: note.dateDone,
-        labels: note.labels,
-        done: note.done,
-      };
-
-      notesListToSave.push(noteToSave);
-    }
-
-    this.storageService.save(notesListToSave, this.LOCALSTORAGE_KEY);
-  }
-
-  private clearNoteCreator() {
-    this.noteForm.reset();
-    this.selectedLabels = [];
-  }
-
-  private filterNotes() {
-    const passesCriteria = (element: Note) => {
-      const titlePass = element.title
-        .toLowerCase()
-        .includes(this.filterCriteria.text.toLowerCase());
-      const descriptionPass = element.description
-        .toLowerCase()
-        .includes(this.filterCriteria.text.toLowerCase());
-      const priorityPass = this.filterCriteria.priority
-        ? element.labels.find((el) => {
-            return (
-              el.kind == 'priority' &&
-              el.text == this.filterCriteria.priority?.text
-            );
-          })
-        : true;
-
-      const otherPass = this.filterCriteria.other
-        ? element.labels.find((el) => {
-            return (
-              el.kind == 'other' && el.text == this.filterCriteria.other?.text
-            );
-          })
-        : true;
-
-      return (titlePass || descriptionPass) && priorityPass && otherPass;
-    };
-
-    this.filteredNotesList = [];
-
-    for (const note of this.notesList) {
-      if (passesCriteria(note)) {
-        this.filteredNotesList.push(note);
-      }
-    }
-  }
-
   private minArray(minLength: number = 0): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      return control.value < minLength ? { minArray: null } : null;
+      const length = control.value ? control.value.length : 0;
+      return length < minLength
+        ? { minArray: { requiredLength: minLength, actualLength: length } }
+        : null;
     };
   }
 
@@ -262,200 +131,57 @@ export class NotesComponent implements OnInit, OnDestroy {
     labels.updateValueAndValidity();
   }
 
-  protected submitNote() {
-    if (this.noteForm.valid) {
-      const controls = this.noteForm.controls;
-
-      if (this.selectedNote !== '') {
-        const note = this.notesList.find((n) => n.id === this.selectedNote);
-        if (!note) return;
-        note.title = controls['title'].value;
-        note.description = controls['description'].value;
-        note.labels = controls['labels'].value;
-      } else {
-        const note: Note = {
-          id: uuidv4(),
-          title: controls['title'].value,
-          description: controls['description'].value,
-          labels: controls['labels'].value,
-          done: false,
-          dateCreated: new Date(Date.now()),
-          dateDone: null,
-          viewKind: this.currentViewKind,
-          collapsed: true,
-        };
-        this.notesList.push(note);
-      }
-      this.filterNotes(); // Reapply filter function to add the note that was created
-      this.saveNotes();
-
-      this.selectedNote = '';
-      this.isNoteCreatorDisplayed = false;
-      this.clearNoteCreator();
-    }
+  private clearNoteCreator() {
+    this.noteForm.reset();
+    this.selectedLabels = [];
+    this.selectedNoteId = '';
   }
 
-  protected sortNotes() {
-    if (this.selectedSort as NoteSorting) {
-      switch (this.selectedSort as NoteSorting) {
-        case 'Most important first':
-          this.filteredNotesList.sort((a: Note, b: Note) => {
-            const aLabel = a.labels.find(
-              (label: Label) => label.kind === 'priority'
-            );
-            const bLabel = b.labels.find(
-              (label: Label) => label.kind === 'priority'
-            );
-
-            if (!aLabel || !bLabel) return 0;
-            return bLabel.priority - aLabel.priority;
-          });
-          break;
-        case 'Least important first':
-          this.filteredNotesList.sort((a: Note, b: Note) => {
-            const aLabel = a.labels.find(
-              (label: Label) => label.kind === 'priority'
-            );
-            const bLabel = b.labels.find(
-              (label: Label) => label.kind === 'priority'
-            );
-
-            if (!aLabel || !bLabel) return 0;
-            return aLabel.priority - bLabel.priority;
-          });
-          break;
-        case 'Date created (from oldest)':
-          this.filteredNotesList.sort((a: Note, b: Note) => {
-            return a.dateCreated.getTime() - b.dateCreated.getTime();
-          });
-          break;
-        case 'Date created (from newest)':
-          this.filteredNotesList.sort((a: Note, b: Note) => {
-            return b.dateCreated.getTime() - a.dateCreated.getTime();
-          });
-          break;
-        case 'Finished first':
-          this.filteredNotesList.sort((a: Note, b: Note) => {
-            return Number(b.done) - Number(a.done);
-          });
-          break;
-        case 'Not finished first':
-          this.filteredNotesList.sort((a: Note, b: Note) => {
-            return Number(a.done) - Number(b.done);
-          });
-          break;
-        case 'Date done (from oldest)':
-          this.filteredNotesList.sort((a: Note, b: Note) => {
-            if (a.done !== b.done) {
-              return b.done ? 1 : -1;
-            }
-
-            let dateA = a.dateDone
-              ? a.dateDone.getTime()
-              : Number.MAX_SAFE_INTEGER;
-            let dateB = b.dateDone
-              ? b.dateDone.getTime()
-              : Number.MAX_SAFE_INTEGER;
-            return dateA - dateB;
-          });
-          break;
-        case 'Date done (from newest)':
-          this.filteredNotesList.sort((a: Note, b: Note) => {
-            if (a.done !== b.done) {
-              return b.done ? 1 : -1;
-            }
-
-            let dateA = a.dateDone
-              ? a.dateDone.getTime()
-              : Number.MAX_SAFE_INTEGER;
-            let dateB = b.dateDone
-              ? b.dateDone.getTime()
-              : Number.MAX_SAFE_INTEGER;
-            return dateB - dateA;
-          });
-          break;
-        default:
-          break;
-      }
-    }
+  protected onSortChange(event: { value: NoteSorting }) {
+    this.notesService.setSort(event.value);
   }
 
-  // Sort labels for all notes
-  protected sortLabels() {
-    this.notesList.forEach((_, i) =>
-      this.notesList[i].labels.sort((a: Label, b: Label) => {
-        const aLabel = a.kind === 'priority' ? 1 : -1;
-        const bLabel = b.kind === 'priority' ? 1 : -1;
-
-        return aLabel - bLabel;
-      })
-    );
-  }
-
-  protected receiveMarkAsDone(noteId: UUID) {
-    this.filteredNotesList.map((note) => {
-      if (note.id === noteId) {
-        note.done = true;
-        note.dateDone = new Date(Date.now());
-      }
-    });
-    this.saveNotes();
-    this.sortNotes();
-  }
-
-  // Set view to be either box or list
   protected setNotesView(viewKind: ViewKind) {
-    this.currentViewKind = viewKind;
-    this.notesList.forEach((_, i) => {
-      this.notesList[i].viewKind = this.currentViewKind;
-    });
-    this.setLocalViewKind();
+    this.notesService.setViewKind(viewKind);
   }
 
   protected receiveSearchFilterEvent(value: SearchFilter) {
-    this.filterCriteria = value;
-    this.filterNotes();
-    this.sortNotes();
+    this.notesService.setFilter(value);
   }
 
-  protected findNoteById(noteId: UUID): Note | undefined {
-    if (noteId) {
-      let found: Note | undefined = this.notesList.find(
-        (note) => note.id === noteId
-      );
-      return found;
-    }
-
-    return undefined;
-  }
-
-  protected displayNoteRemoval(noteId: UUID) {
-    if (noteId) {
-      this.selectedNote = noteId;
-      const note = this.findNoteById(noteId);
-
-      if (note) {
-        this.isNoteRemovalDisplayed = true;
-      }
-    }
-  }
-
-  protected hideNoteRemoval() {
-    this.isNoteRemovalDisplayed = false;
+  protected receiveMarkAsDone(noteId: UUID) {
+    this.notesService.markAsDone(noteId);
   }
 
   protected removeSelectedNote() {
-    if (this.selectedNote && this.selectedNote !== '') {
-      const note = this.findNoteById(this.selectedNote);
+    if (this.selectedNoteId) {
+      this.notesService.deleteNote(this.selectedNoteId);
+      this.hideNoteRemoval(); // Resets local UI state
+    }
+  }
 
-      if (note) {
-        this.notesList = this.notesList.filter((n: Note) => n.id !== note.id);
-        this.filterNotes();
-        this.sortNotes();
-        this.saveNotes();
-        this.selectedNote = '';
-        this.isNoteRemovalDisplayed = false;
+  protected toggleNotesCollapse() {
+    this.allCollapsed = !this.allCollapsed;
+    this.notesService.toggleAllCollapsed(this.allCollapsed);
+  }
+
+  protected submitNote() {
+    if (this.noteForm.valid) {
+      const formValue = this.noteForm.value;
+      const noteData = {
+        title: formValue.title,
+        description: formValue.description,
+        labels: formValue.labels,
+      };
+
+      if (this.selectedNoteId) {
+        this.notesService.updateNote(this.selectedNoteId, noteData);
+      } else {
+        this.notesService.addNote(noteData);
       }
+
+      this.isNoteCreatorDisplayed = false;
+      this.clearNoteCreator();
     }
   }
 
@@ -465,24 +191,30 @@ export class NotesComponent implements OnInit, OnDestroy {
     this.clearNoteCreator(); // Make sure that note creator is empty
 
     if (noteId) {
-      this.selectedNote = noteId;
-      const note = this.findNoteById(noteId);
-
+      const note = this.notesService.findNoteById(noteId);
       if (note) {
+        this.selectedNoteId = note.id;
         this.noteForm.patchValue({
           title: note.title,
           description: note.description,
         });
-        this.selectedLabels = [];
-        if (note.labels && note.labels.length) {
-          note.labels.forEach((label) => this.selectedLabels.push(label));
-          this.updateLabelsFormArray();
-        }
+        this.selectedLabels = [...note.labels];
+        this.updateLabelsFormArray();
       }
-    } else {
-      this.selectedNote = '';
     }
     this.isNoteCreatorDisplayed = true;
+  }
+
+  protected displayNoteRemoval(noteId: UUID) {
+    if (noteId) {
+      this.selectedNoteId = noteId;
+      this.isNoteRemovalDisplayed = true;
+    }
+  }
+
+  protected hideNoteRemoval() {
+    this.isNoteRemovalDisplayed = false;
+    this.selectedNoteId = '';
   }
 
   protected receiveSelectedLabel(e: Label) {
@@ -510,26 +242,6 @@ export class NotesComponent implements OnInit, OnDestroy {
     if (this.selectedLabels.indexOf(label) !== -1) {
       this.selectedLabels = this.selectedLabels.filter((el) => el !== label);
       this.updateLabelsFormArray();
-    }
-  }
-
-  // For ViewKind === 1 only - collapses all expanded notes
-  protected toggleNotesCollapse() {
-    if (!this.allCollapsed) {
-      for (let i = 0; i < this.notesList.length; i++) {
-        this.notesList.map((note: Note) => {
-          note.collapsed = true;
-        });
-      }
-
-      this.allCollapsed = true;
-    } else {
-      for (let i = 0; i < this.notesList.length; i++) {
-        this.notesList.map((note: Note) => {
-          note.collapsed = false;
-        });
-      }
-      this.allCollapsed = false;
     }
   }
 }
